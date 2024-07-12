@@ -1,3 +1,3 @@
 export default function Page() {
-  return <div> coins page</div>
+  return <div> coins page</div>;
 }
