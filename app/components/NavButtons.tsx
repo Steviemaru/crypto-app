@@ -1,10 +1,7 @@
 "use client";
-import 'tailwindcss/tailwind.css'
+import { useState } from "react";
 import Link from "next/link";
 import tw from "tailwind-styled-components";
-import { useAppSelector, useAppDispatch } from "../../lib/hooks"
-import { setSelectedItem } from "../../lib/features/navbuttons/navbuttonsSlice";
-
 
 const Wrapper = tw.div`
   flex
@@ -16,11 +13,11 @@ const Wrapper = tw.div`
 
 interface ButtonProps {
   $item?: string
-  $selecteditem:string
+  $selectedItem:string
 }
 
 const Button = tw.button<ButtonProps>`
-${(props) => (props.$item == props.$selecteditem? "bg-black" : "bg-transparent")};
+${(props) => (props.$item == props.$selectedItem? "bg-black" : "bg-transparent")};
      border-0
      focus:outline-none
     text-white
@@ -34,24 +31,24 @@ ${(props) => (props.$item == props.$selecteditem? "bg-black" : "bg-transparent")
   `;
 
 export default function NavButtons() {
-  const navItems = useAppSelector((state) => state.NavButtons.array )
-const SelectedItem = useAppSelector((state)=> state.NavButtons.SelectedItem )
-  const dispatch = useAppDispatch()
-  
-  return (
-    <>
-      <Wrapper>
-        {navItems.map((item:any) => {
-          console.log(SelectedItem, "selected item")
-          return (
-            <Link key={item} href={`/${item == "coins" ? "" : item}`}>
-              <Button $selecteditem={SelectedItem} onClick={() => {dispatch(setSelectedItem(item))}} $item={item}>
-                {item.slice(0, 1).toUpperCase() + item.slice(1)}
-              </Button>
-            </Link>
-          );
-        })}
-      </Wrapper>
+  const [navItems] = useState(["coins", "portfolio"]);
+  const [selectedItem, setSelectedItem] = useState("coins");
+  const handleClick = (item:string) => {
+    setSelectedItem(item);
+  };
+    return (
+      <>
+        <Wrapper>
+          {navItems.map((item:string) => {
+            return (
+              <Link key={item} href={`/${item == "coins" ? "" : item}`}>
+                <Button $selectedItem={selectedItem} onClick={() => {handleClick(item);}} $item={item}>
+                  {item.slice(0, 1).toUpperCase() + item.slice(1)}
+                </Button>
+              </Link>
+            );
+          })}
+        </Wrapper>
     </>
   );
 }
