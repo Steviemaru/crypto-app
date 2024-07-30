@@ -12,11 +12,12 @@ const Wrapper = tw.div`
 `;
 
 interface ButtonProps {
-  $item?: string;
+  $item?: string
+  $selectedItem:string
 }
 
 const Button = tw.button<ButtonProps>`
-${(props) => (props.$item ? "bg-black" : "bg-transparent")};
+${(props) => (props.$item == props.$selectedItem? "bg-black" : "bg-transparent")};
      border-0
      focus:outline-none
     text-white
@@ -31,28 +32,23 @@ ${(props) => (props.$item ? "bg-black" : "bg-transparent")};
 
 export default function NavButtons() {
   const [navItems] = useState(["coins", "portfolio"]);
-  // need this to toggle background color on button component
-  // will use this after I install redux and setup provider
-
-  // const [selectedItem, setSelectedItem] = useState("coins");
-
-  // const handleClick = (item: any) => {
-  //   setSelectedItem(item);
-  // };
-
-  return (
-    <>
-      <Wrapper>
-        {navItems.map((item) => {
-          return (
-            <Link key={item} href={`/${item == "coins" ? "" : item}`}>
-              <Button onClick={() => {}} $item={item}>
-                {item.slice(0, 1).toUpperCase() + item.slice(1)}
-              </Button>
-            </Link>
-          );
-        })}
-      </Wrapper>
+  const [selectedItem, setSelectedItem] = useState("coins");
+  const handleClick = (item:string) => {
+    setSelectedItem(item);
+  };
+    return (
+      <>
+        <Wrapper>
+          {navItems.map((item:string) => {
+            return (
+              <Link key={item} href={`/${item == "coins" ? "" : item}`}>
+                <Button $selectedItem={selectedItem} onClick={() => {handleClick(item);}} $item={item}>
+                  {item.slice(0, 1).toUpperCase() + item.slice(1)}
+                </Button>
+              </Link>
+            );
+          })}
+        </Wrapper>
     </>
   );
 }
