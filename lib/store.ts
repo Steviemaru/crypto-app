@@ -1,13 +1,20 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
+import { cryptoDataApi } from "./features/cryptoDataApi";
+import currencySelectorReducer  from "./features/currencySlice";
+
+const rootReducer = combineReducers({
+  [cryptoDataApi.reducerPath]: cryptoDataApi.reducer,
+  currency: currencySelectorReducer,
+});
 
 export const makeStore = () => {
   return configureStore({
-    reducer: { },
+    reducer: rootReducer,
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware().concat(cryptoDataApi.middleware),
   });
 };
 
-// Infer the type of makeStore
 export type AppStore = ReturnType<typeof makeStore>
-// Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<AppStore["getState"]>;
 export type AppDispatch = AppStore["dispatch"];
