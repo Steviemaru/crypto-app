@@ -25,7 +25,7 @@ export default function BottomNavData() {
 
   const { currency, symbol } = useAppSelector((state) => state.currency);
 
-  const handleCryptoPropertyFinder = (prop: string, crypto: string) =>
+  const handleCryptoPropertyFinder = (prop: any, crypto: any) =>
     parseFloat(data?.data[prop][crypto]);
 
   const handlePropertyFinder = (prop: any) => data?.data[prop];
@@ -76,8 +76,8 @@ export default function BottomNavData() {
             {symbol}
             {FormatNumber(totalMarketVolume)}
             <PercentageBar
-              fill={"bg-white"}
-              progress={FormatNumber(totalMarketVolume)}
+              fill={"bg-purple-300"}
+              progress={parseFloat(FormatNumber(totalMarketVolume))}
             />
           </BottomNavItem>
           <BottomNavItem>

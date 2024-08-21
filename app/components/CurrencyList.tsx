@@ -20,7 +20,7 @@ export default function CurrencyList() {
   const dropDownRef = useRef<HTMLDivElement>(null);
   const dispatch = useAppDispatch();
   const { currency } = useAppSelector((state) => state.currency);
- 
+
   useEffect(() => {
     function handler({ target }: MouseEvent) {
       if (!dropDownRef.current?.contains(target as Node)) {
