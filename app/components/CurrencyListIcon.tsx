@@ -3,11 +3,9 @@ import { useTheme } from "next-themes";
 import CurrencyBgIcon from "../../public/currencyBgIcon.svg";
 import CurrencyBgLightIcon from "../../public/currencyBgLightIcon.svg";
 
-
 function CurrencyListIcon() {
   const { symbol } = useAppSelector((state) => state.currency);
   const { theme } = useTheme();
-
 
   if (theme == "light") {
     return (
@@ -20,7 +18,6 @@ function CurrencyListIcon() {
     );
   }
 
-
   return (
     <div className="relative">
       <CurrencyBgIcon />
@@ -30,6 +27,5 @@ function CurrencyListIcon() {
     </div>
   );
 }
-
 
 export default CurrencyListIcon;

@@ -4,11 +4,9 @@ import { useTheme } from "next-themes";
 import Link from "next/link";
 import tw from "tailwind-styled-components";
 
-
 interface WrapperProps {
   $primary?: string;
 }
-
 
 const Wrapper = tw.div<WrapperProps>`
  ${(p) => (p.$primary == "dark" ? "bg-black" : "bg-white")}
@@ -18,13 +16,11 @@ const Wrapper = tw.div<WrapperProps>`
   w-80
 `;
 
-
 interface ButtonProps {
   $item?: string;
   $selectedItem: string;
   $bgColor: string;
 }
-
 
 const Button = tw.button<ButtonProps>`
 ${(p) => (p.$item == p.$selectedItem ? p.$bgColor : "bg-transparent")};
@@ -40,15 +36,12 @@ ${(p) => (p.$item == p.$selectedItem ? p.$bgColor : "bg-transparent")};
     w-32  
   `;
 
-
 export default function NavButtons() {
   const [navItems] = useState(["coins", "portfolio"]);
   const [selectedItem, setSelectedItem] = useState("coins");
   const { theme } = useTheme();
 
-
   const bgColor = theme == "dark" ? "bg-black" : "selected-Light";
-
 
   const handleClick = (item: string) => {
     setSelectedItem(item);

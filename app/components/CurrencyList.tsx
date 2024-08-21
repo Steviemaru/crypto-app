@@ -6,7 +6,6 @@ import { setCurrency } from "@/lib/features/currencySlice";
 import UpArrow from "../../public/upArrow.svg";
 import DownArrow from "../../public/downArrow.svg";
 
-
 const currencyList = [
   { currency: "gbp" },
   { currency: "eur" },
@@ -16,14 +15,12 @@ const currencyList = [
   { currency: "ltc" },
 ];
 
-
 export default function CurrencyList() {
   const [showDropdown, setShowDropdown] = useState(false);
   const dropDownRef = useRef<HTMLDivElement>(null);
   const dispatch = useAppDispatch();
   const { currency } = useAppSelector((state) => state.currency);
-
-
+ 
   useEffect(() => {
     function handler({ target }: MouseEvent) {
       if (!dropDownRef.current?.contains(target as Node)) {
@@ -33,7 +30,6 @@ export default function CurrencyList() {
     window.addEventListener("click", handler);
     return () => window.removeEventListener("click", handler);
   }, []);
-
 
   return (
     <>

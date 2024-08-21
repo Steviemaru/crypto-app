@@ -10,7 +10,6 @@ import EthereumLogo from "../../public/ethereumLogo.svg";
 import ExchangeIcon from "../../public/exchangeIcon.svg";
 import CoinsIcon from "../../public/coinsIcon.svg";
 
-
 const BottomNavItem = tw.div`
 flex
 gap-2
@@ -24,22 +23,16 @@ text-base
 export default function BottomNavData() {
   const { data, isLoading, isSuccess } = useGetGlobalMarketDataQuery("");
 
-
   const { currency, symbol } = useAppSelector((state) => state.currency);
-
 
   const handleCryptoPropertyFinder = (prop: string, crypto: string) =>
     parseFloat(data?.data[prop][crypto]);
 
-
   const handlePropertyFinder = (prop: any) => data?.data[prop];
-
 
   const convertTofixed = (value: number) => value.toFixed(0);
 
-
   const exchanges = handlePropertyFinder("markets");
-
 
   const coins = handlePropertyFinder("active_cryptocurrencies");
   const totalMarketCap = handleCryptoPropertyFinder(
@@ -52,12 +45,10 @@ export default function BottomNavData() {
   );
   const bitcoinMCP = handleCryptoPropertyFinder("market_cap_percentage", "btc");
 
-
   const ethereumMCP = handleCryptoPropertyFinder(
     "market_cap_percentage",
     "eth"
   );
-
 
   if (isLoading) {
     return (
@@ -66,7 +57,6 @@ export default function BottomNavData() {
       </div>
     );
   }
-
 
   return (
     <>

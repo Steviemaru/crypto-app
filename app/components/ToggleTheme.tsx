@@ -4,22 +4,18 @@ import { useTheme } from "next-themes";
 import SunIcon from "../../public/sunIcon.svg";
 import MoonIcon from "../../public/moonIcon.svg";
 
-
 function ToggleTheme() {
   const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
-
 
   useEffect(() => {
     setMounted(true);
     setTheme("dark");
   }, []);
 
-
   if (!mounted) {
     return null;
   }
-
 
   const handleTheme = () => {
     if (theme == "dark") {
@@ -28,7 +24,6 @@ function ToggleTheme() {
       setTheme("dark");
     }
   };
-
 
   return (
     <div className="flex gap-3">
@@ -41,6 +36,5 @@ function ToggleTheme() {
     </div>
   );
 }
-
 
 export default ToggleTheme;

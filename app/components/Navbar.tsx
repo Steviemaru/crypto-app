@@ -9,10 +9,8 @@ import SearchInput from "../components/SearchInput";
 import BottomNavData from "./BottomNavData";
 import NavLogo from "../../public/navlogo.svg";
 
-
 function Navbar() {
   const { theme } = useTheme();
-
 
   return (
     <div
@@ -39,6 +37,5 @@ function Navbar() {
     </div>
   );
 }
-
 
 export default Navbar;
