@@ -15,7 +15,7 @@ flex
 gap-2
 items-center
 py-2
-px-8
+px-6
 border-gray-100
 relative
 text-base
@@ -61,7 +61,7 @@ export default function BottomNavData() {
   return (
     <>
       {isSuccess && (
-        <div className="flex p-3 justify-start gap-3 border border-opacity-10 border-black">
+        <div className="flex p-2 justify-start gap-3 border border-opacity-10 border-black">
           <BottomNavItem>
             <CoinsIcon /> Coins: {coins}{" "}
           </BottomNavItem>
