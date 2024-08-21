@@ -2,7 +2,7 @@ export default function PercentageBar({
   progress,
   fill,
 }: {
-  progress: number;
+  progress: any;
   fill: string;
 }) {
   return (
