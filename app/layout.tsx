@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
+import StoreProvider from "./StoreProvider";
+import ThemeSwitchProvider from "./components/ThemeSwitchProviders";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/Navbar";
-import StoreProvider from "./StoreProvider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -18,10 +19,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <StoreProvider>
-          <Navbar/>
-          {children}
-        </StoreProvider>
+        <div className="bg-fade">
+          <StoreProvider>
+            <ThemeSwitchProvider>
+              <Navbar />
+              {children}
+            </ThemeSwitchProvider>
+          </StoreProvider>
+        </div>
       </body>
     </html>
   );
