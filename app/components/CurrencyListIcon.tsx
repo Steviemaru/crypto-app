@@ -11,7 +11,7 @@ function CurrencyListIcon() {
     return (
       <div className="relative">
         <CurrencyBgLightIcon />
-        <div className="absolute  rounded-lg top-1 left-1 h-3 w-3 selected-Light bg-white text-black  flex justify-center  items-center">
+        <div className="absolute  rounded-lg top-1 left-1 h-3 w-3 bg-currency-bg-light   text-white  flex justify-center  items-center">
           <div className="font-bold">{symbol}</div>
         </div>
       </div>

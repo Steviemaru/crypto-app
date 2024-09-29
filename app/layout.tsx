@@ -1,10 +1,8 @@
 import type { Metadata } from "next";
 import StoreProvider from "./StoreProvider";
 import ThemeSwitchProvider from "./components/ThemeSwitchProviders";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/Navbar";
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -18,8 +16,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <div className="bg-fade">
+      <body className="dark:bg-custom-gradient-dark dark:text-white">
+        <div className="bg-fade dark:bg-custom-fade-dark ">
           <StoreProvider>
             <ThemeSwitchProvider>
               <Navbar />

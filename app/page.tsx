@@ -1,8 +1,9 @@
+import Chart from "./components/Charts/Charts";
 
 export default function Home() {
   return (
-    <div>
-      <h1>Homepage</h1>
+    <div className="flex justify-center">
+      <Chart />
     </div>
   );
 }
