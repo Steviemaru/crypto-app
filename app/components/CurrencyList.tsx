@@ -38,14 +38,14 @@ export default function CurrencyList() {
         onClick={() => {
           setShowDropdown(!showDropdown);
         }}
-        className="flex relative py-1 nav-items-Light bg-slate-900 text-white"
+        className="flex relative py-1  dark:bg-slate-900 bg-purple-100 font-semibold dark:text-white"
       >
         <CurrencyListIcon />
         {currency.toUpperCase()}
         <div>{showDropdown ? <UpArrow /> : <DownArrow />}</div>
       </div>
       {showDropdown && (
-        <div className="nav-items-Light absolute rounded-xl p-2 z-50 bg-slate-900 text-white">
+        <div className=" absolute rounded-xl p-2 z-50 dark:bg-slate-900 bg-purple-100 dark:text-white text-black">
           {currencyList.map((item) => {
             return (
               <option
@@ -53,7 +53,7 @@ export default function CurrencyList() {
                 onClick={() => {
                   dispatch(setCurrency(item.currency));
                 }}
-                className="hover:bg-slate-400 rounded-lg py-2 px-5"
+                className="dark:bg-slate-900 dark:text-white bg-purple-100 hover:bg-purple-50 dark:hover:bg-slate-400 rounded-lg py-2 px-5"
               >
                 {item.currency.toUpperCase()}
               </option>

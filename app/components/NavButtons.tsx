@@ -19,14 +19,15 @@ const Wrapper = tw.div<WrapperProps>`
 interface ButtonProps {
   $item?: string;
   $selectedItem: string;
-  $bgColor: string;
+  $bgColor: any;
 }
 
 const Button = tw.button<ButtonProps>`
 ${(p) => (p.$item == p.$selectedItem ? p.$bgColor : "bg-transparent")};
      border-0
      focus:outline-none
-    text-white
+     dark:text-white
+     text-black
     rounded-3xl
     ring-black
     ring-offset-black
@@ -40,9 +41,7 @@ export default function NavButtons() {
   const [navItems] = useState(["coins", "portfolio"]);
   const [selectedItem, setSelectedItem] = useState("coins");
   const { theme } = useTheme();
-
-  const bgColor = theme == "dark" ? "bg-black" : "selected-Light";
-
+  const navBtnBgColor = theme == "dark" ? "bg-black" : "bg-purple-200";
   const handleClick = (item: string) => {
     setSelectedItem(item);
   };
@@ -53,12 +52,12 @@ export default function NavButtons() {
           return (
             <Link key={item} href={`/${item == "coins" ? "" : item}`}>
               <Button
-                $bgColor={bgColor}
+                $item={item}
                 $selectedItem={selectedItem}
+                $bgColor={navBtnBgColor}
                 onClick={() => {
                   handleClick(item);
                 }}
-                $item={item}
               >
                 {item.slice(0, 1).toUpperCase() + item.slice(1)}
               </Button>

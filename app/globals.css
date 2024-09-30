@@ -7,31 +7,8 @@
   padding: 0px;
   box-sizing: border-box;
 }
-
+/* refactor later put into tailwind config */
 body {
-  position: relative;
-  z-index: 99;
-  color: white;
-  height: 100vh;
-  background: linear-gradient(
-    to right,
-    rgb(128, 35, 73),
-    rgba(56, 35, 116, 1),
-    rgba(60, 104, 134, 1)
-  );
-}
-div.bg-fade {
-  font-size: small;
-  position: absolute;
-  z-index: 1;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(to bottom, transparent 0%, black 100%);
-}
-
-[data-theme="light"] body {
   color: rgb(0, 0, 0);
   background: linear-gradient(
     to right,
@@ -41,20 +18,10 @@ div.bg-fade {
   );
 }
 
-[data-theme="light"] div.bg-fade {
+div.bg-fade {
   background: linear-gradient(
     to bottom,
     transparent 0%,
     rgb(255, 255, 255) 100%
   );
-}
-
-[data-theme="light"] .nav-items-Light {
-  background: #f4f4f6;
-  color: black;
-}
-
-[data-theme="light"] .selected-Light {
-  background: #42428b;
-  color: #fff;
 }

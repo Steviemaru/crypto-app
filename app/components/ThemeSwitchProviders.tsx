@@ -17,7 +17,7 @@ export default function ThemeSwitchProvider({ children }: any) {
 
   return (
     <StoreProvider>
-      <ThemeProvider>{children}</ThemeProvider>
+      <ThemeProvider attribute="class">{children}</ThemeProvider>
     </StoreProvider>
   );
 }
