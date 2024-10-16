@@ -11,6 +11,9 @@ const nextConfig = {
 
       return config;
   },
+  images: {
+    domains: ['coin-images.coingecko.com'],
+  },
 };
 
 export default nextConfig;
