@@ -1,3 +1,4 @@
+
 export default function FormatNumber(value: any) {
   if (value >= 1_000_000_000_000) {
     // Trillions
@@ -62,3 +63,6 @@ export const HandleFormatingNumbersAndLabels = (value: any, option: string) => {
       : parseFloat(num).toFixed(2);
   return (formated = `${fixedNum} ${sign}`);
 };
+
+
+

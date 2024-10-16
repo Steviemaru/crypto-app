@@ -10,8 +10,11 @@ export const cryptoDataApi = createApi({
     getChartData: builder.query<any, any>({
       query: (apikey) => apikey,
     }),
+    getCarouselData: builder.query<any, any>({
+      query: (apikey) => apikey,
+    }),
   }),
 });
 
-export const { useGetGlobalMarketDataQuery, useGetChartDataQuery } =
+export const { useGetGlobalMarketDataQuery, useGetChartDataQuery, useGetCarouselDataQuery } =
   cryptoDataApi;
