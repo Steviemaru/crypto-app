@@ -3,34 +3,36 @@
 @tailwind utilities;
 
 .embla {
-  /* position: relative; */
   overflow: hidden;
-   width: 100%;
-   padding: 30px;
-  margin:0 auto;
-   display: flex;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
   justify-content: center;
-  border:1px solid #42428b;
 }
 
 .embla__viewport {
   overflow: hidden;
+  width: 100%;
 }
 
 .embla__container {
+  width: 120%;
   backface-visibility: hidden;
-  margin-left: calc(16px * -1);
+  will-change: transform;
+  padding: 20px;
   display: flex;
-  gap: 20px; 
-  
+  gap: 20px;
 }
+
 /* controlls slide size */
 .embla__slide {
-  flex: 0 0 25%; /* Ensure slides don't shrink AND DETERMINES HOW MUCH OF SLIDE YOU CAN SEE IN VP*/
+  flex: 0 0 20%;
+  /* Ensure slides don't shrink AND DETERMINES HOW MUCH OF SLIDE YOU CAN SEE IN VP*/
+  box-sizing: border-box;
   text-align: center;
   padding-left: 16px;
-  background:#fff;
   min-width: 0;
+
 }
 
 .embla__prev,
@@ -39,47 +41,42 @@
   border-radius: 50%;
   top: 50%;
   transform: translateY(-50%);
-  background-color: #fff;
-  border: 1px solid #ccc;
-  padding: 10px;
+  padding: 20px;
   cursor: pointer;
   z-index: 10;
 }
 
 .embla__prev {
-  left: -5%; /* Adjust to position outside the carousel */
+  left: -5%;
+  /* Adjust to position outside the carousel */
 }
 
 .embla__next {
-  right: -5%; /* Adjust to position outside the carousel */
+  right: -5%;
+  /* Adjust to position outside the carousel */
 }
+
 * {
   margin: 0px;
   padding: 0px;
   box-sizing: border-box;
 }
 
- body {
+body {
   position: relative;
   z-index: 99;
   color: white;
   height: 100vh;
   color: rgb(0, 0, 0);
-  background: linear-gradient(
-    to right,
-    rgb(255, 146, 191),
-    rgb(184, 158, 255),
-    rgb(176, 223, 255)
-  );
+  background: linear-gradient(to right,
+      rgb(255, 146, 191),
+      rgb(184, 158, 255),
+      rgb(176, 223, 255));
 }
 
- div.bg-fade {
-  background: linear-gradient(
-    to bottom,
-    transparent 0%,
-    rgb(255, 255, 255) 100%
-  );
- height: 100vh;
+div.bg-fade {
+  background: linear-gradient(to bottom,
+      transparent 0%,
+      rgb(255, 255, 255) 100%);
+  height: 100vh;
 }
-
-
