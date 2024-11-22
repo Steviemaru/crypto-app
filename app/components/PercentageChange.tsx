@@ -5,8 +5,10 @@ export default function PercentageChange ({data}) {
 
 const percentage = data.toFixed(2);
 const simulatedChange = [-0.50, +0.50] ;
-const random = Math.round(Math.random());
-const dynamicPercentage = parseFloat(percentage) + simulatedChange[random] ; 
+const [decrease , increase ] = simulatedChange;
+const isEven =  parseInt(percentage) % 2 == 0 ;
+const simulatedValue = isEven ? increase : decrease;
+const dynamicPercentage = parseFloat(percentage) + simulatedValue ; 
 const dynamicPercentageCheck = dynamicPercentage > percentage ;
 
 return (

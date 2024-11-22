@@ -1,4 +1,4 @@
- "use client";
+"use client";
 import { useState } from "react";
 import BarChart from "./BarChart";
 import LineChart from "./LineChart";
@@ -6,73 +6,24 @@ import { setDays } from "@/lib/features/daysSlice";
 import GetTodaysDate from "@/utils/GetTodaysDate";
 import { HandleFormatingNumbersAndLabels } from "@/utils/FormatNumber";
 import { useAppSelector, useAppDispatch } from "@/lib/hooks";
-import { useGetChartDataQuery } from "@/lib/features/cryptoDataApi";
 // check if imports are in correct order...
 
-function Charts() {
+function Charts({ chartData, intervals, days }) {
   const [selected, setSelected] = useState("");
-
-  //commented out to pass linter
-  //currency add back to destructuring
-  // redux state
-  const {  symbol } = useAppSelector((state) => state.currency);
-  const { selectedDay } = useAppSelector((state) => state.selectedDay);
+  const { symbol } = useAppSelector((state) => state.currency);
   const dispatch = useAppDispatch();
-
-  // api
-
-  const intervals = {
-    1: {
-      interval: "5m",
-      days: "1",
-    },
-    3: {
-      interval: "hourly",
-      days: "3",
-    },
-    7: {
-      interval: "daily",
-      days: 7,
-    },
-    30: {
-      interval: "daily",
-      days: 30,
-    },
-    90: {
-      interval: "daily",
-      days: 90,
-    },
-    180: {
-      interval: "daily",
-      days: 180,
-    },
-    365: {
-      interval: "daily",
-      days: 365,
-    },
-  };
-  const {  days } = intervals[selectedDay];
-
-  //commented out to pass linter
-  // interval add back to destructuring
-  // const query = `coins/bitcoin/market_chart?vs_currency=${currency}&days=${days}&interval=${interval}`;
-
-  // using substitute Query in place of query while I find solution to 429 error code.
-  const substituteQuery =
-    "coins/bitcoin/market_chart?vs_currency=usd&days=365&interval=daily";
-
-  const { data } = useGetChartDataQuery(substituteQuery);
 
   // gets values for days buttons
   const mappedIntervalsForDays = Object.values(intervals);
 
   // chart data
-  const chartPrices = data?.prices.map((item: any) => item[1]);
+  const chartPrices = chartData?.prices?.map((item: any) => item[1]);
 
-  const chartVolumes = data?.total_volumes.map((item: any) => item[1]);
-  const coinPrice = data?.prices[0][0];
+  const chartVolumes = chartData?.total_volumes?.map((item: any) => item[1]);
 
-  const coinVolume = data?.total_volumes[0][1];
+  const coinPrice = chartData?.prices[0][0];
+
+  const coinVolume = chartData?.total_volumes[0][1];
 
   const parsedCoinPrice = parseFloat(coinPrice);
 
@@ -86,6 +37,11 @@ function Charts() {
     parsedVolumePrice,
     "charts"
   );
+
+  // chart gradient data 
+  const borderColor = "rgba(75,192,192,1)";
+  const gradientA = "rgba(75,192,192,1)";
+  const colorValue = "#fff";
 
   // creates numbers on X axis of chart
   const getChartLabels = () => {
@@ -111,13 +67,17 @@ function Charts() {
               <div className="text-2xl">
                 {symbol}
                 {formattedCoin}
-                {}
+                { }
               </div>
               <GetTodaysDate />
             </div>
             <LineChart
               chartLabels={getChartLabels()}
               chartData={chartPrices}
+              borderColor={borderColor}
+              gradientA={gradientA}
+              xDisplay={true}
+              colorValue={colorValue}
               width={"400"}
               height={"200"}
             />
@@ -146,9 +106,8 @@ function Charts() {
             return (
               <button
                 key={item.days}
-                className={`p-2 rounded-xl bg-opacity-50 bg-slate-600 ${
-                  selected == item.days ? "bg-slate-900" : ""
-                }`}
+                className={`p-2 rounded-xl bg-opacity-50 bg-slate-600 ${selected == item.days ? "bg-slate-900" : ""
+                  }`}
                 onClick={() => {
                   dispatch(setDays(item.days));
                   setSelected(item.days);
