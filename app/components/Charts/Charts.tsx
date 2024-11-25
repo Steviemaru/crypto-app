@@ -18,7 +18,7 @@ function Charts({ chartData, intervals, days }) {
 
   // chart data
   const chartPrices = chartData?.prices?.map((item: any) => item[1]);
-
+  
   const chartVolumes = chartData?.total_volumes?.map((item: any) => item[1]);
 
   const coinPrice = chartData?.prices[0][0];
