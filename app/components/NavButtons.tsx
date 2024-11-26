@@ -38,7 +38,7 @@ ${(p) => (p.$item == p.$selectedItem ? p.$bgColor : "bg-transparent")};
   `;
 
 export default function NavButtons() {
-  const [navItems] = useState(["coins", "portfolio"]);
+  const [navItems] = useState(["coins", "convertor"]);
   const [selectedItem, setSelectedItem] = useState("coins");
   const { theme } = useTheme();
   const navBtnBgColor = theme == "dark" ? "bg-black" : "bg-purple-200";
