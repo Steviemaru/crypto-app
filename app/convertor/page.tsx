@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import DropDown from "../components/DropDown"
+import DropDown from "../components/DropDown";
 
 export default function Page() {
   return (
@@ -12,5 +12,5 @@ export default function Page() {
 <DropDown/>
 </div>
    </div>
-)
+);
 }
