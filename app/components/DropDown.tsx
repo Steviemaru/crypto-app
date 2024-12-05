@@ -19,7 +19,7 @@ export default function DropDown({setConvertorValue, selected, setSelected}) {
     //   .then((response) => response.json());
       .then((data) => {
         setMockData(data);
-        console.log(data, "data test");
+        // console.log(data, "data test");
       });
      
   }, []);
@@ -32,7 +32,7 @@ const cryptoList = mockData.length ? mockData?.map((item:any)=>
 }) : [{ name:"bitcoin", price:45000 , symbol:"btc"}, { name:"etherium", price:3300 , symbol:"eth"}];
 
  // put this in top level setAge in the hangle switch 
-console.log(cryptoList, "list " ,selected, " test age ");
+// console.log(cryptoList, "list " ,selected, " test age ");
 const handleChange = (event: SelectChangeEvent) => {
   setSelected(event.target.value as string);
 };
@@ -50,7 +50,7 @@ return (
         onChange={handleChange}
       >
         {cryptoList.map((item:any)=> {
-          return  <MenuItem onClick={()=>{setConvertorValue(item)}} value={item.name} key={item.name}>{item.name}</MenuItem>;
+          return  <MenuItem onClick={()=>{setConvertorValue(item);}} value={item.name} key={item.name}>{item.name}</MenuItem>;
         })
         };
       </Select>

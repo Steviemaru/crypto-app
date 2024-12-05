@@ -9,7 +9,7 @@ const [right, setRight] = useState({ name:"etherium", price:3300 , symbol:"eth"}
 const [leftSelected, setLeftSelected] = useState("bitcoin"); 
 const [rightSelected, setRightSelected] = useState("etherium");
 const [numOfCoins, setNumOfCoins] = useState(1);
-console.log(left.price, right.price , "values to convert");
+// console.log(left.price, right.price , "values to convert");
 
 const exchangeRate = (left.price/right.price) ;
 const convertedRate = () =>  numOfCoins * exchangeRate ;
@@ -17,14 +17,14 @@ const displayConvertedRate = convertedRate().toLocaleString("en-US", { style: "c
 
 const handleChange =(e:any)=> {
 setNumOfCoins(e.target.value);
-}
+};
 
 const handleSwitch =() => {
 setLeftSelected(right.name);
 setRightSelected(left.name);
 setLeft(right);
 setRight(left);
-}
+};
 
   return (
   <div className="h-56  flex flex-col justify-center items-center">
