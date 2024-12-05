@@ -1,83 +1,60 @@
 "use client";
 
-import { useState } from "react";
-// import { useTheme, Theme } from '@mui/material/styles';
-import OutlinedInput from "@mui/material/OutlinedInput";
-// import InputLabel from '@mui/material/InputLabel';
+import { useState, useEffect } from "react";
+import * as React from "react";
+import Box from "@mui/material/Box";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import { fetchDataWithFallback } from "@/utils/mockData"; 
 
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
+export default function DropDown({setConvertorValue, selected, setSelected}) {
+
+ const [mockData, setMockData] = useState([]);
+
+// const query = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd";
+
+  useEffect(() => {
+    fetchDataWithFallback("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd")
+    //   .then((response) => response.json());
+      .then((data) => {
+        setMockData(data);
+        console.log(data, "data test");
+      });
+     
+  }, []);
+
+//ask chat gpt theres an error here 
+// list causes error may try to access it before it loads 
+const cryptoList = mockData.length ? mockData?.map((item:any)=> 
+ { 
+     return { name:item.name, price:item.current_price , symbol:item.symbol };
+}) : [{ name:"bitcoin", price:45000 , symbol:"btc"}, { name:"etherium", price:3300 , symbol:"eth"}];
+
+ // put this in top level setAge in the hangle switch 
+console.log(cryptoList, "list " ,selected, " test age ");
+const handleChange = (event: SelectChangeEvent) => {
+  setSelected(event.target.value as string);
 };
 
-const names = [
-  "Oliver Hansen",
-  "Van Henry",
-  "April Tucker",
-  "Ralph Hubbard",
-  "Omar Alexander",
-  "Carlos Abbott",
-  "Miriam Wagner",
-  "Bradley Wilkerson",
-  "Virginia Andrews",
-  "Kelly Snyder",
-];
-
-// function getStyles(name: string, personName: string[], theme: Theme) {
-//   return {
-//     fontWeight: personName.includes(name)
-//       ? theme.typography.fontWeightMedium
-//       : theme.typography.fontWeightRegular,
-//   };
-// }
-
-export default function DropDown() {
-//   const theme = useTheme();
-  const [personName, setPersonName] = useState([]);
-
-  const handleChange = (event) => {
-    const {
-      target: { value },
-    } = event;
-    setPersonName(
-      // On autofill we get a stringified value.
-      typeof value === "string" ? value.split(",") : value,
-    );
-  };
-
-  return (
-    <div>
-      <FormControl sx={{ m: 1, width: 300 }}>
-        {/* <InputLabel id="demo-multiple-name-label">Name</InputLabel> */}
-        <Select
-          labelId="demo-multiple-name-label"
-          id="demo-multiple-name"
-          multiple
-          value={personName}
-          onChange={handleChange}
-          input={<OutlinedInput label="Name" />}
-          MenuProps={MenuProps}
-        >
-          {names.map((name) => (
-            <MenuItem
-              key={name}
-              value={name}
-              // style={getStyles(name, personName, theme)}
-            >
-              {name}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-    </div>
-  );
+return (
+  <Box sx={{ minWidth: 120 }}>
+    <FormControl className=" convertor-Input border-transparent" variant="standard" sx={{ m: 1, minWidth: 120 , borderBottom:"red" }} fullWidth>
+      {/* <InputLabel id="demo-simple-select-label">Age</InputLabel> */}
+      <Select
+      className="dark:text-white"
+       labelId="demo-simple-select-standard-label"
+          id="demo-simple-select-standard"
+        value={selected}
+        label="selected"
+        onChange={handleChange}
+      >
+        {cryptoList.map((item:any)=> {
+          return  <MenuItem onClick={()=>{setConvertorValue(item)}} value={item.name} key={item.name}>{item.name}</MenuItem>;
+        })
+        };
+      </Select>
+    </FormControl>
+  </Box>
+);
 }
