@@ -1,10 +1,10 @@
 "use client";
 import { useAppSelector } from "../../lib/hooks";
 import { useGetGlobalMarketDataQuery } from "@/lib/features/cryptoDataApi";
-import FormatNumber from "@/utils/FormatNumber";
+import { HandleFormatingNumbersAndLabels } from "@/utils/FormatNumber";
 import tw from "tailwind-styled-components";
 import PercentageBar from "./PercentageBar";
-import Spinner from "./Spinner/Spinner";
+import Spinner from "./spinner/Spinner";
 import BitcoinLogo from "../../public/bitcoinLogo.svg";
 import EthereumLogo from "../../public/ethereumLogo.svg";
 import ExchangeIcon from "../../public/exchangeIcon.svg";
@@ -21,7 +21,8 @@ relative
 text-base
 `;
 export default function BottomNavData() {
-  const { data, isLoading, isSuccess } = useGetGlobalMarketDataQuery("");
+
+  const { data, isLoading, } = useGetGlobalMarketDataQuery("");
 
   const { currency, symbol } = useAppSelector((state) => state.currency);
 
@@ -60,38 +61,36 @@ export default function BottomNavData() {
 
   return (
     <>
-      {isSuccess && (
-        <div className="flex p-2 justify-start gap-3 border border-opacity-10 border-black">
-          <BottomNavItem>
-            <CoinsIcon /> Coins: {coins}{" "}
-          </BottomNavItem>
-          <BottomNavItem>
-            <ExchangeIcon /> Exchange: {exchanges}{" "}
-          </BottomNavItem>
-          <BottomNavItem>
-            {symbol}
-            {FormatNumber(totalMarketCap)}
-          </BottomNavItem>
-          <BottomNavItem>
-            {symbol}
-            {FormatNumber(totalMarketVolume)}
-            <PercentageBar
-              fill={"bg-purple-300"}
-              progress={parseFloat(FormatNumber(totalMarketVolume))}
-            />
-          </BottomNavItem>
-          <BottomNavItem>
-            <BitcoinLogo />
-            {convertTofixed(bitcoinMCP)}%
-            <PercentageBar fill={"bg-yellow-500"} progress={bitcoinMCP} />
-          </BottomNavItem>
-          <BottomNavItem>
-            <EthereumLogo />
-            {convertTofixed(ethereumMCP)}%
-            <PercentageBar fill={"bg-blue-300"} progress={ethereumMCP} />
-          </BottomNavItem>
-        </div>
-      )}
+      <div className="flex p-2 justify-start gap-3 border border-opacity-10 border-black">
+        <BottomNavItem>
+          <CoinsIcon /> Coins: {coins}{" "}
+        </BottomNavItem>
+        <BottomNavItem>
+          <ExchangeIcon /> Exchange: {exchanges}{" "}
+        </BottomNavItem>
+        <BottomNavItem>
+          {symbol}
+          {HandleFormatingNumbersAndLabels(totalMarketCap, "nav")}
+        </BottomNavItem>
+        <BottomNavItem>
+          {symbol}
+          {HandleFormatingNumbersAndLabels(totalMarketVolume, "none")}
+          <PercentageBar
+            fill={"bg-purple-300"}
+            progress={HandleFormatingNumbersAndLabels(totalMarketVolume, "none")}
+          />
+        </BottomNavItem>
+        <BottomNavItem>
+          <BitcoinLogo />
+          {convertTofixed(bitcoinMCP)}%
+          <PercentageBar fill={"bg-yellow-500"} progress={bitcoinMCP} />
+        </BottomNavItem>
+        <BottomNavItem>
+          <EthereumLogo />
+          {convertTofixed(ethereumMCP)}%
+          <PercentageBar fill={"bg-blue-300"} progress={ethereumMCP} />
+        </BottomNavItem>
+      </div>
       ;
     </>
   );
