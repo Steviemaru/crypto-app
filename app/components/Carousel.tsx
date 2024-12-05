@@ -5,12 +5,11 @@ import Image from "next/image";
 import useEmblaCarousel from "embla-carousel-react";
 import { useAppSelector, useAppDispatch } from "@/lib/hooks";
 import { setCurrency } from "@/lib/features/currencySlice";
-import { useGetCarouselDataQuery } from "@/lib/features/cryptoDataApi";
 import PercentageChange from "./PercentageChange";
 import ArrowRight from "../../public/arrowRight.svg";
 import ArrowLeft from "../../public/arrowLeft.svg";
 
-export function Carousel() {
+export function Carousel({ coinData }) {
   const [emblaRef, emblaApi] = useEmblaCarousel();
   const dispatch = useAppDispatch();
   const { currency } = useAppSelector((state) => state.currency);
@@ -23,11 +22,6 @@ export function Carousel() {
     if (emblaApi) emblaApi.scrollNext();
   }, [emblaApi]);
 
-  const query = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd";
-  const { data } = useGetCarouselDataQuery(query);
-
-  const coinData = data?.slice(0, 10).map((item: any) => item);
-
   return (
     <div className="relative py-4 w-4/5">
       <div className="embla py-8">
@@ -39,7 +33,7 @@ export function Carousel() {
             {coinData?.map((item: any) => {
               return (
                 <div
-                  key={item.name}
+                  key={item.id}
                   className="embla__slide flex gap-2 rounded-lg bg-opacity-50 bg-slate-600 opacity-90 py-3"
                   onClick={() => {
                     dispatch(setCurrency(item.symbol));
