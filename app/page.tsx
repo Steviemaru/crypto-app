@@ -11,7 +11,7 @@ export default function Home() {
 
   const coinQuery = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&price_change_percentage=1h%2C24h%2C7d&sparkline=true`;
 
-  const { data: coin } = useGetCarouselDataQuery(coinQuery)
+  const { data: coin } = useGetCarouselDataQuery(coinQuery);
   const coinData = coin || [];
 
   return (
