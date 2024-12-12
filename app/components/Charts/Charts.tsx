@@ -4,6 +4,7 @@ import BarChart from "./BarChart";
 import LineChart from "./LineChart";
 import { setDays } from "@/lib/features/daysSlice";
 import GetTodaysDate from "@/utils/GetTodaysDate";
+import { getChartLabels } from "@/utils/getChartlabels";
 import { HandleFormatingNumbersAndLabels } from "@/utils/FormatNumber";
 import { useAppSelector, useAppDispatch } from "@/lib/hooks";
 import { useGetChartDataQuery } from "@/lib/features/cryptoDataApi";
@@ -57,19 +58,6 @@ function Charts() {
   const gradientA = "rgba(75,192,192,1)";
   const colorValue = "#fff";
 
-  // creates numbers on X axis of chart
-  const getChartLabels = () => {
-    const now = new Date();
-    const numOfDays = new Date(now.setDate(now.getDate() - selectedDay));
-    const labels: any[] = [];
-    for (let d = new Date(); d > numOfDays; d.setDate(d.getDate() - 1)) {
-      const day = d.getDate();
-      labels.push(day);
-    }
-    labels.reverse();
-    return labels;
-  };
-
   return (
     <>
       <div>
@@ -86,7 +74,7 @@ function Charts() {
               <GetTodaysDate />
             </div>
             <LineChart
-              chartLabels={getChartLabels()}
+              chartLabels={getChartLabels(selectedDay)}
               chartData={chartPrices}
               borderColor={borderColor}
               gradientA={gradientA}
@@ -107,7 +95,7 @@ function Charts() {
               <GetTodaysDate />
             </div>
             <BarChart
-              chartLabels={getChartLabels()}
+              chartLabels={getChartLabels(selectedDay)}
               chartData={chartVolumes}
               width={"400"}
               height={"200"}
@@ -119,15 +107,15 @@ function Charts() {
           {intervalsForDays.map((item: any) => {
             return (
               <button
-                key={item.days}
-                className={`p-2 rounded-xl bg-opacity-50 bg-slate-600 ${selected == item.days ? "bg-slate-900" : ""
+                key={item}
+                className={`p-2 rounded-xl bg-opacity-50 bg-slate-600 ${selected == item ? "bg-slate-900" : ""
                   }`}
                 onClick={() => {
-                  dispatch(setDays(item.days));
-                  setSelected(item.days);
+                  dispatch(setDays(item));
+                  setSelected(item);
                 }}
               >
-                {item.days}D
+                {item}D
               </button>
             );
           })}

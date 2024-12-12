@@ -2,15 +2,25 @@
 
 import { useState } from "react";
 import DropDown from "../components/DropDown";
+import { useGetCarouselDataQuery, useGetChartDataQuery, useGetDataBQuery } from "@/lib/features/cryptoDataApi";
 import { useAppSelector } from "@/lib/hooks";
+import ConvertorChart from "../components/ConvertorChart";
 
 export default function Page() {
   const [left, setLeft] = useState({ name: "bitcoin", current_price: 76000, symbol: "btc" });
-  const [right, setRight] = useState({ name: "etherium", current_price: 2800, symbol: "eth" });
+  const [right, setRight] = useState({ name: "ethereum", current_price: 2800, symbol: "eth" });
   const [leftSelected, setLeftSelected] = useState("bitcoin");
   const [rightSelected, setRightSelected] = useState("etherium");
   const [numOfCoins, setNumOfCoins] = useState(1);
-  const { symbol } = useAppSelector((state) => state.currency);
+  const { symbol, currency } = useAppSelector((state) => state.currency);
+  const { selectedDay } = useAppSelector((state) => state.selectedDay);
+  const coinQuery = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&price_change_percentage=1h%2C24h%2C7d&sparkline=true`;
+  const { data } = useGetCarouselDataQuery(coinQuery);
+
+  const chartQuery = `https://api.coingecko.com/api/v3/coins/${left.name}/market_chart?vs_currency=${currency}&days=${selectedDay}`;
+  const { data: chartA } = useGetChartDataQuery(chartQuery);
+  const chartQuery2 = `https://api.coingecko.com/api/v3/coins/${right.name}/market_chart?vs_currency=${currency}&days=${selectedDay}`;
+  const { data: chartB } = useGetDataBQuery(chartQuery2);
 
   const exchangeRate = (left.current_price / right.current_price);
   const convertedRate = () => numOfCoins * exchangeRate;
@@ -30,12 +40,12 @@ export default function Page() {
   };
 
   return (
-    <div className="h-56  flex flex-col justify-center items-center">
+    <div className="p-10 flex flex-col justify-center items-center">
 
       <div className="flex">
         <div className="rounded-2xl py-12 px-52  bg-opacity-50 bg-slate-600 opacity-90">
           <div className="flex justify-between items-center ">
-            <DropDown selected={leftSelected} setSelected={setLeftSelected} setConvertorValue={setLeft} />
+            <DropDown data={data} selected={leftSelected} setSelected={setLeftSelected} setConvertorValue={setLeft} />
             <div>
               <input onChange={handleChange} value={numOfCoins} type="text" />
             </div>
@@ -47,7 +57,7 @@ export default function Page() {
         <button onClick={handleSwitch}> switch</button>
         <div className="rounded-2xl py-12 px-52  bg-opacity-50 bg-slate-600 opacity-90">
           <div className="flex justify-between items-center " >
-            <DropDown selected={rightSelected} setSelected={setRightSelected} setConvertorValue={setRight} />
+            <DropDown data={data} selected={rightSelected} setSelected={setRightSelected} setConvertorValue={setRight} />
             <div>
               <div>{displayConvertedRate.toFixed(2)} </div>
             </div>
@@ -56,10 +66,8 @@ export default function Page() {
           <div> 1 {right.symbol} = {symbol}{convertedCurrencyB} </div>
         </div>
       </div>
+      <ConvertorChart chartA={chartA} chartB={chartB} />
 
-      <div className="flex gap-10">
-
-      </div>
     </div>
   );
 }
