@@ -9,7 +9,7 @@ import LineChart from "./Charts/LineChart";
 
 function CoinTable({ coinData }) {
     const { symbol } = useAppSelector((state) => state.currency);
-    const randomId = () => Math.round(Math.random() * 999);
+    const uniqueId = () => Math.floor(Math.random() * 999999 + Math.random() * 999999 );
     
     return (
         <div>
@@ -50,11 +50,11 @@ function CoinTable({ coinData }) {
             </div>
             {/* table container */}
             <div className="">
-                {coinData?.map((item: any, idx: any) => {
+                {coinData.length > 1 && coinData?.map((item: any, idx: any) => {
 
                     /////////////////////////////////////////////////////////
                     // values in the table 
-                    const current_price = parseInt(item.current_price.toFixed(0)).toLocaleString();
+                    const current_price = parseInt(item.current_price?.toFixed(0)).toLocaleString();
                     const price_change_percentage_1h_in_currency = HandleFormatingNumbersAndLabels(item.price_change_percentage_1h_in_currency, "none");
                     const price_change_percentage_24h_in_currency = HandleFormatingNumbersAndLabels(item.price_change_percentage_24h_in_currency, "none");
                     const price_change_percentage_7d_in_currency = HandleFormatingNumbersAndLabels(item.price_change_percentage_7d_in_currency, "none");
@@ -62,7 +62,7 @@ function CoinTable({ coinData }) {
                     const total_volume = HandleFormatingNumbersAndLabels(item.total_volume, "none");
                     const circulating_supply = HandleFormatingNumbersAndLabels(item.circulating_supply, "none");
                     const total_supply = HandleFormatingNumbersAndLabels(item.total_supply, "none");
-                    const sparkline_in_7d = item.sparkline_in_7d.price.slice(0, 7);
+                    const sparkline_in_7d = item.sparkline_in_7d?.price.slice(0, 7);
 
                     /////////////////////////////////////////////////////////
                     //// This simulates an increase or decrease in value for 1hr 24hr 7D percentage change.
@@ -73,7 +73,7 @@ function CoinTable({ coinData }) {
                         const parsedItem = parseFloat(item.toFixed(0));
                         const num = {
                             value: parsedItem,
-                            id: randomId()
+                            id: uniqueId()
                         };
                         return num;
                     });
@@ -103,7 +103,8 @@ function CoinTable({ coinData }) {
                         <div key={item.id} className="flex items-center gap-6 bg-opacity-50 bg-slate-600 opacity-90 m-3 rounded-lg">
                             <div className="flex items-center  gap-8 px-16" key={item.name}>
                                 <div>{idx + 1}</div>
-                                <Image src={item.image} width={32} height={32} alt="coin" /> <div className="w-24">{item.name} [{item.symbol}]</div></div>
+                                <Image src={item.image ? item.image 
+                    : null} width={32} height={32} alt="coin" /> <div className="w-24">{item.name} [{item.symbol}]</div></div>
                             <div className="w-24">{symbol}{current_price}</div>
                             <div className="w-54"><MultiPercentageChange dynamicPercentage={dynamicPercentage} dynamicPercentageCheck={check} /></div>
 

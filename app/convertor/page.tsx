@@ -2,18 +2,21 @@
 
 import { useState } from "react";
 import DropDown from "../components/DropDown";
+import { useAppSelector } from "@/lib/hooks";
 
 export default function Page() {
-const [left, setLeft] = useState({ name:"bitcoin", price:45000 , symbol:"btc"}); 
-const [right, setRight] = useState({ name:"etherium", price:3300 , symbol:"eth"});
+const [left, setLeft] = useState({ name:"bitcoin", current_price:76000 , symbol:"btc"}); 
+const [right, setRight] = useState({ name:"etherium", current_price:2800 , symbol:"eth"});
 const [leftSelected, setLeftSelected] = useState("bitcoin"); 
 const [rightSelected, setRightSelected] = useState("etherium");
 const [numOfCoins, setNumOfCoins] = useState(1);
-// console.log(left.price, right.price , "values to convert");
+const { symbol } = useAppSelector((state) => state.currency);
 
-const exchangeRate = (left.price/right.price) ;
+const exchangeRate = (left.current_price/right.current_price) ;
 const convertedRate = () =>  numOfCoins * exchangeRate ;
-const displayConvertedRate = convertedRate().toLocaleString("en-US", { style: "currency", currency: right.symbol.toUpperCase(), minimumFractionDigits: 5});
+const displayConvertedRate = convertedRate();
+const convertedCurrencyA = (1 * (left.current_price/right.current_price)).toFixed(2);
+const convertedCurrencyB = (1 * (right.current_price/left.current_price)).toFixed(2);
 
 const handleChange =(e:any)=> {
 setNumOfCoins(e.target.value);
@@ -30,21 +33,28 @@ setRight(left);
   <div className="h-56  flex flex-col justify-center items-center">
   
 <div className="flex">
-<div className="flex justify-between items-center rounded-2xl py-12 px-52  bg-opacity-50 bg-slate-600 opacity-90">
+<div className="rounded-2xl py-12 px-52  bg-opacity-50 bg-slate-600 opacity-90">
+<div className="flex justify-between items-center ">
 <DropDown selected={leftSelected} setSelected={setLeftSelected} setConvertorValue={setLeft}/>
 <div onClick={()=>{setNumOfCoins(numOfCoins + 1 ); }}>
   <input onChange={handleChange} value={numOfCoins} type="text" />
 </div>
-<div onClick={()=>{setNumOfCoins(numOfCoins - 1 ); }}>
-  -
 </div>
+<div className="border-b border-red-500 p-2 mb-5"> </div>
+<div> 1 {left.symbol} = {symbol}{convertedCurrencyA} </div>
+
+  
 </div>
 <button onClick={handleSwitch}> switch</button>
-<div className="flex justify-between items-center rounded-2xl py-12 px-52  bg-opacity-50 bg-slate-600 opacity-90" >
+<div className="rounded-2xl py-12 px-52  bg-opacity-50 bg-slate-600 opacity-90">
+<div className="flex justify-between items-center " >
 <DropDown selected={rightSelected} setSelected={setRightSelected} setConvertorValue={setRight}/>
 <div>
-  {displayConvertedRate}
+<div>{displayConvertedRate.toFixed(2)} </div>
 </div>
+</div>
+<div className="border-b border-red-500 p-2 mb-5"> </div>
+<div> 1 {right.symbol} = {symbol}{convertedCurrencyB} </div>
 </div>
 </div>
 

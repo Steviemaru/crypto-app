@@ -6,24 +6,38 @@ import { setDays } from "@/lib/features/daysSlice";
 import GetTodaysDate from "@/utils/GetTodaysDate";
 import { HandleFormatingNumbersAndLabels } from "@/utils/FormatNumber";
 import { useAppSelector, useAppDispatch } from "@/lib/hooks";
-// check if imports are in correct order...
+import { useGetChartDataQuery } from "@/lib/features/cryptoDataApi";
 
-function Charts({ chartData, intervals, days }) {
+function Charts() {
   const [selected, setSelected] = useState("");
-  const { symbol } = useAppSelector((state) => state.currency);
+  const { currency, symbol } = useAppSelector((state) => state.currency);
+  const { selectedDay } = useAppSelector((state) => state.selectedDay);
   const dispatch = useAppDispatch();
 
-  // gets values for days buttons
-  const mappedIntervalsForDays = Object.values(intervals);
+  const chartQuery = `https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=${currency}&days=${selectedDay}`;
+  const { data: chart } = useGetChartDataQuery(chartQuery);
+
+  const chartData = chart;
+
+  // contains values for days buttons 
+  const intervalsForDays = [
+    1,
+    3,
+    7,
+    30,
+    90,
+    180,
+    365,
+  ];
 
   // chart data
   const chartPrices = chartData?.prices?.map((item: any) => item[1]);
-  
+
   const chartVolumes = chartData?.total_volumes?.map((item: any) => item[1]);
 
-  const coinPrice = chartData?.prices[0][0];
+  const coinPrice = chartData?.prices?.map((item: any) => item[0]);
 
-  const coinVolume = chartData?.total_volumes[0][1];
+  const coinVolume = chartData?.total_volumes?.map((item: any) => item[1]);
 
   const parsedCoinPrice = parseFloat(coinPrice);
 
@@ -46,7 +60,7 @@ function Charts({ chartData, intervals, days }) {
   // creates numbers on X axis of chart
   const getChartLabels = () => {
     const now = new Date();
-    const numOfDays = new Date(now.setDate(now.getDate() - days));
+    const numOfDays = new Date(now.setDate(now.getDate() - selectedDay));
     const labels: any[] = [];
     for (let d = new Date(); d > numOfDays; d.setDate(d.getDate() - 1)) {
       const day = d.getDate();
@@ -100,9 +114,9 @@ function Charts({ chartData, intervals, days }) {
             />
           </div>
         </div>
-        {/* days buttons */}
+        {/* 1D 3D 5D ect days buttons */}
         <div className="flex gap-4">
-          {mappedIntervalsForDays.map((item: any) => {
+          {intervalsForDays.map((item: any) => {
             return (
               <button
                 key={item.days}
