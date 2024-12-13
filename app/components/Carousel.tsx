@@ -14,6 +14,8 @@ export function Carousel({ coinData }) {
   const dispatch = useAppDispatch();
   const { currency } = useAppSelector((state) => state.currency);
 
+  const uniqueId = () => Math.floor(Math.random() * 999999 + Math.random() * 999999);
+
   const scrollPrev = useCallback(() => {
     if (emblaApi) emblaApi.scrollPrev();
   }, [emblaApi]);
@@ -30,24 +32,26 @@ export function Carousel({ coinData }) {
         </button>
         <div className="embla__viewport" ref={emblaRef}>
           <div className="embla__container">
-            {coinData?.map((item: any) => {
+            {coinData.length > 1 && coinData?.map((item: any) => {
+
               return (
                 <div
-                  key={item.id}
+                  key={uniqueId()}
                   className="embla__slide flex gap-2 rounded-lg bg-opacity-50 bg-slate-600 opacity-90 py-3"
                   onClick={() => {
                     dispatch(setCurrency(item.symbol));
                   }}
                 >
                   <div className="flex items-center">
-                    <Image src={item.image} width={32} height={32} alt="coin" />
+                    <Image src={item.image ? item.image
+                      : null} width={32} height={32} alt="coin" />
                   </div>
                   <div className="dark:text-white text-black flex flex-col items-start">
                     <div className="dark:text-white text-black">
-                      {item.name}[{item.symbol.toUpperCase()}]
+                      {item.name}[{item.symbol?.toUpperCase()}]
                     </div>
                     <div className="flex gap-5">
-                      <span>{`${item.current_price.toLocaleString()} ${currency.toUpperCase()}`}</span>
+                      <span>{`${item.current_price?.toLocaleString()} ${currency.toUpperCase()}`}</span>
                       <PercentageChange data={item.ath_change_percentage} />
                     </div>
                   </div>

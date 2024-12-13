@@ -5,7 +5,7 @@ export interface selectedDayState {
 }
 
 const initialState: selectedDayState = {
-  selectedDay: 1,
+  selectedDay: 7,
 };
 
 const selectedDaySlice = createSlice({
