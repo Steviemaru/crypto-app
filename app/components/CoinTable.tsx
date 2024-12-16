@@ -1,6 +1,7 @@
 import React from "react";
 import { useAppSelector } from "@/lib/hooks";
 import Image from "next/image";
+import Link from "next/link";
 import DuelPercentageBar from "./DuelPercentageBar";
 import MultiPercentageChange from "./MultiPercentageChange";
 import { HandleFormatingNumbersAndLabels } from "@/utils/FormatNumber";
@@ -9,7 +10,8 @@ import LineChart from "./Charts/LineChart";
 
 function CoinTable({ coinData }) {
     const { symbol } = useAppSelector((state) => state.currency);
-
+    const uniqueId = () => Math.floor(Math.random() * 999999 + Math.random() * 999999 );
+    
     return (
         <div>
             {/* table labels */}
@@ -48,12 +50,12 @@ function CoinTable({ coinData }) {
                 </div>
             </div>
             {/* table container */}
-            <div className="">
-                {coinData?.map((item: any, idx: any) => {
+            <div>
+                {coinData.length > 1 && coinData?.map((item: any, idx: any) => {
 
                     /////////////////////////////////////////////////////////
                     // values in the table 
-                    const current_price = parseInt(item.current_price.toFixed(0)).toLocaleString();
+                    const current_price = parseInt(item.current_price?.toFixed(0)).toLocaleString();
                     const price_change_percentage_1h_in_currency = HandleFormatingNumbersAndLabels(item.price_change_percentage_1h_in_currency, "none");
                     const price_change_percentage_24h_in_currency = HandleFormatingNumbersAndLabels(item.price_change_percentage_24h_in_currency, "none");
                     const price_change_percentage_7d_in_currency = HandleFormatingNumbersAndLabels(item.price_change_percentage_7d_in_currency, "none");
@@ -61,19 +63,18 @@ function CoinTable({ coinData }) {
                     const total_volume = HandleFormatingNumbersAndLabels(item.total_volume, "none");
                     const circulating_supply = HandleFormatingNumbersAndLabels(item.circulating_supply, "none");
                     const total_supply = HandleFormatingNumbersAndLabels(item.total_supply, "none");
-                    const sparkline_in_7d = item.sparkline_in_7d.price.slice(0, 7);
+                    const sparkline_in_7d = item.sparkline_in_7d?.price.slice(0, 7);
 
                     /////////////////////////////////////////////////////////
                     //// This simulates an increase or decrease in value for 1hr 24hr 7D percentage change.
                     //// Shows values as green or red with an up or down arrow wthin the table depending on if values have increased or decreased.
 
-                    const randomId = () => Math.round(Math.random() * 999);
                     const percentages = [price_change_percentage_1h_in_currency, price_change_percentage_24h_in_currency, price_change_percentage_7d_in_currency];
                     const percentagesArr = percentages?.map((item: any) => {
                         const parsedItem = parseFloat(item.toFixed(0));
                         const num = {
                             value: parsedItem,
-                            id: randomId()
+                            id: uniqueId()
                         };
                         return num;
                     });
@@ -98,12 +99,15 @@ function CoinTable({ coinData }) {
                     const circleFillAlt = "text-slate-400 fill-current";
                     const gradientFill = check ? "rgba(52, 211, 153, 0.2)" : "rgba(248, 113, 113, 0.2)";
                     const borderColor = check ? "rgba(52, 211, 153, 1)" : "rgba(220, 38, 38, 1)";
+                    const height = "h-1";
 
                     return (
-                        <div key={item.id} className="flex items-center gap-6 bg-opacity-50 bg-slate-600 opacity-90 m-3 rounded-lg">
+                        <Link key={uniqueId()} href={`/coin/${item.id}`}>
+<div className="flex items-center gap-6 bg-opacity-50 bg-slate-600 opacity-90 m-3 rounded-lg">
                             <div className="flex items-center  gap-8 px-16" key={item.name}>
                                 <div>{idx + 1}</div>
-                                <Image src={item.image} width={32} height={32} alt="coin" /> <div className="w-24">{item.name} [{item.symbol}]</div></div>
+                                <Image src={item.image ? item.image 
+                    : null} width={32} height={32} alt="coin" /> <div className="w-24">{item.name} [{item.symbol}]</div></div>
                             <div className="w-24">{symbol}{current_price}</div>
                             <div className="w-54"><MultiPercentageChange dynamicPercentage={dynamicPercentage} dynamicPercentageCheck={check} /></div>
 
@@ -118,8 +122,7 @@ function CoinTable({ coinData }) {
                                     </div>
                                 </div>
                                 <div>
-                                    {/* replace with circulating / total supply */}
-                                    <DuelPercentageBar volume={total_volume} marketCap={market_cap} fill={fill} />
+                                    <DuelPercentageBar height={height} volume={total_volume} marketCap={market_cap} fill={fill} />
                                 </div>
                             </div>
                             <div className="w-54">
@@ -134,12 +137,11 @@ function CoinTable({ coinData }) {
                                     </div>
                                 </div>
                                 <div>
-                                    <DuelPercentageBar volume={circulating_supply} marketCap={total_supply} fill={fill} />
+                                    <DuelPercentageBar height={height} volume={circulating_supply} marketCap={total_supply} fill={fill} />
                                 </div>
                             </div>
 
                             <div className="w-54">
-                                {/* need to have value for chart labels to show chart so mabe configure options section */}
                                 <LineChart chartLabels={["", "", "", "", "", "", ""]}
                                     chartData={sparkline_in_7d}
                                     colorValue={"text-transparent"}
@@ -150,6 +152,7 @@ function CoinTable({ coinData }) {
                                     height={"60"} />
                             </div>
                         </div>
+                        </Link>
                     );
                 })}
             </div>

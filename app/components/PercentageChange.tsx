@@ -3,7 +3,7 @@ import TriangleDown from "../../public/triangleDown.svg";
 
 export default function PercentageChange ({data}) {
 
-const percentage = data.toFixed(2);
+const percentage = data?.toFixed(2);
 const simulatedChange = [-0.50, +0.50] ;
 const [decrease , increase ] = simulatedChange;
 const isEven =  parseInt(percentage) % 2 == 0 ;

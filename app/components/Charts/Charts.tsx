@@ -4,26 +4,41 @@ import BarChart from "./BarChart";
 import LineChart from "./LineChart";
 import { setDays } from "@/lib/features/daysSlice";
 import GetTodaysDate from "@/utils/GetTodaysDate";
+import { getChartLabels } from "@/utils/getChartlabels";
 import { HandleFormatingNumbersAndLabels } from "@/utils/FormatNumber";
 import { useAppSelector, useAppDispatch } from "@/lib/hooks";
-// check if imports are in correct order...
+import { useGetChartDataQuery } from "@/lib/features/cryptoDataApi";
 
-function Charts({ chartData, intervals, days }) {
+function Charts() {
   const [selected, setSelected] = useState("");
-  const { symbol } = useAppSelector((state) => state.currency);
+  const { currency, symbol } = useAppSelector((state) => state.currency);
+  const { selectedDay } = useAppSelector((state) => state.selectedDay);
   const dispatch = useAppDispatch();
 
-  // gets values for days buttons
-  const mappedIntervalsForDays = Object.values(intervals);
+  const chartQuery = `https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=${currency}&days=${selectedDay}`;
+  const { data: chart } = useGetChartDataQuery(chartQuery);
+
+  const chartData = chart;
+
+  // contains values for days buttons 
+  const intervalsForDays = [
+    1,
+    3,
+    7,
+    30,
+    90,
+    180,
+    365,
+  ];
 
   // chart data
   const chartPrices = chartData?.prices?.map((item: any) => item[1]);
-  
+
   const chartVolumes = chartData?.total_volumes?.map((item: any) => item[1]);
 
-  const coinPrice = chartData?.prices[0][0];
+  const coinPrice = chartData?.prices?.map((item: any) => item[0]);
 
-  const coinVolume = chartData?.total_volumes[0][1];
+  const coinVolume = chartData?.total_volumes?.map((item: any) => item[1]);
 
   const parsedCoinPrice = parseFloat(coinPrice);
 
@@ -43,19 +58,6 @@ function Charts({ chartData, intervals, days }) {
   const gradientA = "rgba(75,192,192,1)";
   const colorValue = "#fff";
 
-  // creates numbers on X axis of chart
-  const getChartLabels = () => {
-    const now = new Date();
-    const numOfDays = new Date(now.setDate(now.getDate() - days));
-    const labels: any[] = [];
-    for (let d = new Date(); d > numOfDays; d.setDate(d.getDate() - 1)) {
-      const day = d.getDate();
-      labels.push(day);
-    }
-    labels.reverse();
-    return labels;
-  };
-
   return (
     <>
       <div>
@@ -72,7 +74,7 @@ function Charts({ chartData, intervals, days }) {
               <GetTodaysDate />
             </div>
             <LineChart
-              chartLabels={getChartLabels()}
+              chartLabels={getChartLabels(selectedDay)}
               chartData={chartPrices}
               borderColor={borderColor}
               gradientA={gradientA}
@@ -93,27 +95,27 @@ function Charts({ chartData, intervals, days }) {
               <GetTodaysDate />
             </div>
             <BarChart
-              chartLabels={getChartLabels()}
+              chartLabels={getChartLabels(selectedDay)}
               chartData={chartVolumes}
               width={"400"}
               height={"200"}
             />
           </div>
         </div>
-        {/* days buttons */}
+        {/* 1D 3D 5D ect days buttons */}
         <div className="flex gap-4">
-          {mappedIntervalsForDays.map((item: any) => {
+          {intervalsForDays.map((item: any) => {
             return (
               <button
-                key={item.days}
-                className={`p-2 rounded-xl bg-opacity-50 bg-slate-600 ${selected == item.days ? "bg-slate-900" : ""
+                key={item}
+                className={`p-2 rounded-xl bg-opacity-50 bg-slate-600 ${selected == item ? "bg-slate-900" : ""
                   }`}
                 onClick={() => {
-                  dispatch(setDays(item.days));
-                  setSelected(item.days);
+                  dispatch(setDays(item));
+                  setSelected(item);
                 }}
               >
-                {item.days}D
+                {item}D
               </button>
             );
           })}
