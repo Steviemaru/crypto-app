@@ -2,6 +2,7 @@ import React from "react";
 import { useAppSelector } from "@/lib/hooks";
 import Image from "next/image";
 import Link from "next/link";
+import {v4 as uuidv4} from "uuid";
 import DuelPercentageBar from "./DuelPercentageBar";
 import MultiPercentageChange from "./MultiPercentageChange";
 import { HandleFormatingNumbersAndLabels } from "@/utils/FormatNumber";
@@ -10,7 +11,7 @@ import LineChart from "./Charts/LineChart";
 
 function CoinTable({ coinData }) {
     const { symbol } = useAppSelector((state) => state.currency);
-    const uniqueId = () => Math.floor(Math.random() * 999999 + Math.random() * 999999 );
+    // const myuuid = uuidv4();
     
     return (
         <div>
@@ -74,7 +75,7 @@ function CoinTable({ coinData }) {
                         const parsedItem = parseFloat(item.toFixed(0));
                         const num = {
                             value: parsedItem,
-                            id: uniqueId()
+                            id:uuidv4()
                         };
                         return num;
                     });
@@ -102,7 +103,7 @@ function CoinTable({ coinData }) {
                     const height = "h-1";
 
                     return (
-                        <Link key={uniqueId()} href={`/coin/${item.id}`}>
+                        <Link key={item.id} href={`/coin/${item.id}`}>
 <div className="flex items-center gap-6 bg-opacity-50 bg-slate-600 opacity-90 m-3 rounded-lg">
                             <div className="flex items-center  gap-8 px-16" key={item.name}>
                                 <div>{idx + 1}</div>
