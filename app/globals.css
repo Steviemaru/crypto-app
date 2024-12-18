@@ -78,7 +78,7 @@ div.bg-fade {
   background: linear-gradient(to bottom,
       transparent 0%,
       rgb(255, 255, 255) 100%);
-  height: 100vh;
+  /* height: 100%; */
 }
 
 .convertor-Input ::before{
