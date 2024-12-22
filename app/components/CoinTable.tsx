@@ -11,7 +11,6 @@ import LineChart from "./Charts/LineChart";
 
 function CoinTable({ coinData }) {
     const { symbol } = useAppSelector((state) => state.currency);
-    // const myuuid = uuidv4();
     
     return (
         <div>

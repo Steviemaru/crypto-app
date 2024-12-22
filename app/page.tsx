@@ -15,7 +15,7 @@ export default function Home() {
   const coinData = coin || [];
 
   return (
-    <div className="flex justify-center flex-col items-center ">
+    <div className="flex justify-center flex-col items-center h">
       <Carousel coinData={coinData} />
       <Chart />
       <CoinTable coinData={coinData} />
