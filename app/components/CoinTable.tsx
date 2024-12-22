@@ -1,6 +1,8 @@
 import React from "react";
 import { useAppSelector } from "@/lib/hooks";
 import Image from "next/image";
+import Link from "next/link";
+import {v4 as uuidv4} from "uuid";
 import DuelPercentageBar from "./DuelPercentageBar";
 import MultiPercentageChange from "./MultiPercentageChange";
 import { HandleFormatingNumbersAndLabels } from "@/utils/FormatNumber";
@@ -9,7 +11,7 @@ import LineChart from "./Charts/LineChart";
 
 function CoinTable({ coinData }) {
     const { symbol } = useAppSelector((state) => state.currency);
-    const uniqueId = () => Math.floor(Math.random() * 999999 + Math.random() * 999999 );
+    // const myuuid = uuidv4();
     
     return (
         <div>
@@ -49,7 +51,7 @@ function CoinTable({ coinData }) {
                 </div>
             </div>
             {/* table container */}
-            <div className="">
+            <div>
                 {coinData.length > 1 && coinData?.map((item: any, idx: any) => {
 
                     /////////////////////////////////////////////////////////
@@ -73,7 +75,7 @@ function CoinTable({ coinData }) {
                         const parsedItem = parseFloat(item.toFixed(0));
                         const num = {
                             value: parsedItem,
-                            id: uniqueId()
+                            id:uuidv4()
                         };
                         return num;
                     });
@@ -98,9 +100,11 @@ function CoinTable({ coinData }) {
                     const circleFillAlt = "text-slate-400 fill-current";
                     const gradientFill = check ? "rgba(52, 211, 153, 0.2)" : "rgba(248, 113, 113, 0.2)";
                     const borderColor = check ? "rgba(52, 211, 153, 1)" : "rgba(220, 38, 38, 1)";
+                    const height = "h-1";
 
                     return (
-                        <div key={item.id} className="flex items-center gap-6 bg-opacity-50 bg-slate-600 opacity-90 m-3 rounded-lg">
+                        <Link key={item.id} href={`/coin/${item.id}`}>
+<div className="flex items-center gap-6 bg-opacity-50 bg-slate-600 opacity-90 m-3 rounded-lg">
                             <div className="flex items-center  gap-8 px-16" key={item.name}>
                                 <div>{idx + 1}</div>
                                 <Image src={item.image ? item.image 
@@ -119,8 +123,7 @@ function CoinTable({ coinData }) {
                                     </div>
                                 </div>
                                 <div>
-                                    {/* replace with circulating / total supply */}
-                                    <DuelPercentageBar volume={total_volume} marketCap={market_cap} fill={fill} />
+                                    <DuelPercentageBar height={height} volume={total_volume} marketCap={market_cap} fill={fill} />
                                 </div>
                             </div>
                             <div className="w-54">
@@ -135,12 +138,11 @@ function CoinTable({ coinData }) {
                                     </div>
                                 </div>
                                 <div>
-                                    <DuelPercentageBar volume={circulating_supply} marketCap={total_supply} fill={fill} />
+                                    <DuelPercentageBar height={height} volume={circulating_supply} marketCap={total_supply} fill={fill} />
                                 </div>
                             </div>
 
                             <div className="w-54">
-                                {/* need to have value for chart labels to show chart so mabe configure options section */}
                                 <LineChart chartLabels={["", "", "", "", "", "", ""]}
                                     chartData={sparkline_in_7d}
                                     colorValue={"text-transparent"}
@@ -151,6 +153,7 @@ function CoinTable({ coinData }) {
                                     height={"60"} />
                             </div>
                         </div>
+                        </Link>
                     );
                 })}
             </div>

@@ -4,10 +4,12 @@ function DuelPercentageBar({
   volume,
   marketCap,
   fill,
+  height,
 }: {
   volume: any;
   marketCap: any;
   fill: any;
+  height:any;
 }) {
 
   const total = volume +
@@ -17,18 +19,18 @@ function DuelPercentageBar({
   const valueOnePercentage = total > 0 ? (volume / total) * 100 : 0;
   const valueTwoPercentage = total > 0 ? (marketCap / total) * 100 : 0;
   return (
-    <div className="flex w-44  h-1 bg-gray-200 rounded-md overflow-hidden" >
+    <div className={`flex ${height} bg-gray-200 rounded-md overflow-hidden `} >
       <div
-        className={` ${fill}`}
-        style={{ width: `${valueOnePercentage}%` }}
+        className={`p-10 ${fill}`}
+        style={{ width: `${valueOnePercentage}%`, height: "100%" }}
       >
         {/* Optional: Display the value inside the filled part */}
         {/* {Math.round(valueOnePercentage)}% */}
       </div>
       <div
-        className={`text-black 
+        className={`  text-black 
      ${"bg-slate-400"}`}
-        style={{ width: `${valueTwoPercentage}%` }}
+        style={{ width: `${valueTwoPercentage}%`, height: "100%" }}
       >
         {/* Optional: Display the value inside the unfilled part */}
         {/* {Math.round(valueTwoPercentage)}% (${valueTwoPercentage.toLocaleString()}) */}
