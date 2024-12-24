@@ -1,3 +1,8 @@
+"use client";
+import Portfolio from "../components/Portfolio";
+
 export default function Page() {
-  return <div> Portfolio page</div>;
+  return (
+    <Portfolio/>
+  );
 }

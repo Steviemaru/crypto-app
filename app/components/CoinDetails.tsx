@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Plus from "../../public/plus.svg";
 import { useGetCoinDataQuery } from "@/lib/features/cryptoDataApi";
+import { formatNumbers } from "@/utils/FormatNumber";
 import { useAppSelector } from "@/lib/hooks";
 import DuelPercentageBar from "./DuelPercentageBar";
 import PercentageChange from "./PercentageChange";
@@ -21,90 +22,54 @@ function CoinDetails({ coin }) {
   const coinData = [data];
   const SeletedCurrency = currency;
 
-  const handleUnixTime = (date: any) => {
-    return getUnixTime(date);
-  };
-
-  const formatNumbers = (base: any, property: any, currency: any) => {
-    let formatNum = "";
-    if (currency !== "none") {
-      const num = base[property][currency].toFixed(0);
-      formatNum = Number(num).toLocaleString();
-    } else {
-      const num = base[property].toFixed(0);
-      formatNum = Number(num).toLocaleString();
-    }
-    return formatNum;
+  const handleDateTime = (dateData: any) => {
+    const unixCode = getUnixTime(dateData);
+    const date_time = fromUnixTime(unixCode).toString().slice(0, -27);
+    return date_time;
   };
 
   return (
     <>
       {data != undefined &&
         coinData?.map((item: any) => {
-          const coinName = item.name;
-          const description = item.description.en;
-          const coinImage = item.image.small;
-          const coinSymbol = item.symbol.toUpperCase();
-          const homePageLink = item.links.homepage;
-          const market_data = item.market_data;
-          const current_price = formatNumbers(
+          const {
+            name: coinName,
+            description: { en: coinDescription },
+            image: { small: coinImage },
+            symbol: coinSymbol,
+            links: { homepage: homePageLink, blockchain_site },
             market_data,
-            "current_price",
-            SeletedCurrency
-          );
-          const change_in_percentage = formatNumbers(
-            market_data,
-            "ath_change_percentage",
-            SeletedCurrency
-          );
-          const ath = formatNumbers(market_data, "ath", SeletedCurrency);
-          const atl = formatNumbers(market_data, "atl", SeletedCurrency);
-          //  refactor here create function later
-          const ath_unixCode = handleUnixTime(
-            market_data.ath_date[SeletedCurrency]
-          );
-          const ath_date_time = fromUnixTime(ath_unixCode)
-            .toString()
-            .slice(0, -27);
-          const atl_unixCode = handleUnixTime(
-            market_data.atl_date[SeletedCurrency]
-          );
-          const atl_date_time = fromUnixTime(atl_unixCode)
-            .toString()
-            .slice(0, -27);
-          const blockChainSites = item.links.blockchain_site.slice(0, 3);
-          const market_cap = formatNumbers(
-            market_data,
-            "market_cap",
-            SeletedCurrency
-          );
-          const market_cap_rank = market_data.market_cap_rank; // will use
-          const fully_diluted_valuation = formatNumbers(
-            market_data,
-            "fully_diluted_valuation",
-            SeletedCurrency
-          );
-          const total_volume = formatNumbers(
-            market_data,
-            "total_volume",
-            SeletedCurrency
-          );
-          const total_supply = formatNumbers(
-            market_data,
-            "total_supply",
-            "none"
-          );
-          const cirulating_supply = formatNumbers(
-            market_data,
-            "circulating_supply",
-            "none"
-          );
-          const high_24 = formatNumbers(
-            market_data,
-            "high_24h",
-            SeletedCurrency
-          );
-          const low_24 = formatNumbers(market_data, "low_24h", SeletedCurrency);
+          } = item;
+
+          const {
+            market_cap_rank,
+            current_price,
+            high_24h,
+            low_24h,
+            total_supply,
+            market_cap,
+            total_volume,
+            circulating_supply,
+            ath_change_percentage,
+            fully_diluted_valuation,
+            ath,
+            atl,
+            ath_date,
+            atl_date,
+          } = market_data;
+
+          const currentPrice = current_price[currency].toFixed(0);
+          const high24h = high_24h[currency];
+          const low24h = low_24h[currency];
+          const marketCap = market_cap[currency];
+          const totalVolume = total_volume[currency];
+          const athChangePercentage = ath_change_percentage[currency];
+          const allTimeLow = atl[currency];
+          const allTimeHigh = ath[currency];
+          const athDate = handleDateTime(ath_date[SeletedCurrency]);
+          const atlDate = handleDateTime(atl_date[SeletedCurrency]);
+          const fullyDilutedValuation = fully_diluted_valuation[currency];
+          const blockChainSites = blockchain_site.slice(0, 3);
 
           const fill = "bg-yellow-600";
           const circleFill = "text-yellow-600 fill-current";
@@ -113,14 +78,14 @@ function CoinDetails({ coin }) {
           const height = "20px";
 
           const coinData = {
-            "Market cap": market_cap,
-            "Fully diluted valuation": fully_diluted_valuation,
-            "Total volume": total_volume,
+            "Market cap": marketCap,
+            "Fully diluted valuation": fullyDilutedValuation,
+            "Total volume": totalVolume,
             "Total supply": total_supply,
             "": "",
-            "Circulating supply": cirulating_supply,
-            "Low 24": low_24,
-            "High 24": high_24,
+            "Circulating supply": circulating_supply,
+            "Low 24": low24h,
+            "High 24": high24h,
           };
           const coinDataArr = Object.entries(coinData);
 
@@ -159,10 +124,11 @@ function CoinDetails({ coin }) {
                           <div className="flex justify-start gap-7 px-10">
                             <h1 className="text-5xl mb-3">
                               {symbol}
-                              {current_price}
+                              {currentPrice}
                             </h1>
                             <PercentageChange
-                              data={Number(change_in_percentage)}
+                              withCurrencySymbol={false}
+                              data={Number(athChangePercentage)}
                             />
                           </div>
                           <div
@@ -185,8 +151,8 @@ function CoinDetails({ coin }) {
                               />
                             </div>
                             <div>
-                              <div>All time high: {ath}</div>
-                              <div>{ath_date_time}</div>
+                              <div>All time high: {allTimeHigh}</div>
+                              <div>{athDate}</div>
                             </div>
                           </div>
                           <div className="flex px-10">
@@ -198,8 +164,8 @@ function CoinDetails({ coin }) {
                               />
                             </div>
                             <div>
-                              <div>All time low: {atl}</div>
-                              <div>{atl_date_time}</div>
+                              <div>All time low: {allTimeLow}</div>
+                              <div>{atlDate}</div>
                             </div>
                           </div>
                         </div>
@@ -228,7 +194,7 @@ function CoinDetails({ coin }) {
                           </div>
                           <div className="">
                             {symbol}
-                            {value}
+                            {formatNumbers(value)}
                           </div>
                         </div>
                       ) : (
@@ -243,7 +209,7 @@ function CoinDetails({ coin }) {
                             width="10px"
                             height="10px"
                           />
-                          {total_volume}
+                          {totalVolume}
                         </div>
                         <div className="flex items-center gap-2">
                           <Circle
@@ -251,14 +217,14 @@ function CoinDetails({ coin }) {
                             width="10px"
                             height="10px"
                           />
-                          {market_cap}
+                          {marketCap}
                         </div>
                       </div>
                       <div className="w-full">
                         <DuelPercentageBar
                           height={"h-3"}
-                          volume={total_volume}
-                          marketCap={market_cap}
+                          volume={totalVolume}
+                          marketCap={marketCap}
                           fill={fill}
                         />
                       </div>
@@ -272,7 +238,7 @@ function CoinDetails({ coin }) {
                 <div className="flex justify-between">
                   <div className="w-8/12">
                     <div className="overflow-y-scroll pt-5 h-56 mr-20">
-                      <div className="space-y-4">{description}</div>
+                      <div className="space-y-4">{coinDescription}</div>
                     </div>
                   </div>
                   <div className=" flex gap-7 flex-col text-center justify-between ">

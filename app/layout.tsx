@@ -17,7 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="dark:bg-custom-gradient-dark dark:text-white">
-        <div className="bg-fade dark:bg-custom-fade-dark ">
+        <div className="bg-fade dark:bg-custom-fade-dark  min-h-screen ">
           <StoreProvider>
             <ThemeSwitchProvider>
               <Navbar />

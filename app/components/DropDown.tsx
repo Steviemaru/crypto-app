@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import * as React from "react";
 
 export default function DropDown({ data, setConvertorValue, selected, setSelected }) {
   const [showDropdown, setShowDropdown] = useState(false);
