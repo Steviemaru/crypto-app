@@ -26,9 +26,9 @@ function ToggleTheme() {
   };
 
   return (
-    <div className="flex gap-3">
+    <div className="flex gap-3 p-3">
       <button
-        className="dark:bg-slate-900 bg-purple-100 py-0 m-2.5  text-white h-7 w-7"
+        className="dark:bg-slate-900 bg-purple-100   text-white h-7 w-7"
         onClick={handleTheme}
       >
         {theme == "light" ? <MoonIcon /> : <SunIcon />}

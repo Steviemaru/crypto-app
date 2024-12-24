@@ -5,6 +5,7 @@ import DropDown from "../components/DropDown";
 import { useGetCarouselDataQuery, useGetChartDataQuery, useGetDataBQuery } from "@/lib/features/cryptoDataApi";
 import { useAppSelector } from "@/lib/hooks";
 import ConvertorChart from "../components/ConvertorChart";
+// import CoinNavButtons from "../components/CoinNavButtons";
 
 export default function Page() {
   const [left, setLeft] = useState({ name: "bitcoin", current_price: 76000, symbol: "btc" });
@@ -41,7 +42,6 @@ export default function Page() {
 
   return (
     <div className="p-10 flex flex-col justify-center items-center">
-
       <div className="flex">
         <div className="rounded-2xl py-12 px-52  bg-opacity-50 bg-slate-600 opacity-90">
           <div className="flex justify-between items-center ">

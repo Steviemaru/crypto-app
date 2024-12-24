@@ -38,9 +38,11 @@ export default function CurrencyList() {
         onClick={() => {
           setShowDropdown(!showDropdown);
         }}
-        className="flex relative py-1  dark:bg-slate-900 bg-purple-100 font-semibold dark:text-white"
+        className="flex relative flex-2 p-3 dark:bg-slate-900 bg-purple-100 font-semibold dark:text-white"
       >
-        <CurrencyListIcon />
+       <div className="hidden md:block">
+       <CurrencyListIcon  />
+       </div>
         {currency.toUpperCase()}
         <div>{showDropdown ? <UpArrow /> : <DownArrow />}</div>
       </div>

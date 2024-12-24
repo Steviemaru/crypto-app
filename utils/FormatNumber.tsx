@@ -1,4 +1,12 @@
-const handleFormatingNumbers = (value: any) => {
+export const formatNumbers = (num: any) => {
+  let formatNum = "";
+  const fixedNum = num.toFixed(0);
+  formatNum = Number(fixedNum).toLocaleString();
+
+  return formatNum;
+};
+
+const sortNumbersbyAmount = (value: any) => {
   if (value >= 1_000_000_000_000) {
     // Trillions
     return [value / 1_000_000_000_000, "trillion"];
@@ -28,24 +36,23 @@ const getFormatingNumbersLabels = (option: any, unit: any) => {
       kilo: "k",
     },
     none: {
-      undefined: ""
+      undefined: "",
     },
   };
 
-  const result = option == "none" ? "" : numSigns[option][unit]
+  const result = option == "none" ? "" : numSigns[option][unit];
   return result;
 };
 
 export const HandleFormatingNumbersAndLabels = (value: any, option: string) => {
   // let formated = "";
-  const [num, unit] = handleFormatingNumbers(value);
+  const [num, unit] = sortNumbersbyAmount(value);
   const sign = getFormatingNumbersLabels(option, unit);
   const fixedNum =
     option == "charts"
-      ? parseFloat(num).toFixed(3) : parseFloat(num).toFixed(2);
-  const formated = option == "none" ? parseFloat(fixedNum) : `${fixedNum} ${sign}`
+      ? parseFloat(num).toFixed(3)
+      : parseFloat(num).toFixed(2);
+  const formated =
+    option == "none" ? parseFloat(fixedNum) : `${fixedNum} ${sign}`;
   return formated;
 };
-
-
-

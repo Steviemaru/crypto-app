@@ -3,6 +3,7 @@ import StoreProvider from "./StoreProvider";
 import ThemeSwitchProvider from "./components/ThemeSwitchProviders";
 import "./globals.css";
 import Navbar from "./components/Navbar";
+import CoinNavButtons from "./components/CoinNavButtons";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -16,11 +17,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="dark:bg-custom-gradient-dark dark:text-white">
-        <div className="bg-fade dark:bg-custom-fade-dark ">
+      <body className="dark:bg-custom-gradient-dark dark:text-white ">
+        <div className="bg-fade dark:bg-custom-fade-dark  min-h-screen ">
           <StoreProvider>
             <ThemeSwitchProvider>
               <Navbar />
+              <div className="px-36 py-10 ">
+                <CoinNavButtons />
+              </div>
               {children}
             </ThemeSwitchProvider>
           </StoreProvider>
