@@ -3,6 +3,7 @@ import { useTheme } from "next-themes";
 import Link from "next/link";
 import tw from "tailwind-styled-components";
 import HomeLogo from "@/public/homeLogo.svg";
+import CoinPageSymbol from "../../public/coinPageSymbol.svg";
 
 interface WrapperProps {
   $primary?: string;
@@ -14,7 +15,8 @@ const Wrapper = tw.div<WrapperProps>`
   items-center
   bg-opacity-50
   rounded-3xl  
-  w-80
+  md:w-80
+  gap-4
 `;
 
 interface ButtonProps {
@@ -52,10 +54,7 @@ export default function NavButtons() {
     <>
       <Wrapper $primary={theme}>
         {/* Home Logo: Always visible on small screens */}
-        <div className="flex md:hidden">
-          <HomeLogo width="22" height="22" />
-        </div>
-
+        
         {/* Buttons: Hidden on small screens */}
         {navItems.map((item: string) => {
           return (
@@ -70,6 +69,9 @@ export default function NavButtons() {
               >
                 {item.slice(0, 1).toUpperCase() + item.slice(1)}
               </Button>
+              <div className="flex md:hidden gap-3">
+          {item == "Home" ? <HomeLogo width="22" height="22" /> : <CoinPageSymbol />}
+        </div>
             </Link>
           );
         })}

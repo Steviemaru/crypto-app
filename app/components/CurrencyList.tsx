@@ -38,7 +38,7 @@ export default function CurrencyList() {
         onClick={() => {
           setShowDropdown(!showDropdown);
         }}
-        className="flex relative flex-2 p-3 dark:bg-slate-900 bg-purple-100 font-semibold dark:text-white"
+        className="flex gap-3  items-center justify-center relative h-4 md:text-base text-sm flex-2  dark:bg-slate-900 bg-purple-100 font-semibold dark:text-white"
       >
        <div className="hidden md:block">
        <CurrencyListIcon  />
@@ -47,7 +47,7 @@ export default function CurrencyList() {
         <div>{showDropdown ? <UpArrow /> : <DownArrow />}</div>
       </div>
       {showDropdown && (
-        <div className=" absolute rounded-xl p-2 z-50 dark:bg-slate-900 bg-purple-100 dark:text-white text-black">
+        <div className=" absolute rounded-xl p-2 z-50 dark:bg-slate-900 bg-purple-100 dark:text-white text-black w-full">
           {currencyList.map((item) => {
             return (
               <option

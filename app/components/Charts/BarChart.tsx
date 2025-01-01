@@ -98,7 +98,7 @@ const BarChart = ({
     };
   }, [volume]);
 
-  return <canvas ref={canvasRef} width={width} height={height}></canvas>;
+  return <canvas ref={canvasRef}  className={`${width} ${height}`}></canvas>;
 };
 
 export default BarChart;

@@ -11,8 +11,8 @@ export default function SearchInput() {
         type="text"
       />
     </div>
-<div className="dark:bg-slate-900 flex md:hidden rounded-lg p-3 w-full flex-1">
-<SearchIcon className="h-7 w-7" />
+<div className="dark:bg-slate-900 flex md:hidden rounded-lg md:p-3 p-2 py-3 w-full flex-1">
+<SearchIcon className="h-4 w-4" />
 </div>
 
     </>

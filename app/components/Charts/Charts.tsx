@@ -8,6 +8,7 @@ import { getChartLabels } from "@/utils/getChartlabels";
 import { HandleFormatingNumbersAndLabels } from "@/utils/FormatNumber";
 import { useAppSelector, useAppDispatch } from "@/lib/hooks";
 import { useGetChartDataQuery } from "@/lib/features/cryptoDataApi";
+import { chartOptions } from "@/utils/helperFunctions";
 
 function Charts() {
   const [selected, setSelected] = useState("");
@@ -54,16 +55,15 @@ function Charts() {
   );
 
   // chart gradient data 
-  const borderColor = "rgba(75,192,192,1)";
-  const gradientA = "rgba(75,192,192,1)";
-  const colorValue = "#fff";
+  const borderColor = "#f18981";
+  const gradientA = "#f18981";
+  const gradientB = "rgba(0,0,0,0)";
 
   return (
-    <>
-      <div>
-        <div className="flex py-4 gap-10">
+      <div className="w-full">
+        <div className="flex py-4 gap-10 md:flex-row flex-col ">
           {/* chart 1 */}
-          <div className="rounded-2xl p-4 bg-opacity-50 bg-slate-600 opacity-90 ">
+          <div className="rounded-2xl p-4 bg-opacity-50 bg-slate-600 opacity-90 md:w-3/6 ">
             <div>
               <div className="mb-5 text-base "> Price</div>
               <div className="text-2xl">
@@ -76,16 +76,16 @@ function Charts() {
             <LineChart
               chartLabels={getChartLabels(selectedDay)}
               chartData={chartPrices}
-              borderColor={borderColor}
               gradientA={gradientA}
-              xDisplay={true}
-              colorValue={colorValue}
-              width={"400"}
-              height={"200"}
+              gradientB={gradientB}
+              borderColor={borderColor}
+              width={"w-full"}
+              height={"h-[250px]"}
+              chartOptions={chartOptions}
             />
           </div>
           {/* chart 2  */}
-          <div className="rounded-2xl p-4 bg-opacity-50 bg-slate-600 opacity-90 ">
+          <div className="rounded-2xl p-4 bg-opacity-50 bg-slate-600 opacity-90 md:w-3/6 ">
             <div>
               <div className="mb-5 text-base">Volume 24h</div>
               <div className="text-2xl">
@@ -97,18 +97,18 @@ function Charts() {
             <BarChart
               chartLabels={getChartLabels(selectedDay)}
               chartData={chartVolumes}
-              width={"400"}
-              height={"200"}
+              width={"w-full"}
+              height={"h-[150px]"}
             />
           </div>
         </div>
         {/* 1D 3D 5D ect days buttons */}
-        <div className="flex gap-4">
+        <div className="flex gap-4 ">
           {intervalsForDays.map((item: any) => {
             return (
               <button
                 key={item}
-                className={`p-2 rounded-xl bg-opacity-50 bg-slate-600 ${selected == item ? "bg-slate-900" : ""
+                className={`p-2 rounded-xl bg-opacity-50 bg-slate-600 md:text-base text-xs ${selected == item ? "bg-slate-900" : ""
                   }`}
                 onClick={() => {
                   dispatch(setDays(item));
@@ -121,7 +121,6 @@ function Charts() {
           })}
         </div>
       </div>
-    </>
   );
 }
 

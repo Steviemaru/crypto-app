@@ -15,9 +15,11 @@ export default function Home() {
 
   return (
     <div className="flex justify-center flex-col items-center h">
-      <Carousel coinData={coinData} />
+     <div className="w-11/12 flex justify-center flex-col items-center gap-10 ">
+     <Carousel coinData={coinData} />
       <Chart />
       <CoinTable coinData={coinData} />
+     </div>
     </div>
   );
 }

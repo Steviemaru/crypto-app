@@ -85,7 +85,7 @@ function PortfolioAsset({ asset, setIsEditing, setIdForEditing, removeAsset }) {
                 <h4 className="text-sm font-medium ">{key}</h4>
                 {key !== "Market cap vs Volume:" ? (
                   <div className="font-medium fill-current text-teal-400 flex">
-                    <PercentageChange withCurrencySymbol={true} data={value} />
+                    <PercentageChange symbolType={"currency"} data={value} />
                   </div>
                 ) : (
                   <div className="flex gap-4 items-center">
