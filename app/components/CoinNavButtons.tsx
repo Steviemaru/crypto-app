@@ -5,7 +5,7 @@ import Link from "next/link";
 function CoinNavButtons() {
   const [navItems] = useState(["coins", "convertor"]);
   const [selected, setSelected] = useState("coins");
-
+// refacter upper case 
   return (
     <div className="flex gap-2 justify-center bg-black bg-opacity-50 w-96 rounded-lg">
       {navItems.map((item)=>{

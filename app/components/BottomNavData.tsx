@@ -4,7 +4,7 @@ import { useGetGlobalMarketDataQuery } from "@/lib/features/cryptoDataApi";
 import { HandleFormatingNumbersAndLabels } from "@/utils/FormatNumber";
 import tw from "tailwind-styled-components";
 import PercentageBar from "./PercentageBar";
-import Spinner from "./spinner/Spinner";
+import Spinner from "./Spinner/Spinner";
 import BitcoinLogo from "../../public/bitcoinLogo.svg";
 import EthereumLogo from "../../public/ethereumLogo.svg";
 import ExchangeIcon from "../../public/exchangeIcon.svg";
@@ -62,8 +62,8 @@ export default function BottomNavData() {
 
   return (
     <>
-      <div className="flex p-2  md:justify-center gap-1 md:gap-3 border border-opacity-10 border-black">
-        <div className="hidden md:flex ">
+      <div className="flex p-2  md:justify-center justify-around gap-1 md:gap-3 border border-opacity-10 border-black">
+        <div className="hidden lg:flex ">
         <BottomNavItem>
           <CoinsIcon /> Coins: {coins}{" "}
         </BottomNavItem>

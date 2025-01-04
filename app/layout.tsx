@@ -23,10 +23,10 @@ export default function RootLayout({
           <StoreProvider>
             <ThemeSwitchProvider>
               <Navbar />
-              <div className="px-36 py-10 flex md:justify-start justify-center">
+              <div className="px-36 py-10 md:flex md:justify-start justify-center hidden">
                 <CoinNavButtons />
               </div>
-              <div className=":flex md:hidden">
+              <div className="flex md:hidden">
             <MobileNavbar />
           </div>
               {children}

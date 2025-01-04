@@ -25,9 +25,9 @@ export function Carousel({ coinData }) {
   }, [emblaApi]);
 
   return (
-    <div className="relative py-4 md:w-4/5 w-full ">
+    <div className="relative pt-4 md:w-4/5 w-full ">
        <div className="pl-7">Select the currency to view statistics </div>
-      <div className="embla py-8">
+      <div className="embla pt-8">
         <button className="embla__prev dark:bg-black bg-purple-200 text-white  fill-current md:block hidden" onClick={scrollPrev}>
           <ArrowLeft width="10px" height="10px" className="" />
         </button>
@@ -38,7 +38,7 @@ export function Carousel({ coinData }) {
               return (
                 <div
                   key={uniqueId()}
-                  className="embla__slide flex gap-2 rounded-lg bg-opacity-50 bg-slate-600 opacity-90  py-3 justify-center items-center"
+                  className="embla__slide flex gap-2 rounded-lg bg-opacity-50 bg-shark opacity-90  py-3 justify-center items-center"
                   onClick={() => {
                     dispatch(setCurrency(item.symbol));
                   }}
@@ -52,7 +52,7 @@ export function Carousel({ coinData }) {
                       <span className="md:inline hidden">{item.name}</span>
                      <span className="md:text-base text-xs"> [{item.symbol?.toUpperCase()}]</span>
                     </div>
-                    <div className="flex gap-5 md:flex hidden">
+                    <div className=" gap-5 md:flex hidden">
                       <span>{`${item.current_price?.toLocaleString()} ${currency.toUpperCase()}`}</span>
                       <PercentageChange symbolType={"percentage"} data={item.price_change_percentage_24h} />
                     </div>

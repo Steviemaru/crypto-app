@@ -2,8 +2,8 @@ import { useState } from "react";
 import { useTheme } from "next-themes";
 import Link from "next/link";
 import tw from "tailwind-styled-components";
-import HomeLogo from "@/public/homeLogo.svg";
-import CoinPageSymbol from "../../public/coinPageSymbol.svg";
+// import HomeLogo from "@/public/homeLogo.svg";
+// import CoinPageSymbol from "../../public/coinPageSymbol.svg";
 
 interface WrapperProps {
   $primary?: string;
@@ -69,9 +69,6 @@ export default function NavButtons() {
               >
                 {item.slice(0, 1).toUpperCase() + item.slice(1)}
               </Button>
-              <div className="flex md:hidden gap-3">
-          {item == "Home" ? <HomeLogo width="22" height="22" /> : <CoinPageSymbol />}
-        </div>
             </Link>
           );
         })}

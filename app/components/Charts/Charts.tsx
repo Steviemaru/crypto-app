@@ -22,15 +22,15 @@ function Charts() {
   const chartData = chart;
 
   // contains values for days buttons 
-  const intervalsForDays = [
-    1,
-    3,
-    7,
-    30,
-    90,
-    180,
-    365,
-  ];
+  const intervalsForDays = {
+    "1D": "1",
+    "3D": "3",
+    "7D": "7",
+    "1M": "30",
+    "3M": "90",
+    "6M": "180",
+    "1Y": "365",
+};
 
   // chart data
   const chartPrices = chartData?.prices?.map((item: any) => item[1]);
@@ -61,9 +61,9 @@ function Charts() {
 
   return (
       <div className="w-full">
-        <div className="flex py-4 gap-10 md:flex-row flex-col ">
+        <div className="flex py-4 lg:gap-10 gap-6 md:flex-row flex-col ">
           {/* chart 1 */}
-          <div className="rounded-2xl p-4 bg-opacity-50 bg-slate-600 opacity-90 md:w-3/6 ">
+          <div className="rounded-2xl p-4 bg-opacity-80 bg-shark opacity-90 md:w-3/6 ">
             <div>
               <div className="mb-5 text-base "> Price</div>
               <div className="text-2xl">
@@ -85,7 +85,7 @@ function Charts() {
             />
           </div>
           {/* chart 2  */}
-          <div className="rounded-2xl p-4 bg-opacity-50 bg-slate-600 opacity-90 md:w-3/6 ">
+          <div className="rounded-2xl p-4 bg-opacity-80 bg-shark opacity-90 md:w-3/6 ">
             <div>
               <div className="mb-5 text-base">Volume 24h</div>
               <div className="text-2xl">
@@ -103,22 +103,23 @@ function Charts() {
           </div>
         </div>
         {/* 1D 3D 5D ect days buttons */}
-        <div className="flex gap-4 ">
-          {intervalsForDays.map((item: any) => {
-            return (
-              <button
-                key={item}
-                className={`p-2 rounded-xl bg-opacity-50 bg-slate-600 md:text-base text-xs ${selected == item ? "bg-slate-900" : ""
-                  }`}
-                onClick={() => {
-                  dispatch(setDays(item));
-                  setSelected(item);
-                }}
-              >
-                {item}D
-              </button>
-            );
-          })}
+        <div className="flex gap-3 ">
+        {Object.entries(intervalsForDays).map((entry: any) => {
+const [key , value] = entry;
+                    return (
+                        <button
+                            key={key}
+                            className={`p-2 rounded-xl bg-opacity-50 bg-slate-600 ${key == selected ? "bg-slate-900" : ""
+                                }`}
+                            onClick={() => {
+                                dispatch(setDays(parseInt(value)));
+                                setSelected(key);
+                            }}
+                        >
+                            {key}
+                        </button>
+                    );
+                })}
         </div>
       </div>
   );

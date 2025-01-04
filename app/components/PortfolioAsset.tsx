@@ -1,4 +1,4 @@
-import React from "react";
+import {useEffect, useState} from "react";
 import Image from "next/image";
 import PercentageBar from "./PercentageBar";
 import PercentageChange from "./PercentageChange";
@@ -10,6 +10,18 @@ import Edit from "../../public/edit.svg";
 
 function PortfolioAsset({ asset, setIsEditing, setIdForEditing, removeAsset }) {
   const { currency, symbol } = useAppSelector((state) => state.currency);
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsSmallScreen(window.innerWidth <= 768); // Tailwind `md` breakpoint is 640px
+    };
+
+    handleResize(); // Check on initial load
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const assetMarketData = asset.assetData.market_data;
   const assetData = asset.assetData;
@@ -52,9 +64,12 @@ function PortfolioAsset({ asset, setIsEditing, setIdForEditing, removeAsset }) {
   const marketArr = Object.entries(market);
   const coinArr = Object.entries(coin);
 
+  const displayedMarketArr = isSmallScreen ? marketArr.slice(0, 2) : marketArr;
+  const displayedCoinArr = isSmallScreen ? coinArr.slice(0, 2) : coinArr;
+
   return (
-    <div className="flex my-4 ">
-      <div className="w-1/5 bg-slate-800 p-8  flex flex-col justify-center items-center">
+    <div className="flex md:flex-row flex-col my-4 ">
+      <div className="md:w-1/5 bg-slate-800 p-8  flex flex-col justify-center items-center">
         <div className="rounded-lg p-2 bg-slate-200">
           <Image src={coinImage} width={22} height={22} alt="coin" />
         </div>
@@ -63,9 +78,9 @@ function PortfolioAsset({ asset, setIsEditing, setIdForEditing, removeAsset }) {
           {` [${coinSymbol}]`}
         </div>
       </div>
-      <div className="w-4/5 bg-gray-700 mr-5 p-8 ">
+      <div className="md:w-4/5 bg-gray-700 md:mr-5 p-8 ">
         <div className="flex justify-between items-center mb-5">
-          <h2 className="font-medium text-lg">Market Price</h2>
+          <h2 className="font-medium text-lg ">Market Price</h2>
           <button
             className={`bg-slate-400 p-2 rounded-md ${hoverEffect} `}
             onClick={() => {
@@ -77,15 +92,15 @@ function PortfolioAsset({ asset, setIsEditing, setIdForEditing, removeAsset }) {
           </button>
         </div>
         <div className="border-b border-slate-100 flex justify-between pb-5">
-          {marketArr.map((entry) => {
+          {displayedMarketArr.map((entry) => {
             const [key, value] = entry;
 
             return (
-              <div key={key} className="flex flex-col items-center flex-1 m-2">
-                <h4 className="text-sm font-medium ">{key}</h4>
+              <div key={key} className="flex flex-col justify-between items-center gap-1 flex-1 m-2">
+                <h4 className="text-sm font-medium text-center">{key}</h4>
                 {key !== "Market cap vs Volume:" ? (
                   <div className="font-medium fill-current text-teal-400 flex">
-                    <PercentageChange symbolType={"currency"} data={value} />
+                    <PercentageChange symbolType={true} data={value} />
                   </div>
                 ) : (
                   <div className="flex gap-4 items-center">
@@ -112,11 +127,11 @@ function PortfolioAsset({ asset, setIsEditing, setIdForEditing, removeAsset }) {
           </button>
         </div>
         <div className="flex justify-between">
-          {coinArr.map((entry) => {
+          {displayedCoinArr.map((entry) => {
             const [key, value] = entry;
             return (
-              <div key={key} className="flex flex-col items-center flex-1 m-2">
-                <h4 className="text-sm font-medium">{key}</h4>
+              <div key={key} className="flex flex-col items-center flex-1 gap-1 m-2">
+                <h4 className="text-sm font-medium text-center">{key}</h4>
                 {key !== "Coin amount:" && key !== "Purchase Date:" ? (
                   <div className="font-medium fill-current text-teal-400">
                     {symbol}

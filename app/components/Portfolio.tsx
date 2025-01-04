@@ -39,14 +39,14 @@ function Portfolio() {
 
   return (
     // page container
-    <div className="p-14">
-      <div className="flex justify-between mb-8">
+    <div className="md:p-14 p-10">
+      <div className="flex justify-between items-center mb-8">
         <div className="font-medium">Your statistics</div>
         <button
           onClick={() => {
             setIsModalOpen(!isModalOpen);
           }}
-          className={`bg-black opacity-90 font-medium rounded-xl py-3 px-20 ${hoverEffect} `}
+          className={`bg-black opacity-90 font-medium rounded-xl py-3 md:px-20 px-8 ${hoverEffect} `}
         >
           Add Assets
         </button>
@@ -63,7 +63,7 @@ function Portfolio() {
       {/* Modal */}
       {isModalOpen && (
         <div className=" fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="bg-slate-500 rounded-lg p-10 shadow-lg  w-6/12">
+          <div className="bg-slate-500 rounded-lg p-10 shadow-lg md:w-10/12 lg:w-6/12">
             <div className="flex justify-between gap-4 mb-4">
               <p className="font-medium">Select Coins</p>
               <button

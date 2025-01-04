@@ -24,17 +24,17 @@ function Navbar() {
     {/* Right Section */}
     <div className="flex  items-center  md:gap-6 gap-2  w-40 md:w-auto">
       {/* Search Input */}
-      <div className="dark:bg-slate-900 flex-2 rounded-lg ">
+      <div className="dark:bg-shark flex-2 rounded-lg ">
        <SearchInput/>
       </div>
 
       {/* Currency List */}
-      <div className=" relative  p-2 md:p-4 py-3 dark:bg-slate-900 bg-purple-100 flex-1 rounded-lg">
+      <div className=" relative  p-2 md:p-4 py-3 dark:bg-shark bg-purple-100 flex-1 rounded-lg">
         <CurrencyList />
       </div>
 
       {/* Theme Toggle */}
-      <div className="dark:bg-slate-900 bg-purple-100 flex-2 rounded-lg ">
+      <div className="dark:bg-shark bg-purple-100 flex-2 rounded-lg ">
        <ToggleTheme />
       </div>
     </div>

@@ -127,7 +127,7 @@ function CoinDetails({ coin }) {
                               {currentPrice}
                             </h1>
                             <PercentageChange
-                              withCurrencySymbol={false}
+                              symbolType={false}
                               data={Number(athChangePercentage)}
                             />
                           </div>

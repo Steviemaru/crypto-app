@@ -49,7 +49,6 @@ export const coinTableChartOptions = {
     },
     elements: {
       line: {
-        borderColor: "#f18981",
         borderWidth: 2,
       },
     },
