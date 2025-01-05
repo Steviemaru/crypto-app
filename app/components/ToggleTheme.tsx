@@ -11,7 +11,7 @@ function ToggleTheme() {
   useEffect(() => {
     setMounted(true);
     setTheme("dark");
-  }, []);
+  }, [setTheme]);
 
   if (!mounted) {
     return null;

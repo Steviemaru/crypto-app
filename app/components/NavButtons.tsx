@@ -2,8 +2,6 @@ import { useState } from "react";
 import { useTheme } from "next-themes";
 import Link from "next/link";
 import tw from "tailwind-styled-components";
-// import HomeLogo from "@/public/homeLogo.svg";
-// import CoinPageSymbol from "../../public/coinPageSymbol.svg";
 
 interface WrapperProps {
   $primary?: string;
@@ -53,9 +51,6 @@ export default function NavButtons() {
   return (
     <>
       <Wrapper $primary={theme}>
-        {/* Home Logo: Always visible on small screens */}
-        
-        {/* Buttons: Hidden on small screens */}
         {navItems.map((item: string) => {
           return (
             <Link key={item} href={`/${item == "coins" ? "" : item}`}>

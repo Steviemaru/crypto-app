@@ -11,273 +11,247 @@ import LineChart from "./Charts/LineChart";
 import { coinTableChartOptions } from "@/utils/helperFunctions";
 
 function CoinTable({ coinData }) {
-  const { symbol } = useAppSelector((state) => state.currency);
+    const { symbol } = useAppSelector((state) => state.currency);
 
-  //flex container
-  // wid container
-  // content
-
-  return (
-    <div className=" w-full">
-      {/* table labels */}
-      <div className="flex  justify-between">
-        <div className="md:w-3/6 w-4/6 flex item-center md:justify-between justify-around">
-          <div className="md:w-2/5 md:flex item-center justify-between  md:text-base md:p-0 text-xs p-2">
-            <div className="ml-4 w-9/12 flex md:gap-3">
-              <div className="md:flex  hidden">#</div>
-              <div>Name</div>
-            </div>
-          </div>
-          <div className="md:w-3/5 md:flex item-center md:gap-10  ">
-            <div className="md:text-base md:p-0 text-xs p-2">Current price</div>
-            <div className="md:flex md:justify-between hidden md:w-2/5">
-              <div>1h%</div>
-              <div>24h%</div>
-              <div>7d%</div>
-            </div>
-          </div>
-        </div>
-        <div className="md:w-3/6 w-2/6 flex item-center md:justify-center justify-start">
-          <div className="md:w-4/6 md:flex md:justify-between hidden">
-            <div className=""> 24h volume / Market cap </div>
-            <div className=""> Circulating/ Total supply </div>
-          </div>
-          <div className="md:w-2/6 md:text-base md:p-0 flex item-center  justify-center text-xs  p-2">
-            <div className="w-9/12">
-              <h5 className="">7Ds</h5>
-            </div>
-          </div>
-        </div>
-      </div>
-      {/* table container */}
-      <div className="w-full">
-        {coinData.length > 1 &&
-          coinData?.map((item: any, idx: any) => {
-            /////////////////////////////////////////////////////////
-            // values in the table
-            const current_price = parseInt(
-              item.current_price?.toFixed(0)
-            ).toLocaleString();
-            const price_change_percentage_1h_in_currency =
-              HandleFormatingNumbersAndLabels(
-                item.price_change_percentage_1h_in_currency,
-                "none"
-              );
-            const price_change_percentage_24h_in_currency =
-              HandleFormatingNumbersAndLabels(
-                item.price_change_percentage_24h_in_currency,
-                "none"
-              );
-            const price_change_percentage_7d_in_currency =
-              HandleFormatingNumbersAndLabels(
-                item.price_change_percentage_7d_in_currency,
-                "none"
-              );
-            const market_cap = HandleFormatingNumbersAndLabels(
-              item.market_cap,
-              "none"
-            );
-            const total_volume = HandleFormatingNumbersAndLabels(
-              item.total_volume,
-              "none"
-            );
-            const circulating_supply = HandleFormatingNumbersAndLabels(
-              item.circulating_supply,
-              "none"
-            );
-            const total_supply = HandleFormatingNumbersAndLabels(
-              item.total_supply,
-              "none"
-            );
-            const sparkline_in_7d = item.sparkline_in_7d?.price.slice(0, 7);
-
-            /////////////////////////////////////////////////////////
-            //// This simulates an increase or decrease in value for 1hr 24hr 7D percentage change.
-            //// Shows values as green or red with an up or down arrow wthin the table depending on if values have increased or decreased.
-
-            const percentages = [
-              price_change_percentage_1h_in_currency,
-              price_change_percentage_24h_in_currency,
-              price_change_percentage_7d_in_currency,
-            ];
-            const percentagesArr = percentages?.map((item: any) => {
-              const parsedItem = parseFloat(item.toFixed(0));
-              const num = {
-                value: parsedItem,
-                id: uuidv4(),
-              };
-              return num;
-            });
-            const simulatedChange = [-0.5, +0.5];
-            const dynamicPercentage = percentagesArr?.map((item: any) => {
-              const [decrease, increase] = simulatedChange;
-              const isEven = item.value % 2 == 0;
-              const simulatedValue = isEven ? increase : decrease;
-              return { ...item, value: item.value + simulatedValue };
-            });
-            const dynamicPercentageCheck = dynamicPercentage?.map((d: any) => {
-              const A = percentagesArr?.map((p: any) => {
-                return d.id == p.id ? d.value > p.value : "false";
-              });
-              return A;
-            });
-
-            const [[check]] = dynamicPercentageCheck;
-            const fill = check ? "bg-green-400" : "bg-red-500";
-            const circleFill = check
-              ? "text-green-400 fill-current"
-              : "text-red-400 fill-current";
-            const circleFillAlt = "text-slate-400 fill-current";
-            const gradientA = check
-              ? "rgba(52, 211, 153, 0.2)"
-              : "rgba(248, 113, 113, 0.2)";
-            const gradientB = "rgba(0,0,0,0)";
-            const borderColor = check
-              ? "rgba(52, 211, 153, 1)"
-              : "rgba(220, 38, 38, 1)";
-
-            const height = "h-1";
-
-            return (
-              <Link className="flex" key={item.id} href={`/coin/${item.id}`}>
-                <div className="flex  border border-red-700 flex-[15%] min-w-[15%] max-w-[15%]">
-                  <div className="flex-[20%] min-w-[20%] max-w-[20%]">
-                    <div className="">{idx + 1}</div>
-                  </div>
-                  <div className="flex flex-[80%]">
-                    <div className="w-[15%] relative">
-                    <Image
-                      src={item.image ? item.image : null}
-                      layout="fill"
-                      objectFit="contain"
-                      alt="coin"
-                    />
-                    </div>
-                    <div className="md:flex md:text-base text-xs">
-                      <div>{item.name}</div>
-                      <div>[{item.symbol.toUpperCase()}]</div>
-                    </div>
-                  </div>
+    return (
+        <div className=" w-full">
+            {/* table labels */}
+            <div className="flex  justify-between">
+                <div className="flex lg:flex-[20%] min-w-[20%] lg:max-w-[20%] flex-[30%]  max-w-[30%]  ">
+                    <div className="flex-[20%]">#</div>
+                    <div className="flex-[80%]">Name</div>
                 </div>
-                <div className="flex border border-red-700  flex-[40%]  min-w-[40%] max-w-[40%]">
-                  <div className="flex-[25%]">
-                  <div className=" flex-1 md:text-base  text-xs text-center">
-                        {symbol}
-                        {current_price}
-                      </div>
-                  </div>
-                  <div className="flex flex-[75%]  justify-around ">
-                    <div className="">1</div>
-                    <div className="">2</div>
-                    <div className="">3</div>
-                  </div>
-                </div>
-                <div className="border border-red-700 flex-[15%]  min-w-[15%] max-w-[15%]">3</div>
-                <div className="border border-red-700 flex-[15%]  min-w-[15%] max-w-[15%]">4</div>
-                <div className="border border-red-700 flex-[15%]  min-w-[15%] max-w-[15%] ">5</div>
-
-                <div className="p-3 px-4 flex items-center justify-around md:gap-6  bg-shark-light opacity-90 my-1 rounded-lg">
-                  <div className="md:w-3/6 w-4/6 flex item-center md:justify-between justify-around">
-                    <div
-                      className="flex items-center md:w-2/5 md:gap-5 gap-2"
-                      key={item.name}
-                    >
-                      
-                    </div>
-
-                    <div className="md:w-3/5 w-2/5 md:justify-start justify-center md:flex item-center  md:gap-14">
-                      
-                      <div className="md:flex md:justify-between hidden md:w-2/5">
-                        <MultiPercentageChange
-                          dynamicPercentage={dynamicPercentage}
-                          dynamicPercentageCheck={check}
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="md:w-3/6 w-2/6 flex item-center justify-center">
-                    <div className="md:w-4/6 md:flex md:justify-between hidden">
-                      <div className=" md:flex flex-col w-5/12 hidden">
-                        <div className="flex justify-between">
-                          <div className="flex items-center gap-2">
-                            <Circle
-                              className={circleFill}
-                              width="10px"
-                              height="10px"
-                            />
-                            {total_volume}
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <Circle
-                              className={circleFillAlt}
-                              width="10px"
-                              height="10px"
-                            />
-                            {market_cap}
-                          </div>
+                <div className="flex lg:flex-[30%] flex-[20%]  ">
+                    <div className="flex flex-[25%] justify-center">Price</div>
+                    <div className="md:flex flex-[75%] justify-center gap-4 hidden">
+                        <div>
+                            1ds
                         </div>
                         <div>
-                          <DuelPercentageBar
-                            height={height}
-                            volume={total_volume}
-                            marketCap={market_cap}
-                            fill={fill}
-                          />
-                        </div>
-                      </div>
-                      <div className="  md:flex flex-col w-5/12 hidden">
-                        <div className="flex justify-between">
-                          <div className="flex items-center gap-2">
-                            <Circle
-                              className={circleFill}
-                              width="10px"
-                              height="10px"
-                            />
-                            {circulating_supply}
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <Circle
-                              className={circleFillAlt}
-                              width="10px"
-                              height="10px"
-                            />
-                            {total_supply}
-                          </div>
+                            7ds
                         </div>
                         <div>
-                          <DuelPercentageBar
-                            height={height}
-                            volume={circulating_supply}
-                            marketCap={total_supply}
-                            fill={fill}
-                          />
+                            24hrs
                         </div>
-                      </div>
                     </div>
-
-                    <div className="md:w-2/6 w-[100%] md:flex item-center justify-center  ">
-                      <div className=" w-[80%]">
-                        <LineChart
-                          chartLabels={["", "", "", "", "", "", ""]}
-                          chartData={sparkline_in_7d}
-                          gradientA={gradientA}
-                          gradientB={gradientB}
-                          borderColor={borderColor}
-                          width={"w-[100%] md:w-[80%]"}
-                          height={"h-[50px]"}
-                          chartOptions={coinTableChartOptions}
-                        />
-                      </div>
-                    </div>
-                  </div>
                 </div>
-              </Link>
-            );
-          })}
-      </div>
-    </div>
-  );
+                <div className="lg:flex hidden flex-[20%]  ">
+                    24hr Volume/ Market Cap
+                </div>
+                <div className="lg:flex hidden flex-[20%] ">
+                    Circulating / Total supply
+                </div>
+                <div className="flex-[10%] ">
+                    Last 7ds
+                </div>
+            </div>
+            {/* table container */}
+            <div className="w-full">
+                {coinData.length > 1 &&
+                    coinData?.map((item: any, idx: any) => {
+                        /////////////////////////////////////////////////////////
+                        // values in the table
+                        const current_price = parseInt(
+                            item.current_price?.toFixed(0)
+                        ).toLocaleString();
+                        const price_change_percentage_1h_in_currency =
+                            HandleFormatingNumbersAndLabels(
+                                item.price_change_percentage_1h_in_currency,
+                                "none"
+                            );
+                        const price_change_percentage_24h_in_currency =
+                            HandleFormatingNumbersAndLabels(
+                                item.price_change_percentage_24h_in_currency,
+                                "none"
+                            );
+                        const price_change_percentage_7d_in_currency =
+                            HandleFormatingNumbersAndLabels(
+                                item.price_change_percentage_7d_in_currency,
+                                "none"
+                            );
+                        const market_cap = HandleFormatingNumbersAndLabels(
+                            item.market_cap,
+                            "none"
+                        );
+                        const total_volume = HandleFormatingNumbersAndLabels(
+                            item.total_volume,
+                            "none"
+                        );
+                        const circulating_supply = HandleFormatingNumbersAndLabels(
+                            item.circulating_supply,
+                            "none"
+                        );
+                        const total_supply = HandleFormatingNumbersAndLabels(
+                            item.total_supply,
+                            "none"
+                        );
+                        const sparkline_in_7d = item.sparkline_in_7d?.price.slice(0, 7);
+
+                        /////////////////////////////////////////////////////////
+                        //// This simulates an increase or decrease in value for 1hr 24hr 7D percentage change.
+                        //// Shows values as green or red with an up or down arrow wthin the table depending on if values have increased or decreased.
+
+                        const percentages = [
+                            price_change_percentage_1h_in_currency,
+                            price_change_percentage_24h_in_currency,
+                            price_change_percentage_7d_in_currency,
+                        ];
+                        const percentagesArr = percentages?.map((item: any) => {
+                            const parsedItem = parseFloat(item.toFixed(0));
+                            const num = {
+                                value: parsedItem,
+                                id: uuidv4(),
+                            };
+                            return num;
+                        });
+                        const simulatedChange = [-0.5, +0.5];
+                        const dynamicPercentage = percentagesArr?.map((item: any) => {
+                            const [decrease, increase] = simulatedChange;
+                            const isEven = item.value % 2 == 0;
+                            const simulatedValue = isEven ? increase : decrease;
+                            return { ...item, value: item.value + simulatedValue };
+                        });
+                        const dynamicPercentageCheck = dynamicPercentage?.map((d: any) => {
+                            const A = percentagesArr?.map((p: any) => {
+                                return d.id == p.id ? d.value > p.value : "false";
+                            });
+                            return A;
+                        });
+
+                        const [[check]] = dynamicPercentageCheck;
+                        const fill = check ? "bg-green-400" : "bg-red-500";
+                        const circleFill = check
+                            ? "text-green-400 fill-current"
+                            : "text-red-400 fill-current";
+                        const circleFillAlt = "text-slate-400 fill-current";
+                        const gradientA = check
+                            ? "rgba(52, 211, 153, 0.2)"
+                            : "rgba(248, 113, 113, 0.2)";
+                        const gradientB = "rgba(0,0,0,0)";
+                        const borderColor = check
+                            ? "rgba(52, 211, 153, 1)"
+                            : "rgba(220, 38, 38, 1)";
+
+                        const height = "h-1";
+
+                        return (
+                            <Link className="block  bg-shark my-2 rounded-lg" key={item.id} href={`/coin/${item.id}`}>
+                            <div key={item.id} className="flex justify-between p-2">
+                                <div className="flex  lg:flex-[20%] min-w-[20%] lg:max-w-[20%] flex-[30%]  max-w-[30%]">
+                                    <div className="flex-[20%] flex items-center ">
+                                        <div className="">{idx + 1}</div>
+                                    </div>
+                                    <div className="flex flex-[80%] gap-2 ">
+                                        <div className="w-[15%] relative">
+                                            <Image
+                                                src={item.image ? item.image : null}
+                                                layout="fill"
+                                                objectFit="contain"
+                                                alt="coin"
+                                            />
+                                        </div>
+                                        <div className="flex flex-wrap items-center md:text-base text-xs">
+                                            <div className="md:flex hidden truncate">{item.name}</div>
+                                            <div>[{item.symbol.toUpperCase()}]</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="flex lg:flex-[30%] flex-[20%]  min-w-[20%] lg:max-w-[30%]">
+                                    <div className="flex items-center flex-[25%] ">
+                                        <div className=" flex-1 md:text-base  text-xs text-center">
+                                            {symbol}
+                                            {current_price}
+                                        </div>
+                                    </div>
+                                    <div className="md:flex flex-[75%] min-w-[75%] max-w-[75%] justify-around  hidden">
+                                        <MultiPercentageChange
+                                            dynamicPercentage={dynamicPercentage}
+                                            dynamicPercentageCheck={check}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="lg:flex hidden  flex-[20%]  min-w-[20%] max-w-[20%]">
+                                    <div className=" flex flex-col ">
+                                        <div className="flex justify-between">
+                                            <div className="flex items-center gap-2">
+                                                <Circle
+                                                    className={circleFill}
+                                                    width="10px"
+                                                    height="10px"
+                                                />
+                                                {total_volume}
+                                            </div>
+                                            <div className="flex items-center gap-2">
+                                                <Circle
+                                                    className={circleFillAlt}
+                                                    width="10px"
+                                                    height="10px"
+                                                />
+                                                {market_cap}
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <DuelPercentageBar
+                                                height={height}
+                                                volume={total_volume}
+                                                marketCap={market_cap}
+                                                fill={fill}
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className=" lg:flex hidden flex-[20%]  min-w-[20%] max-w-[20%]">
+                                    <div className="  flex flex-col ">
+                                        <div className="flex justify-between">
+                                            <div className="flex items-center gap-2">
+                                                <Circle
+                                                    className={circleFill}
+                                                    width="10px"
+                                                    height="10px"
+                                                />
+                                                {circulating_supply}
+                                            </div>
+                                            <div className="flex items-center gap-2">
+                                                <Circle
+                                                    className={circleFillAlt}
+                                                    width="10px"
+                                                    height="10px"
+                                                />
+                                                {total_supply}
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <DuelPercentageBar
+                                                height={height}
+                                                volume={circulating_supply}
+                                                marketCap={total_supply}
+                                                fill={fill}
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className=" flex-[10%]  min-w-[10%] lg:max-w-[10%] ">
+                                    <div className=" w-[100%]">
+                                        <LineChart
+                                            chartLabels={["", "", "", "", "", "", ""]}
+                                            chartData={sparkline_in_7d}
+                                            gradientA={gradientA}
+                                            gradientB={gradientB}
+                                            borderColor={borderColor}
+                                            width={"w-[100%] md:w-[80%]"}
+                                            height={"h-[50px]"}
+                                            chartOptions={coinTableChartOptions}
+                                        />
+                                    </div>
+                                </div>
+
+                            </div>
+                            </Link>
+                        );
+                    })}
+            </div>
+        </div>
+    );
 }
 
 export default CoinTable;
