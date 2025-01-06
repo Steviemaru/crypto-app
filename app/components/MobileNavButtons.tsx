@@ -8,8 +8,6 @@ import CoinPageSymbol from "../../public/coinPageSymbol.svg";
 function MobileNavButtons() {
     const [navItems] = useState(["Home", "portfolio","convertor" ]);
     const [selectedItem, setSelectedItem] = useState("Home");
-    // const { theme } = useTheme();
-    // const navBtnBgColor = theme == "dark" ? "bg-black" : "bg-purple-200";
     const handleClick = (item: string) => {
       setSelectedItem(item);
     };
