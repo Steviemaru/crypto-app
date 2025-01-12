@@ -6,11 +6,13 @@ import HomeLogo from "@/public/homeLogo.svg";
 import CoinPageSymbol from "../../public/coinPageSymbol.svg";
 
 function MobileNavButtons() {
+
   const [navItems] = useState(["Home", "portfolio", "convertor"]);
   const [selectedItem, setSelectedItem] = useState("Home");
   const handleClick = (item: string) => {
     setSelectedItem(item);
   };
+
   return (
     <div className="flex gap-6">
       {navItems.map((item: string) => {
