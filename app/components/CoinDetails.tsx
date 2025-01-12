@@ -87,7 +87,7 @@ function CoinDetails({ coin }) {
             "Low 24": low24h,
             "High 24": high24h,
           };
-          
+
           const coinDataArr = Object.entries(coinData);
           const rightPercentage = (totalVolume / marketCap * 10000).toFixed(0);
           const leftPercentage = 100 - parseInt(rightPercentage);

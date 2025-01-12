@@ -32,22 +32,22 @@ export default function CurrencyList() {
   }, []);
 
   return (
-    <>
+    <div className="relative rounded-lg md:p-6 p-2 h-[100%] dark:bg-shark bg-purple-100 flex flex-col items-center justify-center ">
       <div
         ref={dropDownRef}
         onClick={() => {
           setShowDropdown(!showDropdown);
         }}
-        className="flex gap-3  items-center justify-center relative h-4 md:text-base text-sm flex-2  dark:bg-shark bg-purple-100 font-semibold dark:text-white"
+        className="flex gap-3  items-center justify-center lg:text-base text-sm flex-2  font-semibold dark:text-white"
       >
-       <div className="hidden md:block">
-       <CurrencyListIcon  />
-       </div>
-        {currency.toUpperCase()}
+        <div className="hidden lg:block">
+          <CurrencyListIcon />
+        </div>
+        <div>{currency.toUpperCase()}</div>
         <div>{showDropdown ? <UpArrow /> : <DownArrow />}</div>
       </div>
       {showDropdown && (
-        <div className="left-0 absolute rounded-xl p-2 z-50 dark:bg-shark bg-purple-100 dark:text-white text-black w-full">
+        <div className="left-0 top-[100%] absolute rounded-xl p-2 z-50 dark:bg-shark bg-purple-100 dark:text-white text-black w-full">
           {currencyList.map((item) => {
             return (
               <option
@@ -55,7 +55,7 @@ export default function CurrencyList() {
                 onClick={() => {
                   dispatch(setCurrency(item.currency));
                 }}
-                className= " dark:bg-shark dark:text-white bg-purple-100 hover:bg-purple-50 dark:hover:bg-slate-400 rounded-lg py-2 px-5"
+                className=" dark:bg-shark dark:text-white bg-purple-100 hover:bg-purple-50 dark:hover:bg-slate-400 rounded-lg py-2 text-center"
               >
                 {item.currency.toUpperCase()}
               </option>
@@ -63,6 +63,6 @@ export default function CurrencyList() {
           })}
         </div>
       )}
-    </>
+    </div>
   );
 }

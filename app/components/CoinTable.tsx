@@ -7,8 +7,8 @@ import DuelPercentageBar from "./DuelPercentageBar";
 import MultiPercentageChange from "./MultiPercentageChange";
 import { HandleFormatingNumbersAndLabels } from "@/utils/FormatNumber";
 import Circle from "../../public/circle.svg";
-import LineChart from "./Charts/LineChart";
-import { coinTableChartOptions } from "@/utils/helperFunctions";
+// import LineChart from "./Charts/LineChart";
+// import { coinTableChartOptions } from "@/utils/helperFunctions";
 
 function CoinTable({ coinData }) {
     const { symbol } = useAppSelector((state) => state.currency);
@@ -85,7 +85,7 @@ function CoinTable({ coinData }) {
                             item.total_supply,
                             "none"
                         );
-                        const sparkline_in_7d = item.sparkline_in_7d?.price.slice(0, 7);
+                        // const sparkline_in_7d = item.sparkline_in_7d?.price.slice(0, 7);
 
                         /////////////////////////////////////////////////////////
                         //// This simulates an increase or decrease in value for 1hr 24hr 7D percentage change.
@@ -124,128 +124,131 @@ function CoinTable({ coinData }) {
                             ? "text-green-400 fill-current"
                             : "text-red-400 fill-current";
                         const circleFillAlt = "text-slate-400 fill-current";
-                        const gradientA = check
-                            ? "rgba(52, 211, 153, 0.2)"
-                            : "rgba(248, 113, 113, 0.2)";
-                        const gradientB = "rgba(0,0,0,0)";
-                        const borderColor = check
-                            ? "rgba(52, 211, 153, 1)"
-                            : "rgba(220, 38, 38, 1)";
+
+                        /// will comeback to this after commit 
+                        // const gradientA = check
+                        //     ? "rgba(52, 211, 153, 0.2)"
+                        //     : "rgba(248, 113, 113, 0.2)";
+                        // const gradientB = "rgba(0,0,0,0)";
+                        // const borderColor = check
+                        //     ? "rgba(52, 211, 153, 1)"
+                        //     : "rgba(220, 38, 38, 1)";
 
                         const height = "h-1";
 
                         return (
                             <Link className="block  bg-shark my-2 rounded-lg" key={item.id} href={`/coin/${item.id}`}>
-                            <div key={item.id} className="flex justify-between p-2">
-                                <div className="flex  lg:flex-[20%] min-w-[20%] lg:max-w-[20%] flex-[30%]  max-w-[30%]">
-                                    <div className="flex-[20%] flex items-center ">
-                                        <div className="">{idx + 1}</div>
-                                    </div>
-                                    <div className="flex flex-[80%] gap-2 ">
-                                        <div className="w-[15%] relative">
-                                            <Image
-                                                src={item.image ? item.image : null}
-                                                layout="fill"
-                                                objectFit="contain"
-                                                alt="coin"
-                                            />
+                                <div key={item.id} className="flex justify-between p-2">
+                                    <div className="flex  lg:flex-[20%] min-w-[20%] lg:max-w-[20%] flex-[30%]  max-w-[30%]">
+                                        <div className="flex-[20%] flex items-center ">
+                                            <div className="">{idx + 1}</div>
                                         </div>
-                                        <div className="flex flex-wrap items-center md:text-base text-xs">
-                                            <div className="md:flex hidden truncate">{item.name}</div>
-                                            <div>[{item.symbol.toUpperCase()}]</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="flex lg:flex-[30%] flex-[20%]  min-w-[20%] lg:max-w-[30%]">
-                                    <div className="flex items-center flex-[25%] ">
-                                        <div className=" flex-1 md:text-base  text-xs text-center">
-                                            {symbol}
-                                            {current_price}
-                                        </div>
-                                    </div>
-                                    <div className="md:flex flex-[75%] min-w-[75%] max-w-[75%] justify-around  hidden">
-                                        <MultiPercentageChange
-                                            dynamicPercentage={dynamicPercentage}
-                                            dynamicPercentageCheck={check}
-                                        />
-                                    </div>
-                                </div>
-                                <div className="lg:flex hidden  flex-[20%]  min-w-[20%] max-w-[20%]">
-                                    <div className=" flex flex-col ">
-                                        <div className="flex justify-between">
-                                            <div className="flex items-center gap-2">
-                                                <Circle
-                                                    className={circleFill}
-                                                    width="10px"
-                                                    height="10px"
+                                        <div className="flex flex-[80%] gap-2 ">
+                                            <div className="w-[15%] relative">
+                                                <Image
+                                                    src={item.image ? item.image : null}
+                                                    alt="coin"
+                                                    width={12}
+                                                    height={12}
                                                 />
-                                                {total_volume}
                                             </div>
-                                            <div className="flex items-center gap-2">
-                                                <Circle
-                                                    className={circleFillAlt}
-                                                    width="10px"
-                                                    height="10px"
-                                                />
-                                                {market_cap}
+                                            <div className="flex flex-wrap items-center md:text-base text-xs">
+                                                <div className="md:flex hidden truncate">{item.name}</div>
+                                                <div>[{item.symbol.toUpperCase()}]</div>
                                             </div>
                                         </div>
-                                        <div>
-                                            <DuelPercentageBar
-                                                height={height}
-                                                volume={total_volume}
-                                                marketCap={market_cap}
-                                                fill={fill}
+                                    </div>
+                                    <div className="flex lg:flex-[30%] flex-[20%]  min-w-[20%] lg:max-w-[30%]">
+                                        <div className="flex items-center flex-[25%] ">
+                                            <div className=" flex-1 md:text-base  text-xs text-center">
+                                                {symbol}
+                                                {current_price}
+                                            </div>
+                                        </div>
+                                        <div className="md:flex flex-[75%] min-w-[75%] max-w-[75%] justify-around  hidden">
+                                            <MultiPercentageChange
+                                                dynamicPercentage={dynamicPercentage}
+                                                dynamicPercentageCheck={check}
                                             />
                                         </div>
                                     </div>
-                                </div>
-                                <div className=" lg:flex hidden flex-[20%]  min-w-[20%] max-w-[20%]">
-                                    <div className="  flex flex-col ">
-                                        <div className="flex justify-between">
-                                            <div className="flex items-center gap-2">
-                                                <Circle
-                                                    className={circleFill}
-                                                    width="10px"
-                                                    height="10px"
-                                                />
-                                                {circulating_supply}
+                                    <div className="lg:flex hidden  flex-[20%]  min-w-[20%] max-w-[20%]">
+                                        <div className=" flex flex-col ">
+                                            <div className="flex justify-between">
+                                                <div className="flex items-center gap-2">
+                                                    <Circle
+                                                        className={circleFill}
+                                                        width="10px"
+                                                        height="10px"
+                                                    />
+                                                    {total_volume}
+                                                </div>
+                                                <div className="flex items-center gap-2">
+                                                    <Circle
+                                                        className={circleFillAlt}
+                                                        width="10px"
+                                                        height="10px"
+                                                    />
+                                                    {market_cap}
+                                                </div>
                                             </div>
-                                            <div className="flex items-center gap-2">
-                                                <Circle
-                                                    className={circleFillAlt}
-                                                    width="10px"
-                                                    height="10px"
+                                            <div>
+                                                <DuelPercentageBar
+                                                    height={height}
+                                                    volume={total_volume}
+                                                    marketCap={market_cap}
+                                                    fill={fill}
                                                 />
-                                                {total_supply}
                                             </div>
                                         </div>
-                                        <div>
-                                            <DuelPercentageBar
-                                                height={height}
-                                                volume={circulating_supply}
-                                                marketCap={total_supply}
-                                                fill={fill}
-                                            />
+                                    </div>
+                                    <div className=" lg:flex hidden flex-[20%]  min-w-[20%] max-w-[20%]">
+                                        <div className="  flex flex-col ">
+                                            <div className="flex justify-between">
+                                                <div className="flex items-center gap-2">
+                                                    <Circle
+                                                        className={circleFill}
+                                                        width="10px"
+                                                        height="10px"
+                                                    />
+                                                    {circulating_supply}
+                                                </div>
+                                                <div className="flex items-center gap-2">
+                                                    <Circle
+                                                        className={circleFillAlt}
+                                                        width="10px"
+                                                        height="10px"
+                                                    />
+                                                    {total_supply}
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <DuelPercentageBar
+                                                    height={height}
+                                                    volume={circulating_supply}
+                                                    marketCap={total_supply}
+                                                    fill={fill}
+                                                />
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div className=" flex-[10%]  min-w-[10%] lg:max-w-[10%] ">
-                                    <div className=" w-[100%]">
-                                        <LineChart
-                                            chartLabels={["", "", "", "", "", "", ""]}
-                                            chartData={sparkline_in_7d}
-                                            gradientA={gradientA}
-                                            gradientB={gradientB}
-                                            borderColor={borderColor}
-                                            width={"w-[100%] md:w-[80%]"}
-                                            height={"h-[50px]"}
-                                            chartOptions={coinTableChartOptions}
-                                        />
+                                    <div className=" flex-[10%]  min-w-[10%] lg:max-w-[10%] ">
+                                        <div className=" w-[100%]">
+                                            {/* will comeback to this after commit  */}
+                                            {/* <LineChart
+                                                chartLabels={["", "", "", "", "", "", ""]}
+                                                chartData={sparkline_in_7d}
+                                                gradientA={gradientA}
+                                                // gradientB={gradientB}
+                                                // borderColor={borderColor}
+                                                width={"w-[100%] md:w-[80%]"}
+                                                height={"h-[50px]"}
+                                                chartOptions={coinTableChartOptions}
+                                            /> */}
+                                        </div>
                                     </div>
-                                </div>
 
-                            </div>
+                                </div>
                             </Link>
                         );
                     })}

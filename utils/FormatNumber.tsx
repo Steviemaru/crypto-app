@@ -7,13 +7,14 @@ export const formatNumbers = (num: any) => {
 };
 
 const sortNumbersbyAmount = (value: any) => {
-  if (value >= 1_000_000_000_000) {
+  const epsilon = 1e-9; // Small tolerance for precision issues
+  if (value >= 1_000_000_000_000 - 1) {
     // Trillions
     return [value / 1_000_000_000_000, "trillion"];
-  } else if (value >= 1_000_000_000) {
+  } else if (value >= 1_000_000_000 - 1) {
     // Billions
     return [value / 1_000_000_000, "billion"];
-  } else if (value >= 1_000_000) {
+  } else if (value >= 1_000_000 - 1) {
     // Millions
     return [value / 1_000_000, "million"];
   } else {
@@ -50,7 +51,7 @@ export const HandleFormatingNumbersAndLabels = (value: any, option: string) => {
   const sign = getFormatingNumbersLabels(option, unit);
   const fixedNum =
     option == "charts"
-      ? parseFloat(num).toFixed(3)
+      ? parseFloat(num).toFixed(2)
       : parseFloat(num).toFixed(2);
   const formated =
     option == "none" ? parseFloat(fixedNum) : `${fixedNum} ${sign}`;
