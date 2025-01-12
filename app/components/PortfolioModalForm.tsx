@@ -69,7 +69,7 @@ function PortfolioModalForm({
   return (
     <div className="flex ">
       {/* left */}
-      <div className="w-5/12 flex">
+      <div className="md:w-5/12 md:flex hidden">
         <div className="bg-slate-800 flex-grow  mr-4 flex flex-col justify-center items-center">
           <div className="rounded-lg p-2 bg-slate-200">
             <Image src={coinImage} width={22} height={22} alt="coin" />
@@ -81,7 +81,7 @@ function PortfolioModalForm({
         </div>
       </div>
       {/* right */}
-      <div className=" w-7/12">
+      <div className="md:w-7/12">
         <form className=" flex flex-col gap-5" onSubmit={handleSubmit}>
           {/* top */}
 

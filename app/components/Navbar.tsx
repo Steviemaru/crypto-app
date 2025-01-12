@@ -11,22 +11,38 @@ import NavLogo from "../../public/navlogo.svg";
 function Navbar() {
   return (
     <div className="dark:bg-black dark:bg-opacity-20 bg-white bg-opacity-20">
-      <div className="flex px-7 py-4 justify-between">
-        <div className="flex items-center">
-          <NavLogo className=" py-0 mx-8 text-white h-12 w-12" />
-          <NavButtons />
+      {/* Top Navigation */}
+      <div className="flex  px-7 py-4 justify-between items-center">
+        {/* Left Section */}
+        <div className="flex items-center flex-wrap gap-4">
+          <NavLogo className="md:w-11 md:h-11 w-6 h-6  md:mx-8 text-white" />
+          <div className="">
+            <NavButtons />
+          </div>
         </div>
-        <div className="flex items-center gap-6 border-1">
-          <SearchInput />
-          <div className="dark:bg-slate-900 bg-purple-100 py-2 px-4 m-1 rounded-t-xl rounded-b-xl ">
+
+        {/* Right Section */}
+        <div className="flex  items-center  md:gap-6 gap-2  w-40 md:w-auto">
+          {/* Search Input */}
+          <div className="dark:bg-shark flex-2 rounded-lg ">
+            <SearchInput />
+          </div>
+
+          {/* Currency List */}
+          <div className=" relative  p-2 md:p-4 py-3 dark:bg-shark bg-purple-100 flex-1 rounded-lg">
             <CurrencyList />
           </div>
-          <div className="dark:bg-slate-900 bg-purple-100 rounded-t-xl rounded-b-xl ">
+
+          {/* Theme Toggle */}
+          <div className="dark:bg-shark bg-purple-100 flex-2 rounded-lg ">
             <ToggleTheme />
           </div>
         </div>
       </div>
-      <div>
+      {/* 
+
+      {/* Bottom Navigation */}
+      <div className="mt-4 px-4">
         <BottomNavData />
       </div>
     </div>

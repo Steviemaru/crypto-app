@@ -96,9 +96,9 @@ const BarChart = ({
     return () => {
       chartInstance.destroy();
     };
-  }, [volume]);
+  }, [volume, chartLabels]);
 
-  return <canvas ref={canvasRef} width={width} height={height}></canvas>;
+  return <canvas ref={canvasRef} className={`${width} ${height}`}></canvas>;
 };
 
 export default BarChart;

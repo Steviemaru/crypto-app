@@ -15,10 +15,11 @@ flex
 gap-2
 items-center
 py-2
-px-6
+md:px-6
 border-gray-100
 relative
-text-base
+md:text-base
+text-xs 
 `;
 export default function BottomNavData() {
 
@@ -61,17 +62,19 @@ export default function BottomNavData() {
 
   return (
     <>
-      <div className="flex p-2 justify-start gap-3 border border-opacity-10 border-black">
-        <BottomNavItem>
-          <CoinsIcon /> Coins: {coins}{" "}
-        </BottomNavItem>
-        <BottomNavItem>
-          <ExchangeIcon /> Exchange: {exchanges}{" "}
-        </BottomNavItem>
-        <BottomNavItem>
-          {symbol}
-          {HandleFormatingNumbersAndLabels(totalMarketCap, "nav")}
-        </BottomNavItem>
+      <div className="flex p-2  md:justify-center justify-around gap-1 md:gap-3 border border-opacity-10 border-black">
+        <div className="hidden lg:flex ">
+          <BottomNavItem>
+            <CoinsIcon /> Coins: {coins}{" "}
+          </BottomNavItem>
+          <BottomNavItem>
+            <ExchangeIcon /> Exchange: {exchanges}{" "}
+          </BottomNavItem>
+          <BottomNavItem>
+            {symbol}
+            {HandleFormatingNumbersAndLabels(totalMarketCap, "nav")}
+          </BottomNavItem>
+        </div>
         <BottomNavItem>
           {symbol}
           {HandleFormatingNumbersAndLabels(totalMarketVolume, "none")}
@@ -91,7 +94,7 @@ export default function BottomNavData() {
           <PercentageBar fill={"bg-blue-300"} progress={ethereumMCP} />
         </BottomNavItem>
       </div>
-      ;
+
     </>
   );
 }

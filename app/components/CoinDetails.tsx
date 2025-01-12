@@ -87,7 +87,10 @@ function CoinDetails({ coin }) {
             "Low 24": low24h,
             "High 24": high24h,
           };
+          
           const coinDataArr = Object.entries(coinData);
+          const rightPercentage = (totalVolume / marketCap * 10000).toFixed(0);
+          const leftPercentage = 100 - parseInt(rightPercentage);
 
           return (
             <div key={item.id} className="p-10 flex gap-10 flex-col">
@@ -96,13 +99,12 @@ function CoinDetails({ coin }) {
                 <ArrowLeft className=" text-white fill-current" width="10px" />
                 <div>Portfolio/Your {coinName} </div>
               </Link>
-              {/* middle data */}
-              <div className="mb-20">
-                <div className="flex gap-7 ">
-                  <div className="flex gap-6 ">
-                    {/* left */}
-                    <div className=" flex  flex-col gap-4 ">
-                      <div className="bg-opacity-50 bg-slate-600 opacity-90  p-10 rounded-xl py-20 flex flex-col justify-center items-center">
+              {/*left */}
+              <div className="flex lg:flex-row flex-col justify-between gap-6 mb-20">
+                <div className="flex flex-col justify-between lg:flex-[50%] lg:max-w-[50%]  ">
+                  <div className=" flex md:flex-row flex-col justify-between gap-4">
+                    <div className=" flex  flex-col justify-between flex-[40%] ">
+                      <div className="bg-opacity-50 bg-slate-600 opacity-90  rounded-xl md:pt-20 md:pb-16 py-10 flex flex-col justify-center items-center">
                         <Image
                           src={coinImage}
                           width={32}
@@ -113,21 +115,20 @@ function CoinDetails({ coin }) {
                           {coinName}[{coinSymbol}]
                         </h1>
                       </div>
-                      <div className="bg-opacity-50 bg-slate-600 opacity-90 rounded-xl py-4 px-10  p-10 flex flex-col justify-center items-center">
+                      <div className="bg-opacity-50 bg-slate-600 opacity-90 rounded-xl py-4 px-10  p-10 md:flex  hidden flex-col justify-center items-center">
                         <Link href={homePageLink}>{homePageLink}</Link>
                       </div>
                     </div>
-                    {/* middle */}
                     <div className=" flex  flex-col  ">
-                      <div className="bg-opacity-50 bg-slate-600 opacity-90 rounded-xl  p-5 mr-4 flex flex-col gap-3">
-                        <div className="">
-                          <div className="flex justify-start gap-7 px-10">
+                      <div className="bg-opacity-50 bg-slate-600 opacity-90 rounded-xl  p-5  flex flex-col gap-3">
+                        <div className="flex flex-col gap-2">
+                          <div className="flex flex-col justify-start md:gap-4 px-10">
                             <h1 className="text-5xl mb-3">
                               {symbol}
-                              {currentPrice}
+                              {parseInt(currentPrice).toLocaleString()}
                             </h1>
                             <PercentageChange
-                              withCurrencySymbol={false}
+                              symbolType={false}
                               data={Number(athChangePercentage)}
                             />
                           </div>
@@ -172,8 +173,18 @@ function CoinDetails({ coin }) {
                       </div>
                     </div>
                   </div>
-                  {/* right */}
-                  <div className="bg-opacity-50 w-6/12 bg-slate-600 opacity-90 px-22 p-7 rounded-xl">
+
+                  <div className="w-[100%] lg:block hidden">
+                    <h1 className="mb-4">Description</h1>
+                    <div className="overflow-y-scroll pt-5 h-56 ">
+                      <div className="space-y-4">{coinDescription}</div>
+                    </div>
+                  </div>
+
+                </div>
+                {/* right */}
+                <div className="lg:flex-[40%] lg:max-w-[40%] space-y-[30%]">
+                  <div className="bg-opacity-50  bg-slate-600 opacity-90 px-22 p-7 rounded-xl">
                     {coinDataArr.map((entry) => {
                       const [key, value] = entry;
 
@@ -182,42 +193,44 @@ function CoinDetails({ coin }) {
                           key={key}
                           className=" w-full py-2 flex justify-between "
                         >
-                          <div className="flex gap-6">
-                            <div className="w-6 h-6 shadow-lg shadow-white/50  rounded-full flex justify-center items-center bg-slate-500">
-                              <Plus
-                                className="text-white fill-current"
-                                width="12px"
-                                height="12px"
-                              />
+                          <div className="flex  flex-[50%]">
+                            <div className="flex-[30%]" >
+                              <div className=" w-4 h-4 shadow-lg shadow-white/50  rounded-full flex justify-center items-center bg-slate-500">
+                                <Plus
+                                  className="text-white fill-current"
+                                  width="8px"
+                                  height="8px"
+                                />
+                              </div>
                             </div>
-                            <div>{key}</div>
+                            <div className="flex-[70%]  md:text-base text-xs">{key}</div>
                           </div>
-                          <div className="">
+                          <div className="md:text-base text-xs text-right flex-[50%]">
                             {symbol}
                             {formatNumbers(value)}
                           </div>
                         </div>
                       ) : (
-                        <div key={key} className="px-10 py-2"></div>
+                        <div key={key} className="px-10 py-2 text-right text-xs"></div>
                       );
                     })}
                     <div className="mt-8">
                       <div className="flex justify-between">
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center sm:text-sm gap-2">
                           <Circle
                             className={circleFill}
                             width="10px"
                             height="10px"
                           />
-                          {totalVolume}
+                          {leftPercentage}%
                         </div>
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center sm:text-sm  gap-2">
                           <Circle
                             className={circleFillAlt}
                             width="10px"
                             height="10px"
                           />
-                          {marketCap}
+                          {rightPercentage}%
                         </div>
                       </div>
                       <div className="w-full">
@@ -229,28 +242,18 @@ function CoinDetails({ coin }) {
                         />
                       </div>
                     </div>
-                  </div>{" "}
-                </div>
-              </div>
-              {/* bottom - description + links */}
-              <div>
-                <h1 className="mb-4">Description</h1>
-                <div className="flex justify-between">
-                  <div className="w-8/12">
-                    <div className="overflow-y-scroll pt-5 h-56 mr-20">
-                      <div className="space-y-4">{coinDescription}</div>
-                    </div>
                   </div>
                   <div className=" flex gap-7 flex-col text-center justify-between ">
                     {blockChainSites.map((item: any) => (
                       <div
                         key={item}
-                        className=" p-4 px-32 bg-slate-500  rounded-xl bg-opacity-50  opacity-90"
+                        className=" p-4  bg-slate-500  rounded-xl bg-opacity-50  opacity-90 truncate"
                       >
                         {item.length > 50 ? item.slice(0, -15) : item}
                       </div>
                     ))}
                   </div>
+
                 </div>
               </div>
             </div>

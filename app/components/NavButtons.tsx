@@ -1,4 +1,3 @@
-"use client";
 import { useState } from "react";
 import { useTheme } from "next-themes";
 import Link from "next/link";
@@ -11,9 +10,11 @@ interface WrapperProps {
 const Wrapper = tw.div<WrapperProps>`
  ${(p) => (p.$primary == "dark" ? "bg-black" : "bg-white")}
   flex
+  items-center
   bg-opacity-50
   rounded-3xl  
-  w-80
+  md:w-80
+  gap-4
 `;
 
 interface ButtonProps {
@@ -25,6 +26,7 @@ interface ButtonProps {
 const Button = tw.button<ButtonProps>`
 ${(p) => (p.$item == p.$selectedItem ? p.$bgColor : "bg-transparent")};
      border-0
+     hidden md:flex
      focus:outline-none
      dark:text-white
      text-black
@@ -38,13 +40,14 @@ ${(p) => (p.$item == p.$selectedItem ? p.$bgColor : "bg-transparent")};
   `;
 
 export default function NavButtons() {
-  const [navItems] = useState(["coins", "convertor"]);
-  const [selectedItem, setSelectedItem] = useState("coins");
+  const [navItems] = useState(["Home", "portfolio"]);
+  const [selectedItem, setSelectedItem] = useState("Home");
   const { theme } = useTheme();
   const navBtnBgColor = theme == "dark" ? "bg-black" : "bg-purple-200";
   const handleClick = (item: string) => {
     setSelectedItem(item);
   };
+
   return (
     <>
       <Wrapper $primary={theme}>
