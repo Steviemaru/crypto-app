@@ -10,6 +10,7 @@ import {
   Title,
   Tooltip,
   Legend,
+  Filler
 } from "chart.js";
 
 ChartJS.register(
@@ -19,7 +20,8 @@ ChartJS.register(
   LineElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  Filler
 );
 
 const LineChart = ({
@@ -27,60 +29,43 @@ const LineChart = ({
   chartLabels,
   width,
   height,
-  gradientA,
-  gradientB,
   chartOptions,
-  borderColor
 }: {
   chartData: any[];
   chartLabels: any[];
   width: string;
   height: any;
-  gradientA:any;
-  gradientB:any;
-  chartOptions:any;
-  borderColor:any;
-
+  chartOptions: any;
 }) => {
   const chartRef = useRef<ChartJS<"line", any>>(null)
-  
-  ;// Define the glow plugin
-const glowPlugin = {
-  id: "glowPlugin",
-  beforeDraw: (chart: any) => {
-    const { ctx } = chart;
-    ctx.save(); // Save the canvas state
-    ctx.shadowBlur = 15; // Set blur amount for glow
-    ctx.shadowColor = gradientA; // Glow color
-  },
-  afterDraw: (chart: any) => {
-    const { ctx } = chart;
-    ctx.shadowBlur = 0; // Reset shadow properties
-    ctx.shadowColor = "transparent";
-    ctx.restore(); // Restore the canvas state
-  },
-};
 
-ChartJS.register(glowPlugin); // Register the plugin globally
+    ;// gives Glow to charts 
+  const glowPlugin = {
+    id: "glowPlugin",
+    beforeDatasetsDraw: (chart) => {
+      const { ctx } = chart;
+      ctx.save();
+
+      chart.data.datasets.forEach((dataset, index) => {
+        if (!dataset.glowColor) return; // Skip if no glow color
+
+        const meta = chart.getDatasetMeta(index);
+        if (!meta || !meta.dataset) return; // Skip if meta or drawable dataset is not available
+
+        ctx.shadowBlur = 15; // Adjust blur for the glow effect
+        ctx.shadowColor = dataset.glowColor; // Apply dataset-specific glow color
+        meta.dataset.draw(ctx); // Redraw the dataset with the glow
+      });
+
+      ctx.restore();
+    },
+  };
+
+  ChartJS.register(glowPlugin);
 
   const data: any = {
     labels: chartLabels,
-    datasets: [
-      {
-        data: chartData,
-        backgroundColor: (context: any) => {
-          const gradient = context.chart.ctx.createLinearGradient(0, 0, 0, 350);
-          gradient.addColorStop(0, gradientA); // Top color: Apricot
-          gradient.addColorStop(0.65, gradientB); // Semi-transparent apricot
-          return gradient;
-        },
-        pointStyle: false,
-        borderColor: borderColor,
-        borderWidth: 3,
-        fill: true,
-        tension: 0.5,
-      },
-    ],
+    datasets: chartData
   };
 
   return (

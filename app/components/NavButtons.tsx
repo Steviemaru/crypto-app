@@ -26,7 +26,7 @@ interface ButtonProps {
 const Button = tw.button<ButtonProps>`
 ${(p) => (p.$item == p.$selectedItem ? p.$bgColor : "bg-transparent")};
      border-0
-     hidden md:flex
+     hidden lg:flex
      focus:outline-none
      dark:text-white
      text-black
@@ -36,7 +36,7 @@ ${(p) => (p.$item == p.$selectedItem ? p.$bgColor : "bg-transparent")};
     m-3
     py-1
     px-7
-    w-32  
+    lg:w-32  
   `;
 
 export default function NavButtons() {

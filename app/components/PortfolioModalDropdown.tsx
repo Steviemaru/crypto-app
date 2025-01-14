@@ -2,14 +2,14 @@
 
 import React from "react";
 import { useState, useEffect, useRef } from "react";
-import FormDownArrow  from "@/public/formDownArrow.svg";
+import FormDownArrow from "@/public/formDownArrow.svg";
 import { hoverEffect } from "@/utils/hoverEffect";
 
 function PortfolioModalDropdown({ data, selected, setSelected }) {
   const [showDropdown, setShowDropdown] = useState(false);
-  const [showPlaceholder , setShowPlaceholder] = useState(true);
+  const [showPlaceholder, setShowPlaceholder] = useState(true);
   const dropDownRef = useRef<HTMLDivElement>(null);
- 
+
   useEffect(() => {
     function handler({ target }: MouseEvent) {
       if (!dropDownRef.current?.contains(target as Node)) {
@@ -25,7 +25,7 @@ function PortfolioModalDropdown({ data, selected, setSelected }) {
   const handleChange = (e: any) => {
     setSelected(e.target.value as string);
   };
-  
+
   return (
     <>
       <div ref={dropDownRef}
@@ -35,21 +35,21 @@ function PortfolioModalDropdown({ data, selected, setSelected }) {
         className={`${hoverEffect} relative dark:text-white bg-slate-800 p-2 rounded-md font-medium flex justify-between items-center`}
         onChange={handleChange}
       >
-       {!showPlaceholder ?  selected : "Select Coin"} 
-       <FormDownArrow/>
+        {!showPlaceholder ? selected : "Select Coin"}
+        <FormDownArrow />
       </div>
       {showDropdown && (
-        
-          <div className="  w-full absolute p-2 z-50 dark:bg-slate-900 bg-purple-100  dark:text-white  text-black max-h-40 overflow-y-scroll">
-          <option className="font-medium" onClick={()=> setShowPlaceholder(true)} value="Select Coin">Select Coin</option>
+
+        <div className="  w-full absolute p-2 z-50 dark:bg-slate-900 bg-purple-100  dark:text-white  text-black max-h-40 overflow-y-scroll">
+          <option className="font-medium" onClick={() => setShowPlaceholder(true)} value="Select Coin">Select Coin</option>
           {cryptoList.map((item: any) => {
             return <option className="dark:hover:bg-slate-400 font-medium" onClick={() => {
               setSelected(item.id);
               setShowPlaceholder(false);
-            }}  value={item.id} key={item.id}>{item.name}</option>;
+            }} value={item.id} key={item.id}>{item.name}</option>;
           })}
         </div>
-  
+
       )}
 
     </>);

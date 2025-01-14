@@ -26,10 +26,10 @@ function ToggleTheme() {
   };
 
   return (
-    <div className="flex items-center  gap-3 md:p-3 p-2 py-3">
+    <div className="flex items-center rounded-lg md:p-6 p-2 gap-3 h-[100%] dark:bg-shark bg-purple-100 ">
       <button
-        className="dark:bg-shark bg-purple-100  flex items-center text-white md:h-6  h-4 w-4"
-        onClick={handleTheme} 
+        className=" flex items-center text-white   h-6 w-6"
+        onClick={handleTheme}
       >
         {theme == "light" ? <MoonIcon /> : <SunIcon />}
       </button>

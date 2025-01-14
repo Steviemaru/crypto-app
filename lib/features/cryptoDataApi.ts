@@ -21,10 +21,13 @@ export const cryptoDataApi = createApi({
     }),
     getCoinData: builder.query<any, any>({
       query: (query) => `${query}${apiDemoKey}`,
+    }),
+    getSearchCoinListData: builder.query<any, any>({
+      query: (query) => `https://api.coingecko.com/api/v3/search?query=${query}${apiDemoKey}`,
     })
   }),
 });
 
-export const { useGetGlobalMarketDataQuery, useGetChartDataQuery ,useGetCarouselDataQuery, useGetDataBQuery, useGetCoinDataQuery } =
+export const { useGetGlobalMarketDataQuery, useGetChartDataQuery ,useGetCarouselDataQuery, useGetDataBQuery, useGetCoinDataQuery, useGetSearchCoinListDataQuery } =
   cryptoDataApi;
 

@@ -1,104 +1,75 @@
 "use client";
-import React, { useRef, useEffect } from "react";
+import React, { useRef} from "react";
+import { Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
-  ChartData,
-  ChartOptions,
-  registerables,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
 } from "chart.js";
 
-// Register all chart types
-ChartJS.register(...registerables);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 const BarChart = ({
   chartData,
   chartLabels,
   width,
   height,
+  chartOptions,
 }: {
   chartData: any[];
   chartLabels: any[];
   width: string;
-  height: string;
+  height: any;
+  chartOptions: any;
 }) => {
-  const chartRef = useRef<ChartJS<"bar", number[], string> | null>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const volume = chartData;
 
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) {
-      return; // Exit early if canvas is null
-    }
-    const ctx = canvas.getContext("2d");
-    if (!ctx) {
-      return; // Exit early if getContext fails
-    }
+  const chartRef = useRef<ChartJS<"bar", any>>(null)
 
-    // Create a linear gradient
-    const gradient = ctx.createLinearGradient(0, 0, 0, 400);
-    gradient.addColorStop(0, "rgba(247, 117, 21,1)");
-    gradient.addColorStop(1, "rgba(0,0,0,1)");
+    ;// Define the glow plugin
+  const glowPlugin = {
+    id: "glowPlugin",
+    beforeDatasetsDraw: (chart) => {
+      const { ctx } = chart;
+      ctx.save();
 
-    const data: ChartData<"bar", number[], string> = {
-      labels: chartLabels,
-      datasets: [
-        {
-          // label: 'My Dataset',
-          data: volume,
-          backgroundColor: gradient,
-          borderColor: "rgba(242, 155, 108,1)",
-          pointStyle: false,
-          borderWidth: 3,
-          // fill: true,
-          // tension:0.5
-        },
-      ],
-    };
+      chart.data.datasets.forEach((dataset, index) => {
+        if (!dataset.glowColor) return; // Skip if no glow color
 
-    const options: ChartOptions<"bar"> = {
-      responsive: true,
-      plugins: {
-        legend: {
-          display: false,
-        },
-      },
-      scales: {
-        y: {
-          stacked: true,
-          display: false,
-          grid: {
-            display: false,
-          },
-        },
-        x: {
-          grid: {
-            display: false,
-          },
-          ticks: {
-            color: "#fff", //for refactor make it switch to black
-            //refactor options and gradient later
-          },
-        },
-      },
-    };
+        const meta = chart.getDatasetMeta(index);
+        if (!meta || !meta.dataset) return; // Skip if meta or drawable dataset is not available
 
-    // Create the chart and store it in the ref
-    const chartInstance = new ChartJS(ctx, {
-      type: "bar",
-      data: data,
-      options: options,
-    });
+        ctx.shadowBlur = 130; // Adjust blur for the glow effect
+        ctx.shadowColor = dataset.glowColor; // Apply dataset-specific glow color
+        meta.dataset.draw(ctx); // Redraw the dataset with the glow
+      });
 
-    chartRef.current = chartInstance; // Store the chart instance in the ref
+      ctx.restore();
+    },
+  };
 
-    // Cleanup function to destroy the chart when the component unmounts
-    return () => {
-      chartInstance.destroy();
-    };
-  }, [volume, chartLabels]);
+  ChartJS.register(glowPlugin); // Register the plugin globally
 
-  return <canvas ref={canvasRef} className={`${width} ${height}`}></canvas>;
+  const data: any = {
+    labels: chartLabels,
+    datasets: chartData
+  };
+
+  return <div className={` ${width} ${height} min-w-[80%] aspect-w-5 aspect-h-3 `}>
+    <Bar data={data} options={chartOptions} ref={chartRef} />
+  </div>;
 };
 
 export default BarChart;
