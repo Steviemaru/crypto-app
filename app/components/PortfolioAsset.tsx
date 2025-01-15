@@ -66,7 +66,7 @@ function PortfolioAsset({ asset, setIsEditing, setIdForEditing, removeAsset }) {
 
   const displayedMarketArr = isSmallScreen ? marketArr.slice(0, 2) : marketArr;
   const displayedCoinArr = isSmallScreen ? coinArr.slice(0, 2) : coinArr;
-
+  6;
   return (
     <div className="flex md:flex-row flex-col my-4 ">
       <div className="md:w-1/5 bg-slate-800 p-8  flex flex-col justify-center items-center">
@@ -96,7 +96,10 @@ function PortfolioAsset({ asset, setIsEditing, setIdForEditing, removeAsset }) {
             const [key, value] = entry;
 
             return (
-              <div key={key} className="flex flex-col justify-between items-center gap-1 flex-1 m-2">
+              <div
+                key={key}
+                className="flex flex-col justify-between items-center gap-1 flex-1 m-2"
+              >
                 <h4 className="text-sm font-medium text-center">{key}</h4>
                 {key !== "Market cap vs Volume:" ? (
                   <div className="font-medium fill-current text-teal-400 flex">
@@ -130,7 +133,10 @@ function PortfolioAsset({ asset, setIsEditing, setIdForEditing, removeAsset }) {
           {displayedCoinArr.map((entry) => {
             const [key, value] = entry;
             return (
-              <div key={key} className="flex flex-col items-center flex-1 gap-1 m-2">
+              <div
+                key={key}
+                className="flex flex-col items-center flex-1 gap-1 m-2"
+              >
                 <h4 className="text-sm font-medium text-center">{key}</h4>
                 {key !== "Coin amount:" && key !== "Purchase Date:" ? (
                   <div className="font-medium fill-current text-teal-400">
