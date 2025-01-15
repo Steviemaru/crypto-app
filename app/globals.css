@@ -19,7 +19,7 @@
   width: 100%;
   backface-visibility: hidden;
   will-change: transform;
-  padding: 20px;
+  padding: 20px 20px 20px 0px;
   display: flex;
   gap: 20px;
 }
@@ -57,44 +57,47 @@ body {
   color: white;
   height: 100vh;
   color: rgb(0, 0, 0);
-  background: linear-gradient(to right,
-      rgb(255, 146, 191),
-      rgb(184, 158, 255),
-      rgb(176, 223, 255));
+  background: linear-gradient(
+    to right,
+    rgb(255, 146, 191),
+    rgb(184, 158, 255),
+    rgb(176, 223, 255)
+  );
 }
 
 div.bg-fade {
-  background: linear-gradient(to bottom,
-      transparent 0%,
-      rgb(255, 255, 255) 100%);
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgb(255, 255, 255) 100%
+  );
   /* height: 100%; */
 }
 
-.convertor-Input ::before{
-border-bottom: none;
+.convertor-Input ::before {
+  border-bottom: none;
 }
 
-.convertor-Input ::after{
-  border-bottom:none;
-  }
+.convertor-Input ::after {
+  border-bottom: none;
+}
 
-  .convertor-Input ::hover{
-    border-bottom:none
-    ;
-    }
+.convertor-Input ::hover {
+  border-bottom: none;
+}
 
-  .css-j218zi-MuiInputBase-root-MuiInput-root-MuiSelect-root::before {
-    border-bottom:none;
-    left: 0;
-    bottom: 0;
-    content: "\00a0";
-    position: absolute;
-    right: 0;
-    -webkit-transition: none;
-    transition: none;
-    pointer-events: none;
+.css-j218zi-MuiInputBase-root-MuiInput-root-MuiSelect-root::before {
+  border-bottom: none;
+  left: 0;
+  bottom: 0;
+  content: "\00a0";
+  position: absolute;
+  right: 0;
+  -webkit-transition: none;
+  transition: none;
+  pointer-events: none;
 }
 
 css-j218zi-MuiInputBase-root-MuiInput-root-MuiSelect-root:hover {
-  border-bottom:none;
+  border-bottom: none;
 }

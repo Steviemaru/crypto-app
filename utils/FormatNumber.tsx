@@ -18,7 +18,7 @@ const sortNumbersbyAmount = (value: any) => {
     // Millions
     return [value / 1_000_000, "million"];
   } else {
-    return [value, "kilo"]; // Less than a million
+    return [value/ 1_000 , "kilo"]; // Less than a million
   }
 };
 
@@ -45,15 +45,16 @@ const getFormatingNumbersLabels = (option: any, unit: any) => {
   return result;
 };
 
-export const HandleFormatingNumbersAndLabels = (value: any, option: string) => {
-  // let formated = "";
+export const HandleFormatingNumbersAndLabels = (value: number, option: string) => {
   const [num, unit] = sortNumbersbyAmount(value);
+ 
   const sign = getFormatingNumbersLabels(option, unit);
-  const fixedNum =
-    option == "charts"
-      ? parseFloat(num).toFixed(2)
-      : parseFloat(num).toFixed(2);
+  const fixedNum = num.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      })
+      
   const formated =
-    option == "none" ? parseFloat(fixedNum) : `${fixedNum} ${sign}`;
+     option ==  "charts" || "nav" ? ` ${fixedNum} ${sign}` :  parseFloat(fixedNum) ;
   return formated;
 };

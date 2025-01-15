@@ -1,14 +1,9 @@
 import ClipLoader from "react-spinners/ClipLoader";
 
-type Props = {
-  isLoading: boolean;
-};
-
-function Spinner({ isLoading = true }: Props) {
+function Spinner() {
   return (
     <ClipLoader
       color="#36d7b7"
-      loading={isLoading}
       size={50}
       aria-label="Loading Spinner"
       data-testid="loader"

@@ -10,8 +10,11 @@ module.exports = {
     extend: {
       backgroundColor: {
         "currency-bg-light": "#424286",
-        "shark":"#1f222a",
-        "shark-light":"#1f1d22"
+        shark: "#1f222a",
+        "shark-light": "#1f1d22",
+        "Coral-Red": "#f18981",
+        "Royal-Purple": "#9c27b0",
+        "Aqua-Blue": "#84ffff",
       },
       backgroundImage: {
         "custom-gradient-dark":
