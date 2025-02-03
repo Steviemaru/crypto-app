@@ -23,11 +23,22 @@ export const cryptoDataApi = createApi({
       query: (query) => `${query}${apiDemoKey}`,
     }),
     getSearchCoinListData: builder.query<any, any>({
-      query: (query) => `https://api.coingecko.com/api/v3/search?query=${query}${apiDemoKey}`,
-    })
+      query: (query) =>
+        `https://api.coingecko.com/api/v3/search?query=${query}${apiDemoKey}`,
+    }),
+    getCoinTableData: builder.query<any, any>({
+      query: ({ currency, per_page, page }) =>
+        `coins/markets?vs_currency=${currency}&order=market_cap_desc&per_page=${per_page}&page=${page}&sparkline=true&price_change_percentage=1h%2C24h%2C7d${apiDemoKey}`,
+    }),
   }),
 });
 
-export const { useGetGlobalMarketDataQuery, useGetChartDataQuery ,useGetCarouselDataQuery, useGetDataBQuery, useGetCoinDataQuery, useGetSearchCoinListDataQuery } =
-  cryptoDataApi;
-
+export const {
+  useGetGlobalMarketDataQuery,
+  useGetChartDataQuery,
+  useGetCarouselDataQuery,
+  useGetDataBQuery,
+  useGetCoinDataQuery,
+  useGetSearchCoinListDataQuery,
+  useGetCoinTableDataQuery,
+} = cryptoDataApi;
