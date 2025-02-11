@@ -7,6 +7,67 @@ export const firstLetterToUppercase = (value: string) => {
   return newValue;
 };
 
+//////////////////////////////////////////////
+export const formatNumbers = (num: any) => {
+  let formatNum = "";
+  const fixedNum = num.toFixed(0);
+  formatNum = Number(fixedNum).toLocaleString();
+
+  return formatNum;
+};
+
+const sortNumbersbyAmount = (value: any) => {
+  if (value >= 1_000_000_000_000 - 1) {
+    // Trillions
+    return [value / 1_000_000_000_000, "trillion"];
+  } else if (value >= 1_000_000_000 - 1) {
+    // Billions
+    return [value / 1_000_000_000, "billion"];
+  } else if (value >= 1_000_000 - 1) {
+    // Millions
+    return [value / 1_000_000, "million"];
+  } else {
+    return [value/ 1_000 , "kilo"]; // Less than a million
+  }
+};
+
+const getFormatingNumbersLabels = (option: any, unit: any) => {
+  const numSigns = {
+    charts: {
+      trillion: "tln",
+      billion: "bln",
+      million: "mln",
+      kilo: "k",
+    },
+    nav: {
+      trillion: "T",
+      billion: "B",
+      million: "M",
+      kilo: "k",
+    },
+    none: {
+      undefined: "",
+    },
+  };
+
+  const result = option == "none" ? "" : numSigns[option][unit];
+  return result;
+};
+
+export const HandleFormatingNumbersAndLabels = (value: number, option: string) => {
+  const [num, unit] = sortNumbersbyAmount(value);
+ 
+  const sign = getFormatingNumbersLabels(option, unit);
+  const fixedNum = num.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      })
+      
+  const formated =
+     option ==  "charts" || "nav" ? ` ${fixedNum} ${sign}` :  parseFloat(fixedNum) ;
+  return formated;
+};
+
 ///////////////////////////////////////////////////
 /////// Chart Data functions
 ///////////////////////////////////////////////////
@@ -14,7 +75,8 @@ export const firstLetterToUppercase = (value: string) => {
 export const getChartData = (
   chartData: any,
   colorClasses: any,
-  selectedCoins: any
+  selectedCoins: any,
+  fadeColor:any
 ) => {
   const Dataset =
     chartData && chartData.length > 0
@@ -37,7 +99,7 @@ export const getChartData = (
                 chartArea.bottom
               );
               gradient.addColorStop(0.15, fillColor);
-              gradient.addColorStop(1, "rgba(0,0,0,0.1)");
+              gradient.addColorStop(1, fadeColor);
               return gradient;
             },
             borderWidth: 4,
@@ -55,7 +117,8 @@ export const getChartData = (
 export const getCoinTableChartData = (
   chartData: any,
   borderColor: any,
-  gradientColor: any
+  gradientColor: any,
+  fadeColor:any
 ) => {
 
   const Dataset = [
@@ -74,7 +137,7 @@ export const getCoinTableChartData = (
           chartArea.bottom
         );
         gradient.addColorStop(0.25, gradientColor);
-        gradient.addColorStop(1, "rgba(0, 0, 0, 0.1)");
+        gradient.addColorStop(1, fadeColor);
         return gradient;
       },
       borderWidth: 2,

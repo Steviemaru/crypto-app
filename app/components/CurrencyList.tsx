@@ -1,6 +1,7 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, memo} from "react";
 import { useAppSelector, useAppDispatch } from "@/lib/hooks";
+import { RootState } from "@/lib/store";
 import CurrencyListIcon from "./CurrencyListIcon";
 import { setCurrency } from "@/lib/features/currencySlice";
 import UpArrow from "../../public/upArrow.svg";
@@ -15,11 +16,12 @@ const currencyList = [
   { currency: "ltc" },
 ];
 
-export default function CurrencyList() {
+export  const CurrencyList = memo(()=> {
+  CurrencyList.displayName = "CurrencyList";
   const [showDropdown, setShowDropdown] = useState(false);
   const dropDownRef = useRef<HTMLDivElement>(null);
   const dispatch = useAppDispatch();
-  const { currency } = useAppSelector((state) => state.currency);
+  const { currency } = useAppSelector((state: RootState) => state.currency);
 
   useEffect(() => {
     function handler({ target }: MouseEvent) {
@@ -32,7 +34,10 @@ export default function CurrencyList() {
   }, []);
 
   return (
-    <div className="relative rounded-lg md:p-6 p-2 h-[100%] dark:bg-shark bg-purple-100 flex flex-col items-center justify-center ">
+    <div
+      className="relative rounded-lg md:p-6 p-2 h-[100%]  border-t-2 
+   dark:border-[#373745] dark:bg-shark bg-purple-100 flex flex-col items-center justify-center "
+    >
       <div
         ref={dropDownRef}
         onClick={() => {
@@ -65,4 +70,6 @@ export default function CurrencyList() {
       )}
     </div>
   );
-}
+});
+
+export default CurrencyList;

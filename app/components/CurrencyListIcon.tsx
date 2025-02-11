@@ -1,10 +1,13 @@
+import  {memo } from "react";
 import { useAppSelector } from "../../lib/hooks";
 import { useTheme } from "next-themes";
 import CurrencyBgIcon from "../../public/currencyBgIcon.svg";
 import CurrencyBgLightIcon from "../../public/currencyBgLightIcon.svg";
+import { RootState } from "@/lib/store";
 
-function CurrencyListIcon() {
-  const { symbol } = useAppSelector((state) => state.currency);
+const CurrencyListIcon  = memo(()=> {
+  CurrencyListIcon.displayName = "CurrencyListIcon";
+  const { symbol } = useAppSelector((state: RootState) => state.currency);
   const { theme } = useTheme();
 
   if (theme == "light") {
@@ -26,6 +29,6 @@ function CurrencyListIcon() {
       </div>
     </div>
   );
-}
+});
 
 export default CurrencyListIcon;

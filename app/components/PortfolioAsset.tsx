@@ -3,13 +3,15 @@ import Image from "next/image";
 import PercentageBar from "./PercentageBar";
 import PercentageChange from "./PercentageChange";
 import { useAppSelector } from "@/lib/hooks";
-import { hoverEffect } from "@/utils/hoverEffect";
-import { formatNumbers } from "@/utils/FormatNumber";
+import { formatNumbers } from "@/utils/helperFunctions";
 import Trash from "../../public/trash.svg";
 import Edit from "../../public/edit.svg";
+import { RootState } from "@/lib/store";
 
 function PortfolioAsset({ asset, setIsEditing, setIdForEditing, removeAsset }) {
-  const { currency, symbol } = useAppSelector((state) => state.currency);
+  const { currency, symbol } = useAppSelector(
+    (state: RootState) => state.currency
+  );
   const [isSmallScreen, setIsSmallScreen] = useState(false);
 
   useEffect(() => {
@@ -69,20 +71,20 @@ function PortfolioAsset({ asset, setIsEditing, setIdForEditing, removeAsset }) {
   6;
   return (
     <div className="flex md:flex-row flex-col my-4 ">
-      <div className="md:w-1/5 bg-slate-800 p-8  flex flex-col justify-center items-center">
+      <div className="md:w-1/5 dark:bg-shark bg-slate-100 p-8  flex flex-col justify-center items-center">
         <div className="rounded-lg p-2 bg-slate-200">
-          <Image src={coinImage} width={22} height={22} alt="coin" />
+          <Image src={coinImage} width={22} height={22} alt="coin" loading="lazy" />
         </div>
         <div className="mt-4 font-semibold">
           {name}
           {` [${coinSymbol}]`}
         </div>
       </div>
-      <div className="md:w-4/5 bg-gray-700 md:mr-5 p-8 ">
+      <div className="md:w-4/5 dark:bg-gray-700 bg-purple-100 md:mr-5 p-8 ">
         <div className="flex justify-between items-center mb-5">
           <h2 className="font-medium text-lg ">Market Price</h2>
           <button
-            className={`bg-slate-400 p-2 rounded-md ${hoverEffect} `}
+            className="bg-slate-400 p-2 rounded-md"
             onClick={() => {
               removeAsset(asset);
             }}
@@ -91,7 +93,7 @@ function PortfolioAsset({ asset, setIsEditing, setIdForEditing, removeAsset }) {
             {trash}{" "}
           </button>
         </div>
-        <div className="border-b border-slate-100 flex justify-between pb-5">
+        <div className="border-b border-black dark:border-slate-100 flex justify-between pb-5">
           {displayedMarketArr.map((entry) => {
             const [key, value] = entry;
 
@@ -119,7 +121,7 @@ function PortfolioAsset({ asset, setIsEditing, setIdForEditing, removeAsset }) {
         <div className="flex justify-between flex-2  mt-5">
           <h2 className="font-medium">Your Coin</h2>
           <button
-            className={`bg-slate-400 p-2 rounded-md ${hoverEffect} `}
+            className="bg-slate-400 p-2 rounded-md "
             onClick={() => {
               setIsEditing(true);
               setIdForEditing(id);

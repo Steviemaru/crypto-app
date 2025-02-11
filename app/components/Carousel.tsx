@@ -1,33 +1,32 @@
 "use client";
-
-import { useCallback } from "react";
+import { useCallback} from "react";
 import Image from "next/image";
 import useEmblaCarousel from "embla-carousel-react";
+import { RootState } from "@/lib/store";
 import { useAppSelector, useAppDispatch } from "@/lib/hooks";
 import { useGetCarouselDataQuery } from "@/lib/features/cryptoDataApi";
 import { toggleCoin } from "@/lib/features/chartSlice";
 import PercentageChange from "./PercentageChange";
-import Spinner from "./spinner/Spinner";
+import Loader from "./Loader";
 import ArrowRight from "../../public/arrowRight.svg";
 import ArrowLeft from "../../public/arrowLeft.svg";
 
-export function Carousel() {
+export const Carousel = ()=> {
   const [emblaRef, emblaApi] = useEmblaCarousel({
     align: "start",
     containScroll: "trimSnaps",
+    dragFree: true,
   });
   const dispatch = useAppDispatch();
-  const { currency } = useAppSelector((state) => state.currency);
-  const { selectedCoins } = useAppSelector((state) => state.chart);
-
-  const coinQuery = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&price_change_percentage=1h%2C24h%2C7d&sparkline=true`;
+  const { currency } = useAppSelector((state: RootState) => state.currency);
+  const { selectedCoins } = useAppSelector((state: RootState) => state.chart);
 
   const {
     data: coinData,
     isLoading,
     isError,
     isSuccess,
-  } = useGetCarouselDataQuery(coinQuery);
+  } = useGetCarouselDataQuery(currency);
 
   const handleCoinClick = (coin: any) => {
     dispatch(toggleCoin(coin));
@@ -42,11 +41,7 @@ export function Carousel() {
   }, [emblaApi]);
 
   if (isLoading) {
-    return (
-      <div className="dark:bg-darkPurple bg-lightPurple text-lightText  flex justify-center items-center gap-10 py-4 text-sm">
-        <Spinner />
-      </div>
-    );
+    return <Loader height="" />;
   }
 
   if (isError) {
@@ -59,18 +54,18 @@ export function Carousel() {
 
   if (isSuccess) {
     return (
-      <div className="relative pt-4 lg:w-4/5 w-full ">
+      <div className="relative pt-4  w-full ">
         <div className="pl-7">Select the currency to view statistics </div>
         <div className="relative">
           <div className="embla pt-8">
             <button
-              className="embla__prev dark:bg-black bg-purple-200 text-white  fill-current md:block hidden"
+              className="embla__prev dark:bg-black dark:bg-opacity-5 dark:hover:bg-opacity-70 bg-purple-200 bg-opacity-5 hover:bg-opacity-70 text-white  fill-current md:block hidden"
               onClick={scrollPrev}
             >
               <ArrowLeft width="10px" height="10px" className="" />
             </button>
             <div className="embla__viewport" ref={emblaRef}>
-              <div className="embla__container">
+              <div className="embla__con2">
                 {coinData.length > 1 &&
                   coinData?.map((item: any) => {
                     const isSelected = selectedCoins.includes(
@@ -80,19 +75,23 @@ export function Carousel() {
                       <div
                         key={item.id}
                         className={` p-2  ${
-                          isSelected ? "bg-opacity-100" : "bg-opacity-70"
-                        }   bg-shark flex-none  md:w-[50%]  lg:w-[25%] flex gap-2 rounded-lg  justify-center items-center`}
+                          isSelected
+                            ? "bg-opacity-100 dark:bg-opacity-100"
+                            : "bg-opacity-50 dark:bg-opacity-50"
+                        } bg-purple-200  dark:bg-shark flex-none  md:w-[50%]  lg:w-[20%] flex gap-2 rounded-lg  justify-center items-center  dark:border-2  dark:border-opacity-80
+   border-[#373745]`}
                         onClick={() => {
                           handleCoinClick(item.id);
                         }}
                       >
                         <div className="flex items-center">
                           <Image
-                            className="md:w-8 md:h-8"
+                            className=""
                             src={item.image ? item.image : null}
-                            width={12}
-                            height={12}
+                            width={20}
+                            height={20}
                             alt="coin"
+                            loading="lazy"
                           />
                         </div>
                         <div className="dark:text-white text-black flex flex-col md:items-start items-center">
@@ -120,7 +119,7 @@ export function Carousel() {
             </div>
 
             <button
-              className="embla__next  dark:bg-black bg-purple-200 text-white  fill-current md:block hidden"
+              className="embla__next  dark:bg-black dark:bg-opacity-5 dark:hover:bg-opacity-70 bg-purple-200 bg-opacity-5 hover:bg-opacity-70 text-white  fill-current md:block hidden z-50"
               onClick={scrollNext}
             >
               <ArrowRight width="10px" height="10px" />
@@ -130,4 +129,4 @@ export function Carousel() {
       </div>
     );
   }
-}
+};

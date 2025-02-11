@@ -1,1 +1,0 @@
-export const hoverEffect = `hover:scale-110 transition-transform duration-300 ase-in-out`;

@@ -1,17 +1,32 @@
 "use client";
-import { useRef } from "react";
 import { Provider } from "react-redux";
-import { makeStore, AppStore } from "../lib/store";
+import { ThemeProvider } from "next-themes";
+import { PersistGate } from "redux-persist/integration/react";
+import { persistor, store } from "../lib/store";
+import Spinner from "./components/Spinner/Spinner";
 
 export default function StoreProvider({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const storeRef = useRef<AppStore>();
-  if (!storeRef.current) {
-    storeRef.current = makeStore();
-  }
-
-  return <Provider store={storeRef.current}>{children}</Provider>;
+  return (
+    <Provider store={store}>
+      {" "}
+      <PersistGate
+        loading={
+          <div className="w-screen h-screen flex justify-center items-center bg-white dark:bg-black">
+            <div className="flex justify-center items-center">
+              <Spinner />
+            </div>
+          </div>
+        }
+        persistor={persistor}
+      >
+        <ThemeProvider attribute="class" enableSystem={true}>
+          {children}
+        </ThemeProvider>
+      </PersistGate>
+    </Provider>
+  );
 }

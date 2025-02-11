@@ -1,47 +1,40 @@
 "use client";
 import { useState, useEffect } from "react";
+import { RootState } from "@/lib/store";
+import { useAppSelector } from "@/lib/hooks";
 import BarChart from "./BarChart";
+import { useTheme } from "next-themes";
 import LineChart from "./LineChart";
-import { setDays } from "@/lib/features/daysSlice";
 import GetTodaysDate from "@/utils/GetTodaysDate";
 import { getChartLabels } from "@/utils/getChartlabels";
-import { HandleFormatingNumbersAndLabels } from "@/utils/FormatNumber";
-import Spinner from "../spinner/Spinner";
+import { HandleFormatingNumbersAndLabels } from "@/utils/helperFunctions";
 import {
   firstLetterToUppercase,
   chartOptions,
   getChartData,
 } from "@/utils/helperFunctions";
-import { useAppSelector, useAppDispatch } from "@/lib/hooks";
 import { useGetChartDataQuery } from "@/lib/features/cryptoDataApi";
+import Loader from "../Loader";
+import PlaceHolder from "../PlaceHolder";
 
 function Charts() {
-  const [selected, setSelected] = useState("");
   const [datasetArr, setDatasetArr] = useState<any>([]);
   const { selectedCoins } = useAppSelector((state) => state.chart);
-  const { currency, symbol } = useAppSelector((state) => state.currency);
+  const { currency, symbol } = useAppSelector(
+    (state: RootState) => state.currency
+  );
   const { selectedDay } = useAppSelector((state) => state.selectedDay);
-  const dispatch = useAppDispatch();
-
-  // contains values for days buttons
-  const intervalsForDays = {
-    "1D": "1",
-    "3D": "3",
-    "7D": "7",
-    "1M": "30",
-    "3M": "90",
-    "6M": "180",
-    "1Y": "365",
-  };
-
+  const { theme } = useTheme();
+  const fadeColor =
+    theme == "dark" ? "rgba(0,0,0,0.1)" : "rgba(225,225,225,0.1)";
   //////////////////////////////////////////////////////////////
 
   const {
     data: coin1Query,
     isLoading,
     isSuccess,
-  } = useGetChartDataQuery(
-    `https://api.coingecko.com/api/v3/coins/${selectedCoins[0]}/market_chart?vs_currency=${currency}&days=${selectedDay}`,
+  } = useGetChartDataQuery(selectedCoins[0] ?
+    `coins/${selectedCoins[0]}/market_chart?vs_currency=${currency}&days=${selectedDay}`: null,
     {
       skip: !selectedCoins[0], // Skip the query if the coin is not selected
     }
@@ -51,10 +44,10 @@ function Charts() {
     data: coin2Query,
     isLoading: isLoading2,
     isSuccess: isSucess2,
-  } = useGetChartDataQuery(
-    `https://api.coingecko.com/api/v3/coins/${selectedCoins[1]}/market_chart?vs_currency=${currency}&days=${selectedDay}`,
+  } = useGetChartDataQuery(selectedCoins[1] ?
+    `coins/${selectedCoins[1]}/market_chart?vs_currency=${currency}&days=${selectedDay}`: null,
     {
-      skip: !selectedCoins[1], // Skip the query if the coin is not selected
+      skip: !selectedCoins[1],
     }
   );
 
@@ -63,9 +56,10 @@ function Charts() {
     isLoading: isLoading3,
     isSuccess: isSucess3,
   } = useGetChartDataQuery(
-    `https://api.coingecko.com/api/v3/coins/${selectedCoins[2]}/market_chart?vs_currency=${currency}&days=${selectedDay}`,
+    selectedCoins[2] ? 
+    `coins/${selectedCoins[2]}/market_chart?vs_currency=${currency}&days=${selectedDay}`: null,
     {
-      skip: !selectedCoins[2], // Skip the query if the coin is not selected
+      skip: !selectedCoins[2], 
     }
   );
   /////////////////////////////////////////////////////////////
@@ -79,7 +73,12 @@ function Charts() {
     "bg-Aqua-Blue",
   ];
   const chartLabels = getChartLabels(selectedDay);
-  const coinChartData = getChartData(chartData, colorClasses, selectedCoins);
+  const coinChartData = getChartData(
+    chartData,
+    colorClasses,
+    selectedCoins,
+    fadeColor
+  );
 
   /////////////////////////////////////////////////////////////
   // chart label code
@@ -125,20 +124,10 @@ function Charts() {
 
   /////////////////////////////////////////////////////////////
 
-  const placeholder = (
-    <div className="flex flex-col h-[500px] justify-center items-center">
-      <div className="text-center text-gray-500">
-        {" "}
-        Select coins to display their chart data.
-      </div>
-    </div>
-  );
+  const placeholder = <PlaceHolder height={"h-[500px]"} />;
 
-  const loader = (
-    <div className="flex flex-col h-[500px] justify-center items-center">
-      <Spinner />
-    </div>
-  );
+  const loader = <Loader height={"h-[500px]"} />;
+
   ///////////////  /////////////////////////////////////////////////////////////
 
   const lineChartContent =
@@ -217,17 +206,29 @@ function Charts() {
     <div className="w-full">
       <div className="flex py-4 lg:gap-10 gap-6 md:flex-row flex-col ">
         {/* {/* chart 1  */}
-        <div className="rounded-2xl p-4 bg-opacity-80 bg-shark opacity-90 md:w-3/6  ">
-          <div className="lg:text-2xl text-base">
-            {selectedCoins.length > 0 && (
-              <div className="mb-5 "> Market Cap</div>
+        <div
+          className="rounded-2xl p-4  border-2  
+   dark:border-[#55495C] bg-opacity-80 bg-purple-100 dark:bg-shark opacity-90 md:w-3/6  "
+        >
+          <div className=" text-base">
+            {selectedCoins.length > 0 && selectedCoins.length < 2 ? (
+              <div className="mb-5  text-xl "> {coinName1}</div>
+            ) : (
+              <div
+                className={`mb-5 ${
+                  selectedCoins.length == 0 ? "hidden" : "flex"
+                }  text-xl `}
+              >
+                {" "}
+                Market Cap
+              </div>
             )}
             {selectedCoins.length === 1 && (
               <div>
                 <div className="flex items-center">
                   {coinName1 !== undefined && (
                     <div className="flex items-center">
-                      <div>{` ${coinName1} ${symbol} ${coinMarketCap1}`}</div>
+                      <div className="lg:text-2xl">{` ${symbol} ${coinMarketCap1}`}</div>
                     </div>
                   )}
                 </div>
@@ -260,17 +261,20 @@ function Charts() {
           )}
         </div>
         {/* {/* chart 2   */}
-        <div className="rounded-2xl p-4 bg-opacity-80 bg-shark opacity-90 md:w-3/6 ">
-          <div className="lg:text-2xl text-base">
+        <div
+          className="rounded-2xl p-4 bg-opacity-80 border-2  
+   dark:border-[#55495C] bg-purple-100 dark:bg-shark opacity-90 md:w-3/6 "
+        >
+          <div className=" text-base">
             {selectedCoins.length > 0 && (
-              <div className="mb-5 "> 24hr Volume</div>
+              <div className="mb-5 text-xl "> Volume 24hr</div>
             )}
             {selectedCoins.length === 1 && (
               <div>
                 <div className="flex items-center">
                   {coinName1 !== undefined && (
                     <div className="flex items-center">
-                      <div>{` ${coinName1} ${symbol} ${coinMarketCap1}`}</div>
+                      <div className="lg:text-2xl">{` ${coinName1} ${symbol} ${coinMarketCap1}`}</div>
                     </div>
                   )}
                 </div>
@@ -302,27 +306,6 @@ function Charts() {
             </div>
           )}
         </div>
-      </div>
-
-      {/* 1D 3D 5D ect days buttons */}
-      <div className="flex gap-3 ">
-        {Object.entries(intervalsForDays).map((entry: any) => {
-          const [key, value] = entry;
-          return (
-            <button
-              key={key}
-              className={`p-2 rounded-xl bg-opacity-50 bg-slate-600 ${
-                key == selected ? "bg-slate-900" : ""
-              }`}
-              onClick={() => {
-                dispatch(setDays(parseInt(value)));
-                setSelected(key);
-              }}
-            >
-              {key}
-            </button>
-          );
-        })}
       </div>
     </div>
   );
