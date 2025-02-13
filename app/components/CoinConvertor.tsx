@@ -11,10 +11,9 @@ import Rotate from "@/public/rotate.svg";
 import GetTodaysDate from "@/utils/GetTodaysDate";
 import DropDown from "../components/DropDown";
 import ConvertorChart from "../components/ConvertorChart";
+import CoinConvertorContent from "./CoinConvertorContent";
 import LeftConvertorItem from "./LeftConvertorItem";
 import RightConvertorItem from "./RightConvertorItem";
-import PlaceHolder from "./PlaceHolder";
-import Loader from "./Loader";
 
 function CoinConvertor() {
   const [left, setLeft] = useState({
@@ -85,22 +84,11 @@ function CoinConvertor() {
   const leftCoinSymbol = left.symbol;
   const rightCoinSymbol = right.symbol;
 
-  const CoinConvertorContent =
-    isLoading && isLoading2 ? (
-      <Loader height={"h-[300px]"} />
-    ) : !leftSelected || !rightSelected ? (
-      <PlaceHolder height={"h-[300px]"} />
-    ) : isSuccess || isSuccess2 ? (
-      <ConvertorChart chartA={chartA} chartB={chartB} />
-    ) : (
-      []
-    );
-
   return (
     <div className="w-full  flex  flex-col justify-center  gap-4">
       <div className="flex flex-col justify-start items-start my-4">
         <h1>Online Currency Convertor</h1>
-        <div>{GetTodaysDate()}</div>
+        <div>{<GetTodaysDate />}</div>
       </div>
 
       <div className="flex md:flex-row flex-col w-[100%] items-center">
@@ -147,7 +135,17 @@ function CoinConvertor() {
           />
         </RightConvertorItem>
       </div>
-      {CoinConvertorContent}
+      <CoinConvertorContent
+        isLoading={isLoading}
+        isLoading2={isLoading2}
+        leftSelected={leftSelected}
+        rightSelected={rightSelected}
+        isSuccess={isSuccess}
+        isSuccess2={isSuccess2}
+      > 
+      {/* nested component to avoid prop drilling */}
+        <ConvertorChart chartA={chartA} chartB={chartB} />
+      </CoinConvertorContent>
     </div>
   );
 }

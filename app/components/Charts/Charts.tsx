@@ -14,8 +14,7 @@ import {
   getChartData,
 } from "@/utils/helperFunctions";
 import { useGetChartDataQuery } from "@/lib/features/cryptoDataApi";
-import Loader from "../Loader";
-import PlaceHolder from "../PlaceHolder";
+import ChartContent from "../ChartContent";
 
 function Charts() {
   const [datasetArr, setDatasetArr] = useState<any>([]);
@@ -33,8 +32,10 @@ function Charts() {
     data: coin1Query,
     isLoading,
     isSuccess,
-  } = useGetChartDataQuery(selectedCoins[0] ?
-    `coins/${selectedCoins[0]}/market_chart?vs_currency=${currency}&days=${selectedDay}`: null,
+  } = useGetChartDataQuery(
+    selectedCoins[0]
+      ? `coins/${selectedCoins[0]}/market_chart?vs_currency=${currency}&days=${selectedDay}`
+      : null,
     {
       skip: !selectedCoins[0], // Skip the query if the coin is not selected
     }
@@ -43,9 +44,11 @@ function Charts() {
   const {
     data: coin2Query,
     isLoading: isLoading2,
-    isSuccess: isSucess2,
-  } = useGetChartDataQuery(selectedCoins[1] ?
-    `coins/${selectedCoins[1]}/market_chart?vs_currency=${currency}&days=${selectedDay}`: null,
+    isSuccess: isSuccess2,
+  } = useGetChartDataQuery(
+    selectedCoins[1]
+      ? `coins/${selectedCoins[1]}/market_chart?vs_currency=${currency}&days=${selectedDay}`
+      : null,
     {
       skip: !selectedCoins[1],
     }
@@ -54,12 +57,13 @@ function Charts() {
   const {
     data: coin3Query,
     isLoading: isLoading3,
-    isSuccess: isSucess3,
+    isSuccess: isSuccess3,
   } = useGetChartDataQuery(
-    selectedCoins[2] ? 
-    `coins/${selectedCoins[2]}/market_chart?vs_currency=${currency}&days=${selectedDay}`: null,
+    selectedCoins[2]
+      ? `coins/${selectedCoins[2]}/market_chart?vs_currency=${currency}&days=${selectedDay}`
+      : null,
     {
-      skip: !selectedCoins[2], 
+      skip: !selectedCoins[2],
     }
   );
   /////////////////////////////////////////////////////////////
@@ -123,47 +127,6 @@ function Charts() {
   ];
 
   /////////////////////////////////////////////////////////////
-
-  const placeholder = <PlaceHolder height={"h-[500px]"} />;
-
-  const loader = <Loader height={"h-[500px]"} />;
-
-  ///////////////  /////////////////////////////////////////////////////////////
-
-  const lineChartContent =
-    isLoading || isLoading2 || isLoading3 ? (
-      loader
-    ) : selectedCoins.length < 1 ? (
-      placeholder
-    ) : isSuccess || isSucess2 || isSucess3 ? (
-      <LineChart
-        chartLabels={chartLabels}
-        chartData={coinChartData}
-        width={"w-full"}
-        height={"h-[300px]"}
-        chartOptions={chartOptions}
-      />
-    ) : (
-      []
-    );
-
-  const barChartContent =
-    isLoading || isLoading2 || isLoading3 ? (
-      loader
-    ) : selectedCoins.length < 1 ? (
-      placeholder
-    ) : isSuccess ? (
-      <BarChart
-        chartLabels={chartLabels}
-        chartData={coinChartData}
-        width={"w-full"}
-        height={"h-[300px]"}
-        chartOptions={chartOptions}
-      />
-    ) : (
-      []
-    );
-
   /////////////////////////////////////////////////////////////
 
   useEffect(() => {
@@ -236,7 +199,24 @@ function Charts() {
             )}
             {selectedCoins.length > 0 && <GetTodaysDate />}
           </div>
-          {lineChartContent}
+          <ChartContent
+            selectedCoins={selectedCoins}
+            isLoading={isLoading}
+            isLoading2={isLoading2}
+            isLoading3={isLoading3}
+            isSuccess={isSuccess}
+            isSuccess2={isSuccess2}
+            isSuccess3={isSuccess3}
+          >
+            {/* nested chart to avoid prop drilling */}
+            <LineChart
+              chartLabels={chartLabels}
+              chartData={coinChartData}
+              width={"w-full"}
+              height={"h-[300px]"}
+              chartOptions={chartOptions}
+            />
+          </ChartContent>
           {selectedCoins.length > 1 && (
             <div className="mt-6">
               <div className="flex gap-3 lg:flex-row flex-col">
@@ -282,7 +262,23 @@ function Charts() {
             )}
             {selectedCoins.length > 0 && <GetTodaysDate />}
           </div>
-          {barChartContent}
+          <ChartContent
+            selectedCoins={selectedCoins}
+            isLoading={isLoading}
+            isLoading2={isLoading2}
+            isLoading3={isLoading3}
+            isSuccess={isSuccess}
+            isSuccess2={isSuccess2}
+            isSuccess3={isSuccess3}
+          >
+            <BarChart
+              chartLabels={chartLabels}
+              chartData={coinChartData}
+              width={"w-full"}
+              height={"h-[300px]"}
+              chartOptions={chartOptions}
+            />
+          </ChartContent>
           {selectedCoins.length > 1 && (
             <div className="mt-6">
               <div className="flex gap-3  lg:flex-row flex-col">
