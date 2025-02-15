@@ -48,15 +48,18 @@ const LineChart = memo(
         const { ctx } = chart;
         ctx.save();
 
+        if (!Array.isArray(chart.data.datasets)) return; // Ensure datasets is an array
+
         chart.data.datasets.forEach((dataset, index) => {
-          if (!dataset.glowColor) return; // Skip if no glow color
+          if (!dataset || !dataset.glowColor) return; // Ensure dataset and glowColor exist
 
-          const meta = chart.getDatasetMeta(index);
-          if (!meta || !meta.dataset) return; // Skip if meta or drawable dataset is not available
+          const meta = chart?.getDatasetMeta(index);
+          if (!meta || !meta.dataset || typeof meta.dataset.draw !== "function")
+            return; // Ensure dataset.draw exists
 
-          ctx.shadowBlur = 15; // Adjust blur for the glow effect
-          ctx.shadowColor = dataset.glowColor; // Apply dataset-specific glow color
-          meta.dataset.draw(ctx); // Redraw the dataset with the glow
+          ctx.shadowBlur = 15;
+          ctx.shadowColor = dataset.glowColor;
+          meta.dataset.draw(ctx);
         });
 
         ctx.restore();

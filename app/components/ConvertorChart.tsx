@@ -1,75 +1,44 @@
-import { useState } from "react";
-// import LineChart from "../components/Charts/LineChart";
-// import { getChartLabels } from "@/utils/getChartlabels";
-import { useAppDispatch } from "@/lib/hooks";
-// useAppSelector
-import { setDays } from "@/lib/features/daysSlice";
-// import { chartOptions } from "@/utils/helperFunctions";
+import { useTheme } from "next-themes";
+import LineChart from "../components/Charts/LineChart";
+import { getChartLabels } from "@/utils/getChartlabels";
+import { useAppSelector } from "@/lib/hooks";
+import { chartOptions, getCoinTableChartData } from "@/utils/helperFunctions";
 
-function ConvertorChart() {
-    // { chartA, chartB }
-    // will comeback to after commit 
-    // const { selectedDay } = useAppSelector((state) => state.selectedDay);
-    const [selected, setSelected] = useState("");
-    const dispatch = useAppDispatch();
+function ConvertorChart({ chartA, chartB }) {
+  const { selectedDay } = useAppSelector((state) => state.selectedDay);
+  const { theme } = useTheme();
+  const chartColor = theme == "dark" ? "#f18981" : "#4BC0C0";
+  const fadeColor =
+    theme == "dark" ? "rgba(0,0,0,0.1)" : "rgba(225,225,225,0.1)";
 
-    // const borderColor = "rgba(75,192,192,1)";
-    // const gradientA = "rgba(75,192,192,1)";
-    // const gradientB = "rgba(0,0,0,0) ";
-    const intervalsForDays = {
-        "1D": "1",
-        "3D": "3",
-        "7D": "7",
-        "1M": "30",
-        "3M": "90",
-        "6M": "180",
-        "1Y": "365",
-    };
+  const chartAPrices = chartA?.prices?.map((item: any) => item[1]) || [];
 
-    // const chartAPrices = chartA?.prices?.map((item: any) => item[1]) || [];
+  const chartBPrices = chartB?.prices?.map((item: any) => item[1]) || [];
 
-    // const chartBPrices = chartB?.prices?.map((item: any) => item[1]) || [];
+  const chartResult = chartAPrices.map((num: any, index: any) => {
+    if (chartBPrices[index] !== 0) {
+      return num / chartBPrices[index];
+    } else {
+      return null; // Handle division by zero
+    }
+  });
 
-    //will fix after commit 
-    // const chartResult = chartAPrices.map((num: any, index: any) => {
-    //     if (chartBPrices[index] !== 0) {
-    //         return num / chartBPrices[index] * 34;
-    //     } else {
-    //         return null; // Handle division by zero
-    //     }
-    // });
-
-    return (
-        <div className=" w-[100%]">
-            {/* will come back to after commit  */}
-            {/* <LineChart chartLabels={getChartLabels(selectedDay)}
-                chartData={chartResult}
-                chartOptions={chartOptions}
-                borderColor={borderColor}
-                gradientA={gradientA}
-                gradientB={gradientB}
-                width={"w-full"}
-                height={"200"} /> */}
-            <div className="flex my-10 gap-2 w-[100%]">
-                {Object.entries(intervalsForDays).map((entry: any) => {
-                    const [key, value] = entry;
-                    return (
-                        <button
-                            key={key}
-                            className={`p-2 rounded-xl bg-opacity-50 bg-slate-600 ${key == selected ? "bg-slate-900" : ""
-                                }`}
-                            onClick={() => {
-                                dispatch(setDays(parseInt(value)));
-                                setSelected(key);
-                            }}
-                        >
-                            {key}
-                        </button>
-                    );
-                })}
-            </div>
-        </div>
-    );
+  return (
+    <div className="h-[300px] max-h-[400px] w-[100%]">
+      <LineChart
+        chartLabels={getChartLabels(selectedDay)}
+        chartData={getCoinTableChartData(
+          chartResult,
+          chartColor,
+          chartColor,
+          fadeColor
+        )}
+        chartOptions={chartOptions}
+        width={"w-full"}
+        height={"h-[100%]"}
+      />
+    </div>
+  );
 }
 
 export default ConvertorChart;

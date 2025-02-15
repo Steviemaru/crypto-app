@@ -2,44 +2,36 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface CurrencyState {
   currency: string;
-  symbol:string;
+  symbol: string;
 }
 
-const initialState : CurrencyState = {
+const initialState: CurrencyState = {
   currency: "gbp",
-  symbol:"£",
-} ;
+  symbol: "£",
+};
+
+const currencySymbols: Record<
+  "gbp" | "eur" | "usd" | "btc" | "eth" | "ltc",
+  string
+> = {
+  gbp: "£",
+  eur: "€",
+  usd: "$",
+  btc: "₿",
+  eth: "♦",
+  ltc: "Ł",
+};
 
 export const currencySelectorSlice = createSlice({
   name: "currencySelector",
   initialState,
   reducers: {
-    setCurrency:(state, item: PayloadAction<string> ) => {
-      state.currency = item.payload;
-      switch (item.payload) {
-        case "gbp":
-          state.symbol = "£";
-          break;
-        case "eur":
-          state.symbol = "€";
-          break;
-        case "usd":
-          state.symbol = "$";
-          break;
-        case "btc":
-          state.symbol = "₿";
-          break;
-        case "eth":
-          state.symbol = "♦";
-          break;
-        case "ltc":
-          state.symbol = "Ł";
-          break;
-        default:
-          state.symbol = "£";
-      }
-    }
-  }
+    setCurrency: (state, action: PayloadAction<string>) => {
+      const currencyKey = action.payload.toLowerCase();
+      state.currency = currencyKey;
+      state.symbol = currencySymbols[currencyKey] || "£";
+    },
+  },
 });
 
 export const { setCurrency } = currencySelectorSlice.actions;

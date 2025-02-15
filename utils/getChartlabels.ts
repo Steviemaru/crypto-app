@@ -1,5 +1,5 @@
- // creates numbers on X axis of chart
- export const getChartLabels = (selectedDay: number) => {
+// creates numbers on X axis of chart
+export const getChartLabels = (selectedDay: number) => {
   const now = new Date();
   const labels: any[] = [];
 
@@ -21,13 +21,15 @@
     const formattedLabels = hours.map((hour, index) => {
       if (index === hours.length - 1) {
         // For the last item (current time), include minutes
-        return `${hour}:${currentMinute < 10 ? "0" + currentMinute : currentMinute}`;
+        return `${hour}:${
+          currentMinute < 10 ? "0" + currentMinute : currentMinute
+        }`;
       }
       return `${hour}:00`; // For other hours, just show the hour
     });
 
     labels.push(...formattedLabels);
-  } else {
+  } else if (selectedDay > 1) {
     // If selectedDay is greater than 1, calculate labels based on the number of days
     const numOfDays = new Date(now.setDate(now.getDate() - selectedDay));
     for (let d = new Date(); d > numOfDays; d.setDate(d.getDate() - 1)) {
@@ -35,6 +37,8 @@
       labels.push(day);
     }
     labels.reverse();
+  } else {
+    return labels;
   }
 
   return labels;

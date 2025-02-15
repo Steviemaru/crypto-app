@@ -1,12 +1,10 @@
 import { useState, useEffect } from "react";
 import PortfolioModalForm from "./PortfolioModalForm";
 import PortfolioAsset from "./PortfolioAsset";
-// import { useLocalStorage } from "@/utils/localStorage"; 
-// This was causing an error and stopping hot loading will sort out;
-import { hoverEffect } from "@/utils/hoverEffect";
+import { useLocalStorage } from "@/utils/localStorage";
 
 function Portfolio() {
-  const [assets, setAssets] = useState<any>([]);
+  const [assets, setAssets] = useLocalStorage([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [idForEditing, setIdForEditing] = useState<any>();
@@ -46,7 +44,7 @@ function Portfolio() {
           onClick={() => {
             setIsModalOpen(!isModalOpen);
           }}
-          className={`bg-black opacity-90 font-medium rounded-xl py-3 md:px-20 px-8 ${hoverEffect} `}
+          className="dark:bg-black bg-white opacity-90 font-medium rounded-xl py-3 md:px-20 px-8 $"
         >
           Add Assets
         </button>
@@ -63,7 +61,7 @@ function Portfolio() {
       {/* Modal */}
       {isModalOpen && (
         <div className=" fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="bg-slate-500 rounded-lg p-10 shadow-lg md:w-10/12 lg:w-6/12">
+          <div className="dark:bg-slate-500 bg-purple-100 rounded-lg p-10 shadow-lg md:w-10/12 lg:w-6/12">
             <div className="flex justify-between gap-4 mb-4">
               <p className="font-medium">Select Coins</p>
               <button
@@ -71,7 +69,7 @@ function Portfolio() {
                   setIsModalOpen(false);
                   setIsEditing(false);
                 }}
-                className={` ${hoverEffect}text-xs border-2 border-slate-100 rounded-full px-3 py-1`}
+                className="text-xs border-2 border-slate-100 rounded-full px-3 py-1"
               >
                 X
               </button>

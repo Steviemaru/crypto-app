@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import FormDownArrow from "@/public/formDownArrow.svg";
-import { hoverEffect } from "@/utils/hoverEffect";
 
 function PortfolioModalInput({ type, setState, stateValue, placeholder }) {
   const [showInput, setShowInput] = useState(false);
   const dropDownRef = useRef<HTMLDivElement>(null);
+  const today = new Date();
+  const formattedDate = today.toISOString().split("T")[0];
 
   useEffect(() => {
     function handler({ target }: MouseEvent) {
@@ -34,7 +35,7 @@ function PortfolioModalInput({ type, setState, stateValue, placeholder }) {
   return (
     <div
       ref={dropDownRef}
-      className={` relative bg-slate-800 rounded-md p-1 font-medium ${hoverEffect}`}
+      className="relative dark:bg-slate-800 bg-white rounded-md p-1 font-medium "
       onClick={() => {
         handleClick;
       }}
@@ -43,14 +44,15 @@ function PortfolioModalInput({ type, setState, stateValue, placeholder }) {
         <input
           required
           autoFocus
-          className="w-full bg-slate-800"
+          className="w-full dark:bg-slate-800 bg-white"
           value={stateValue}
           onChange={handleOnChange}
           type={type}
+          max={type == "date" ? formattedDate : ""}
         />
       ) : (
         <div className="flex items-center justify-between p-1">
-          <span className=" bg-slate-800">{placeholder}</span>
+          <span className=" dark:bg-slate-800 bg-white">{placeholder}</span>
           <FormDownArrow />
         </div>
       )}

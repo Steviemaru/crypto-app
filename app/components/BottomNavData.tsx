@@ -1,14 +1,16 @@
 "use client";
-import { useAppSelector } from "../../lib/hooks";
-import { useGetGlobalMarketDataQuery } from "@/lib/features/cryptoDataApi";
-import { HandleFormatingNumbersAndLabels } from "@/utils/FormatNumber";
 import tw from "tailwind-styled-components";
+import { useAppSelector } from "../../lib/hooks";
+import { RootState } from "@/lib/store";
+import { useGetGlobalMarketDataQuery } from "@/lib/features/cryptoDataApi";
+import { HandleFormatingNumbersAndLabels } from "@/utils/helperFunctions";
 import PercentageBar from "./PercentageBar";
-import Spinner from "./spinner/Spinner";
+import Loader from "./Loader";
 import BitcoinLogo from "../../public/bitcoinLogo.svg";
 import EthereumLogo from "../../public/ethereumLogo.svg";
 import ExchangeIcon from "../../public/exchangeIcon.svg";
 import CoinsIcon from "../../public/coinsIcon.svg";
+import Line from "../../public/line.svg";
 
 const BottomNavItem = tw.div`
 flex
@@ -22,10 +24,12 @@ md:text-base
 text-xs 
 `;
 export default function BottomNavData() {
+  const { data, isLoading, isSuccess, isError } =
+    useGetGlobalMarketDataQuery();
 
-  const { data, isLoading, } = useGetGlobalMarketDataQuery("");
-
-  const { currency, symbol } = useAppSelector((state) => state.currency);
+  const { currency, symbol } = useAppSelector(
+    (state: RootState) => state.currency
+  );
 
   const handleCryptoPropertyFinder = (prop: any, crypto: any) =>
     parseFloat(data?.data[prop][crypto]);
@@ -53,48 +57,60 @@ export default function BottomNavData() {
   );
 
   if (isLoading) {
+    return <Loader height="" />;
+  }
+
+  if (isError || !data) {
     return (
-      <div className="dark:bg-darkPurple bg-lightPurple text-lightText  flex justify-center items-center gap-10 py-4 text-sm">
-        <Spinner isLoading={isLoading} />
+      <div className="dark:bg-darkPurple bg-lightPurple text-lightText flex justify-center items-center gap-10 py-4 text-sm">
+        <p>Error loading data. Please try again later.</p>
       </div>
     );
   }
 
-  return (
-    <>
-      <div className="flex p-2  md:justify-center justify-around gap-1 md:gap-3 border border-opacity-10 border-black">
-        <div className="hidden lg:flex ">
-          <BottomNavItem>
-            <CoinsIcon /> Coins: {coins}{" "}
-          </BottomNavItem>
-          <BottomNavItem>
-            <ExchangeIcon /> Exchange: {exchanges}{" "}
-          </BottomNavItem>
+  if (isSuccess) {
+    return (
+      <>
+        <div className="flex p-2 items-center md:justify-center justify-around gap-1 md:gap-3 border-t border-b border-opacity-10 border-black">
+          <div className="hidden lg:flex items-center">
+            <BottomNavItem>
+              <CoinsIcon /> Coins: {coins}{" "}
+            </BottomNavItem>
+            <Line />
+            <BottomNavItem>
+              <ExchangeIcon /> Exchange: {exchanges}{" "}
+            </BottomNavItem>
+            <BottomNavItem>
+              {symbol}
+              {HandleFormatingNumbersAndLabels(totalMarketCap, "nav")}
+            </BottomNavItem>
+            <Line />
+          </div>
           <BottomNavItem>
             {symbol}
-            {HandleFormatingNumbersAndLabels(totalMarketCap, "nav")}
+            {HandleFormatingNumbersAndLabels(totalMarketVolume, "none")}
+            <PercentageBar
+              fill={"bg-purple-300"}
+              progress={HandleFormatingNumbersAndLabels(
+                totalMarketVolume,
+                "none"
+              )}
+            />
+          </BottomNavItem>
+          <Line />
+          <BottomNavItem>
+            <BitcoinLogo />
+            {convertTofixed(bitcoinMCP)}%
+            <PercentageBar fill={"bg-yellow-500"} progress={bitcoinMCP} />
+          </BottomNavItem>
+          <Line />
+          <BottomNavItem>
+            <EthereumLogo />
+            {convertTofixed(ethereumMCP)}%
+            <PercentageBar fill={"bg-blue-300"} progress={ethereumMCP} />
           </BottomNavItem>
         </div>
-        <BottomNavItem>
-          {symbol}
-          {HandleFormatingNumbersAndLabels(totalMarketVolume, "none")}
-          <PercentageBar
-            fill={"bg-purple-300"}
-            progress={HandleFormatingNumbersAndLabels(totalMarketVolume, "none")}
-          />
-        </BottomNavItem>
-        <BottomNavItem>
-          <BitcoinLogo />
-          {convertTofixed(bitcoinMCP)}%
-          <PercentageBar fill={"bg-yellow-500"} progress={bitcoinMCP} />
-        </BottomNavItem>
-        <BottomNavItem>
-          <EthereumLogo />
-          {convertTofixed(ethereumMCP)}%
-          <PercentageBar fill={"bg-blue-300"} progress={ethereumMCP} />
-        </BottomNavItem>
-      </div>
-
-    </>
-  );
+      </>
+    );
+  }
 }

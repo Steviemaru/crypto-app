@@ -3,7 +3,6 @@ import Image from "next/image";
 import { v4 as uuidv4 } from "uuid";
 import PortfolioModalInput from "./PortfolioModalInput";
 import PortfolioModalDropdown from "./PortfolioModalDropdown";
-import { hoverEffect } from "@/utils/hoverEffect";
 import {
   useGetCarouselDataQuery,
   useGetCoinDataQuery,
@@ -35,10 +34,11 @@ function PortfolioModalForm({
     }
   }, [isEditing, idForEditing, findAsset]);
 
-  const query = `https://api.coingecko.com/api/v3/coins/${coinName.toLowerCase()}?market_data=true`;
+  const query = coinName.toLowerCase();
   const { data: assetData } = useGetCoinDataQuery(query);
-  const coinQuery = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${SeletedCurrency}&price_change_percentage=1h%2C24h%2C7d&sparkline=true`;
-  const { data } = useGetCarouselDataQuery(coinQuery);
+   
+  const { data } = useGetCarouselDataQuery(SeletedCurrency);
+
   if (!assetData) {
     return;
   }
@@ -70,9 +70,9 @@ function PortfolioModalForm({
     <div className="flex ">
       {/* left */}
       <div className="md:w-5/12 md:flex hidden">
-        <div className="bg-slate-800 flex-grow  mr-4 flex flex-col justify-center items-center">
-          <div className="rounded-lg p-2 bg-slate-200">
-            <Image src={coinImage} width={22} height={22} alt="coin" />
+        <div className="dark:bg-slate-800 bg-white flex-grow  mr-4 flex flex-col justify-center items-center">
+          <div className="rounded-lg p-2 dark:bg-slate-200 bg-purple-100">
+            <Image src={coinImage} width={22} height={22} alt="coin" loading="lazy" />
           </div>
           <div className="mt-4 font-medium">
             {coinName.toUpperCase()}
@@ -108,13 +108,13 @@ function PortfolioModalForm({
           {/* bottom */}
           <div className="flex gap-2">
             <button
-              className={`${hoverEffect} flex-1  bg-slate-200 opacity-90 font-medium rounded-md py-2 px-3`}
+              className=" flex-1  dark:bg-slate-200 bg-slate-300 opacity-90 font-medium rounded-md py-2 px-3"
             >
               cancel
             </button>
             <button
               onSubmit={handleSubmit}
-              className={`${hoverEffect} flex-1  bg-black opacity-90 font-medium rounded-md py-2 px-3`}
+              className="flex-1  dark:bg-black bg-white opacity-90 font-medium rounded-md py-2 px-3"
             >
               Save and continue
             </button>

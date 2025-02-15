@@ -7,26 +7,26 @@ export const cryptoDataApi = createApi({
   reducerPath: "cryptoDataApi",
   baseQuery: fetchBaseQuery({ baseUrl: "https://api.coingecko.com/api/v3/" }),
   endpoints: (builder) => ({
-    getGlobalMarketData: builder.query<any, any>({
+    getGlobalMarketData: builder.query<any, void>({
       query: () => `global?${apiDemoKey}`,
     }),
-    getChartData: builder.query<any, any>({
+    getChartData: builder.query({
       query: (query) => `${query}${apiDemoKey}`,
     }),
-    getCarouselData: builder.query<any, any>({
+    getCarouselData: builder.query({
+      query: (currency) =>
+        `coins/markets?vs_currency=${currency}&price_change_percentage=1h%2C24h%2C7d${apiDemoKey}`,
+    }),
+    getChartDataB: builder.query({
       query: (query) => `${query}${apiDemoKey}`,
     }),
-    getDataB: builder.query<any, any>({
-      query: (query) => `${query}${apiDemoKey}`,
+    getCoinData: builder.query({
+      query: (coin) => `coins/${coin}?market_data=true${apiDemoKey}`,
     }),
-    getCoinData: builder.query<any, any>({
-      query: (query) => `${query}${apiDemoKey}`,
+    getSearchCoinListData: builder.query({
+      query: (query) => `search?query=${query}${apiDemoKey}`,
     }),
-    getSearchCoinListData: builder.query<any, any>({
-      query: (query) =>
-        `https://api.coingecko.com/api/v3/search?query=${query}${apiDemoKey}`,
-    }),
-    getCoinTableData: builder.query<any, any>({
+    getCoinTableData: builder.query({
       query: ({ currency, per_page, page }) =>
         `coins/markets?vs_currency=${currency}&order=market_cap_desc&per_page=${per_page}&page=${page}&sparkline=true&price_change_percentage=1h%2C24h%2C7d${apiDemoKey}`,
     }),
@@ -37,7 +37,7 @@ export const {
   useGetGlobalMarketDataQuery,
   useGetChartDataQuery,
   useGetCarouselDataQuery,
-  useGetDataBQuery,
+  useGetChartDataBQuery,
   useGetCoinDataQuery,
   useGetSearchCoinListDataQuery,
   useGetCoinTableDataQuery,

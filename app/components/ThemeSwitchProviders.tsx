@@ -1,8 +1,6 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import { ThemeProvider } from "next-themes";
-import StoreProvider from "../StoreProvider";
 
 export default function ThemeSwitchProvider({ children }: any) {
   const [mounted, setMounted] = useState(false);
@@ -16,8 +14,8 @@ export default function ThemeSwitchProvider({ children }: any) {
   }
 
   return (
-    <StoreProvider>
-      <ThemeProvider attribute="class">{children}</ThemeProvider>
-    </StoreProvider>
+    <ThemeProvider attribute="class" defaultTheme="system" enableSystem={true}>
+      {children}
+    </ThemeProvider>
   );
 }

@@ -12,11 +12,11 @@ function Navbar() {
   return (
     <div className="dark:bg-black dark:bg-opacity-20 bg-white bg-opacity-20">
       {/* Top Navigation */}
-      <div className="flex  px-7 py-4 justify-between items-center">
+      <div className="flex  px-7 pt-4 justify-between items-center">
         {/* Left Section */}
         <div className="flex items-center flex-wrap gap-4">
           <NavLogo className="md:w-11 md:h-11 w-6 h-6  md:mx-8 text-white" />
-          <div className="">
+          <div className="md:flex hidden">
             <NavButtons />
           </div>
         </div>
@@ -31,7 +31,7 @@ function Navbar() {
       {/* 
 
       {/* Bottom Navigation */}
-      <div className="mt-4 px-4">
+      <div className="mt-4">
         <BottomNavData />
       </div>
     </div>
