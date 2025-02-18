@@ -24,8 +24,7 @@ md:text-base
 text-xs 
 `;
 export default function BottomNavData() {
-  const { data, isLoading, isSuccess, isError } =
-    useGetGlobalMarketDataQuery();
+  const { data, isLoading, isSuccess, isError } = useGetGlobalMarketDataQuery();
 
   const { currency, symbol } = useAppSelector(
     (state: RootState) => state.currency
@@ -55,6 +54,8 @@ export default function BottomNavData() {
     "market_cap_percentage",
     "eth"
   );
+
+  const percentageBarWidth = "w-12 md:w-[60px]";
 
   if (isLoading) {
     return <Loader height="" />;
@@ -95,19 +96,28 @@ export default function BottomNavData() {
                 totalMarketVolume,
                 "none"
               )}
+              width={percentageBarWidth}
             />
           </BottomNavItem>
           <Line />
           <BottomNavItem>
             <BitcoinLogo />
             {convertTofixed(bitcoinMCP)}%
-            <PercentageBar fill={"bg-yellow-500"} progress={bitcoinMCP} />
+            <PercentageBar
+              fill={"bg-yellow-500"}
+              progress={bitcoinMCP}
+              width={percentageBarWidth}
+            />
           </BottomNavItem>
           <Line />
           <BottomNavItem>
             <EthereumLogo />
             {convertTofixed(ethereumMCP)}%
-            <PercentageBar fill={"bg-blue-300"} progress={ethereumMCP} />
+            <PercentageBar
+              fill={"bg-blue-300"}
+              progress={ethereumMCP}
+              width={percentageBarWidth}
+            />
           </BottomNavItem>
         </div>
       </>
