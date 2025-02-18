@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { RootState } from "@/lib/store";
 import { useAppSelector } from "@/lib/hooks";
 import BarChart from "./BarChart";
@@ -129,41 +129,32 @@ function Charts() {
   /////////////////////////////////////////////////////////////
   /////////////////////////////////////////////////////////////
 
+  const handleLoggingAndFiltering = useCallback(() => {
+    if (!selectedCoins.length) return;
+  
+    const queries = [coin1Query, coin2Query, coin3Query].slice(0, selectedCoins.length);
+    const queriesReady = queries.every((query) => query);
+  
+    if (!queriesReady) return; // Exit early if queries aren't ready
+  
+    setDatasetArr((prevDataset) => {
+      const newDataset = selectedCoins.map((coin, index) => {
+        const existingCoin = prevDataset.find((item) => item.id === coin);
+        if (existingCoin) return existingCoin; // Prevent duplicates
+  
+        return {
+          id: coin,
+          chartDataObj: queries[index], // Assign the correct query data dynamically
+        };
+      });
+  
+      return newDataset; // Ensure state only updates once
+    });
+  }, [selectedCoins, coin1Query, coin2Query, coin3Query]); 
+
   useEffect(() => {
-    const handleLoggingAndFiltering = () => {
-      if (!selectedCoins.length) return;
-      // Ensure all required data queries have succeeded
-      const queriesReady = [coin1Query, coin2Query, coin3Query]
-        .slice(0, selectedCoins.length)
-        .every((query) => query);
-
-      if (queriesReady) {
-        // Add new coins to datasetArr
-        selectedCoins.forEach((coin, index) => {
-          const coinExists = datasetArr.some((item) => item.id === coin);
-          if (!coinExists) {
-            const loggedCoin = {
-              id: coin,
-              chartDataObj:
-                index === 0
-                  ? coin1Query
-                  : index === 1
-                  ? coin2Query
-                  : coin3Query,
-            };
-            setDatasetArr((prev) => [...prev, loggedCoin]);
-          }
-        });
-
-        // Remove coins no longer in selectedCoins
-        setDatasetArr((prev) =>
-          prev.filter((item) => selectedCoins.includes(item.id))
-        );
-      }
-    };
-
     handleLoggingAndFiltering();
-  }, [selectedCoins, coin1Query, coin2Query, coin3Query]);
+  }, [handleLoggingAndFiltering]); // Ensures effect runs only when dependencies change
 
   return (
     <div className="w-full">
