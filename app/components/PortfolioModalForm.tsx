@@ -19,7 +19,7 @@ function PortfolioModalForm({
   setIsEditing,
 }) {
   const [coinName, setCoinName] = useState("bitcoin");
-  const [purchasedAmount, setPurchasedAmount] = useState("");
+  const [purchasedAmount, setPurchasedAmount] = useState(0);
   const [purchaseDate, setPurchaseDate] = useState("");
   const { currency } = useAppSelector((state) => state.currency);
   const SeletedCurrency = currency;
@@ -45,10 +45,12 @@ function PortfolioModalForm({
 
   const coinSymbol = assetData.symbol.toUpperCase();
   const coinImage = assetData.image.small;
+  const message = "Invalid form input. Purchase amount must be above 0. Date must be selected.";
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    if (!purchasedAmount && !purchaseDate) {
+    if (purchasedAmount < 1 || purchaseDate == undefined ) {
+      alert(`${message}`);
       return;
     }
     const newAsset = {
@@ -107,7 +109,10 @@ function PortfolioModalForm({
 
           {/* bottom */}
           <div className="flex gap-2">
-            <button
+            <button onClick={() => {
+                  setIsModalOpen(false);
+                  setIsEditing(false);
+                }}
               className=" flex-1  dark:bg-slate-200 bg-slate-300 opacity-90 font-medium rounded-md py-2 px-3"
             >
               cancel

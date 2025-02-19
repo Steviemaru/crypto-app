@@ -40,6 +40,8 @@ function CoinDetails({ coin }) {
             market_data,
           } = item;
 
+          const [linkA] = homePageLink;
+
           const {
             market_cap_rank,
             current_price,
@@ -63,8 +65,8 @@ function CoinDetails({ coin }) {
           const marketCap = market_cap[currency];
           const totalVolume = total_volume[currency];
           const athChangePercentage = ath_change_percentage[currency];
-          const allTimeLow = atl[currency];
-          const allTimeHigh = ath[currency];
+          const allTimeLow = atl[currency].toFixed(2);
+          const allTimeHigh = ath[currency].toFixed(2);
           const athDate = handleDateTime(ath_date[SeletedCurrency]);
           const atlDate = handleDateTime(atl_date[SeletedCurrency]);
           const fullyDilutedValuation = fully_diluted_valuation[currency];
@@ -93,17 +95,22 @@ function CoinDetails({ coin }) {
           const leftPercentage = 100 - parseInt(rightPercentage);
 
           return (
-            <div key={item.id} className="py-10 px-32 flex gap-10 flex-col">
+            <div key={item.id} className="p-10 lg:py-10 lg:px-32 flex gap-10 flex-col">
               {/* top- back link */}
-              <Link className="flex gap-4 " href="/">
-                <ArrowLeft className=" text-white fill-current" width="10px" />
-                <div>Portfolio/Your {coinName} </div>
-              </Link>
+              <div className="flex gap-4">
+                <div className="flex gap-4">
+                  <ArrowLeft
+                    className=" text-white fill-current"
+                    width="10px"
+                  />
+                  <Link href={"/"}>Portfolio/Your {coinName} </Link>
+                </div>
+              </div>
               {/*left */}
               <div className="flex lg:flex-row flex-col justify-between gap-6 mb-20">
                 <div className="flex flex-col justify-between lg:flex-[50%] lg:max-w-[50%]  ">
                   <div className=" flex md:flex-row flex-col justify-between gap-4">
-                    <div className=" flex  flex-col justify-between flex-[40%] ">
+                    <div className=" flex lg:max-w-[40%] flex-col justify-between flex-[40%] ">
                       <div className="h-[75%] bg-white  dark:bg-shark  rounded-xl md:pt-20 md:pb-16 py-10 flex flex-col justify-center items-center">
                         <Image
                           src={coinImage}
@@ -117,14 +124,14 @@ function CoinDetails({ coin }) {
                         </h1>
                       </div>
                       <div className=" h-[20%] bg-white  dark:bg-shark  rounded-xl py-4 px-10  p-10 md:flex  hidden flex-col justify-center items-center">
-                        <Link href={`${homePageLink}`}>{homePageLink}</Link>
+                        <Link href={`${linkA}`}>{linkA}</Link>
                       </div>
                     </div>
                     <div className=" flex  flex-col  ">
                       <div className="bg-opacity-80 bg-white  dark:bg-shark  rounded-xl  p-5  flex flex-col gap-3">
                         <div className="flex flex-col gap-2">
                           <div className="flex flex-col justify-start md:gap-4 px-10">
-                            <h1 className="text-5xl mb-3">
+                            <h1 className="text-5xl mt-3">
                               {symbol}
                               {parseInt(currentPrice).toLocaleString()}
                             </h1>
@@ -201,7 +208,7 @@ function CoinDetails({ coin }) {
                           key={key}
                           className=" w-full py-2 flex justify-between "
                         >
-                          <div className="flex  flex-[50%]">
+                          <div className="flex max-w-[50%] flex-[50%]">
                             <div className="flex-[15%]">
                               <div className=" w-5 h-5   rounded-full flex justify-center items-center bg-opacity-80 bg-white  dark:bg-black ">
                                 <Plus

@@ -42,9 +42,9 @@ function PortfolioModalInput({ type, setState, stateValue, placeholder }) {
     >
       {showInput ? (
         <input
-          required
           autoFocus
           className="w-full dark:bg-slate-800 bg-white"
+          required
           value={stateValue}
           onChange={handleOnChange}
           type={type}

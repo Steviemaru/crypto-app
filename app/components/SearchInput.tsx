@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import SearchIcon from "../../public/searchIcon.svg";
 import { useGetSearchCoinListDataQuery } from "@/lib/features/cryptoDataApi";
@@ -7,6 +7,17 @@ export default function SearchInput() {
   const [isExpanded, setIsExpanded] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const [showSearchResults, setShowSearchResults] = useState(false);
+    const dropDownRef: any = useRef<HTMLDivElement>(null);
+
+useEffect(() => {
+    function handler({ target }: MouseEvent) {
+      if (!dropDownRef.current?.contains(target as Node)) {
+        setShowSearchResults(false);
+      }
+    }
+    window.addEventListener("click", handler);
+    return () => window.removeEventListener("click", handler);
+  }, []);
 
   const handleChange = (e: any) => {
     setSearchValue(e.target.value);
@@ -50,6 +61,7 @@ export default function SearchInput() {
           value={searchValue}
           onChange={handleChange}
           onFocus={handleFocus}
+          ref={dropDownRef}
         />
       </div>
       {showSearchResults && (
