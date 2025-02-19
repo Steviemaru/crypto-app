@@ -95,7 +95,7 @@ function CoinDetails({ coin }) {
           const leftPercentage = 100 - parseInt(rightPercentage);
 
           return (
-            <div key={item.id} className="p-10 lg:py-10 lg:px-32 flex gap-10 flex-col">
+            <div key={item.id} className="p-10 xl:py-10 xl:px-32 flex gap-10 flex-col">
               {/* top- back link */}
               <div className="flex gap-4">
                 <div className="flex gap-4">
@@ -107,10 +107,10 @@ function CoinDetails({ coin }) {
                 </div>
               </div>
               {/*left */}
-              <div className="flex lg:flex-row flex-col justify-between gap-6 mb-20">
-                <div className="flex flex-col justify-between lg:flex-[50%] lg:max-w-[50%]  ">
+              <div className="flex xl:flex-row flex-col justify-between gap-6 mb-20">
+                <div className="flex flex-col justify-between xl:flex-[50%] xl:max-w-[50%]  ">
                   <div className=" flex md:flex-row flex-col justify-between gap-4">
-                    <div className=" flex lg:max-w-[40%] flex-col justify-between flex-[40%] ">
+                    <div className=" flex xl:max-w-[40%] flex-col justify-between flex-[40%] ">
                       <div className="h-[75%] bg-white  dark:bg-shark  rounded-xl md:pt-20 md:pb-16 py-10 flex flex-col justify-center items-center">
                         <Image
                           src={coinImage}
@@ -128,7 +128,7 @@ function CoinDetails({ coin }) {
                       </div>
                     </div>
                     <div className=" flex  flex-col  ">
-                      <div className="bg-opacity-80 bg-white  dark:bg-shark  rounded-xl  p-5  flex flex-col gap-3">
+                      <div className=" bg-white  dark:bg-shark  rounded-xl  p-5  flex flex-col gap-3">
                         <div className="flex flex-col gap-2">
                           <div className="flex flex-col justify-start md:gap-4 px-10">
                             <h1 className="text-5xl mt-3">
@@ -182,7 +182,7 @@ function CoinDetails({ coin }) {
                     </div>
                   </div>
 
-                  <div className="w-[100%] lg:flex flex-col  justify-center hidden">
+                  <div className="w-[100%] xl:flex flex-col  justify-center hidden">
                     <h1 className="mb-4">Description:</h1>
                     <div
                       className={` h-56  pt-5 ${
@@ -198,8 +198,8 @@ function CoinDetails({ coin }) {
                   </div>
                 </div>
                 {/* right */}
-                <div className="lg:flex-[50%] lg:max-w-[50%]">
-                  <div className="bg-opacity-80 bg-white  dark:bg-shark  px-22 p-7 rounded-xl mb-20">
+                <div className="xl:flex-[50%] xl:max-w-[50%]">
+                  <div className=" bg-white  dark:bg-shark  px-22 p-7 rounded-xl mb-20">
                     {coinDataArr.map((entry) => {
                       const [key, value] = entry;
 
@@ -210,7 +210,7 @@ function CoinDetails({ coin }) {
                         >
                           <div className="flex max-w-[50%] flex-[50%]">
                             <div className="flex-[15%]">
-                              <div className=" w-5 h-5   rounded-full flex justify-center items-center bg-opacity-80 bg-white  dark:bg-black ">
+                              <div className=" w-5 h-5   rounded-full flex justify-center items-center  bg-white  dark:bg-black ">
                                 <Plus
                                   className="text-black dark:text-white dark:fill-current"
                                   width="8px"
@@ -269,7 +269,7 @@ function CoinDetails({ coin }) {
                       return (
                         <div
                           key={item}
-                          className=" p-4 bg-opacity-80 bg-white  dark:bg-shark rounded-xl   truncate"
+                          className=" p-4  bg-white  dark:bg-shark rounded-xl   truncate"
                         >
                           <Link href={`${item}`}>{coinLink}</Link>
                         </div>

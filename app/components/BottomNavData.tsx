@@ -73,7 +73,7 @@ export default function BottomNavData() {
     return (
       <>
         <div className="flex p-2 items-center md:justify-center justify-around gap-1 md:gap-3 border-t border-b border-opacity-10 border-black">
-          <div className="hidden lg:flex items-center">
+          <div className="hidden xl:flex items-center">
             <BottomNavItem>
               <CoinsIcon /> Coins: {coins}{" "}
             </BottomNavItem>

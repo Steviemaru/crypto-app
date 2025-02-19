@@ -48,7 +48,7 @@ useEffect(() => {
         <input
           className={`h-full ${
             isExpanded ? "w-[85px]" : "w-0"
-          }   lg:w-[300px] sm:visible sm:opacity-100 sm:pointer-events-auto
+          }   xl:w-[300px] sm:visible sm:opacity-100 sm:pointer-events-auto
       transition-all duration-300 ease-in-out font-semibold dark:bg-shark bg-purple-100 dark:text-white text-black overflow-hidden 
       ${
         isExpanded
