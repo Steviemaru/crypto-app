@@ -9,6 +9,8 @@ import { formatNumbers } from "@/utils/helperFunctions";
 import { useAppSelector } from "@/lib/hooks";
 import PercentageBar from "./PercentageBar";
 import PercentageChange from "./PercentageChange";
+import CopyToClipboard from "./CopyToClipboard";
+import OpenInNewTabButton from "./OpenInNewTabButton";
 import Circle from "../../public/circle.svg";
 import TriangleUp from "../../public/triangleUp.svg";
 import TriangleDown from "../../public/triangleDown.svg";
@@ -95,7 +97,10 @@ function CoinDetails({ coin }) {
           const leftPercentage = 100 - parseInt(rightPercentage);
 
           return (
-            <div key={item.id} className="p-10 xl:py-10 xl:px-32 flex gap-10 flex-col">
+            <div
+              key={item.id}
+              className="p-10 xl:py-10 xl:px-28 flex gap-10 flex-col"
+            >
               {/* top- back link */}
               <div className="flex gap-4">
                 <div className="flex gap-4">
@@ -123,8 +128,10 @@ function CoinDetails({ coin }) {
                           {coinName}[{coinSymbol}]
                         </h1>
                       </div>
-                      <div className=" h-[20%] bg-white  dark:bg-shark  rounded-xl py-4 px-10  p-10 md:flex  hidden flex-col justify-center items-center">
-                        <Link href={`${linkA}`}>{linkA}</Link>
+                      <div className="truncate h-[20%] bg-white  dark:bg-shark  rounded-xl py-4 px-6 md:flex md:flex-nowrap hidden md:gap-2 justify-center items-center">
+                        <OpenInNewTabButton url={linkA} />
+                        <div className="truncate text-sm">{linkA}</div>
+                        <CopyToClipboard text={linkA} />
                       </div>
                     </div>
                     <div className=" flex  flex-col  ">
@@ -210,9 +217,9 @@ function CoinDetails({ coin }) {
                         >
                           <div className="flex max-w-[50%] flex-[50%]">
                             <div className="flex-[15%]">
-                              <div className=" w-5 h-5   rounded-full flex justify-center items-center  bg-white  dark:bg-black ">
+                              <div className=" w-5 h-5   rounded-full flex justify-center items-center bg-black ">
                                 <Plus
-                                  className="text-black dark:text-white dark:fill-current"
+                                  className="text-white fill-current"
                                   width="8px"
                                   height="8px"
                                 />
@@ -269,9 +276,11 @@ function CoinDetails({ coin }) {
                       return (
                         <div
                           key={item}
-                          className=" p-4  bg-white  dark:bg-shark rounded-xl   truncate"
+                          className="justify-center p-4 flex gap-3 bg-white  dark:bg-shark rounded-xl   truncate"
                         >
-                          <Link href={`${item}`}>{coinLink}</Link>
+                          <OpenInNewTabButton url={item} />
+                          <div>{coinLink}</div>
+                          <CopyToClipboard text={item} />
                         </div>
                       );
                     })}
