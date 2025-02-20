@@ -16,7 +16,7 @@ function Navbar() {
         {/* Left Section */}
         <div className="flex items-center flex-wrap gap-4">
           <NavLogo className="md:w-11 md:h-11 w-6 h-6  md:mx-8 text-white" />
-          <div className="md:flex hidden">
+          <div className="lg:flex hidden">
             <NavButtons />
           </div>
         </div>

@@ -9,6 +9,8 @@ export const firstLetterToUppercase = (value: string) => {
 
 //////////////////////////////////////////////
 export const formatNumbers = (num: any) => {
+  if(num == undefined) return "n/a"
+
   let formatNum = "";
   const fixedNum = num.toFixed(0);
   formatNum = Number(fixedNum).toLocaleString();

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import SearchIcon from "../../public/searchIcon.svg";
 import { useGetSearchCoinListDataQuery } from "@/lib/features/cryptoDataApi";
@@ -7,6 +7,17 @@ export default function SearchInput() {
   const [isExpanded, setIsExpanded] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const [showSearchResults, setShowSearchResults] = useState(false);
+    const dropDownRef: any = useRef<HTMLDivElement>(null);
+
+useEffect(() => {
+    function handler({ target }: MouseEvent) {
+      if (!dropDownRef.current?.contains(target as Node)) {
+        setShowSearchResults(false);
+      }
+    }
+    window.addEventListener("click", handler);
+    return () => window.removeEventListener("click", handler);
+  }, []);
 
   const handleChange = (e: any) => {
     setSearchValue(e.target.value);
@@ -37,7 +48,7 @@ export default function SearchInput() {
         <input
           className={`h-full ${
             isExpanded ? "w-[85px]" : "w-0"
-          }   lg:w-[300px] sm:visible sm:opacity-100 sm:pointer-events-auto
+          }   xl:w-[300px] sm:visible sm:opacity-100 sm:pointer-events-auto
       transition-all duration-300 ease-in-out font-semibold dark:bg-shark bg-purple-100 dark:text-white text-black overflow-hidden 
       ${
         isExpanded
@@ -50,6 +61,7 @@ export default function SearchInput() {
           value={searchValue}
           onChange={handleChange}
           onFocus={handleFocus}
+          ref={dropDownRef}
         />
       </div>
       {showSearchResults && (

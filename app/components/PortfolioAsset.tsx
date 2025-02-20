@@ -111,7 +111,7 @@ function PortfolioAsset({ asset, setIsEditing, setIdForEditing, removeAsset }) {
                   <div className="flex gap-4 items-center">
                     {" "}
                     <div className="text-sm">{value.toFixed(1)}%</div>{" "}
-                    <PercentageBar progress={value} fill={"bg-teal-400"} />{" "}
+                    <PercentageBar width={"w-12 md:w-[60px]"} progress={value} fill={"bg-teal-400"} />{" "}
                   </div>
                 )}
               </div>

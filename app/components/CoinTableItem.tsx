@@ -52,34 +52,27 @@ const CoinTableItem = memo(({ item, idx }: { item: any; idx:number; }) => {
       item.price_change_percentage_7d_in_currency,
       "none"
     );
-  const market_cap = HandleFormatingNumbersAndLabels(
-    item.market_cap,
-    "none"
-  );
+  const market_cap = 
+    item.market_cap;
 
   const market_cap_display = HandleFormatingNumbersAndLabels(
     item.market_cap,
     "charts"
   );
-  const total_volume = HandleFormatingNumbersAndLabels(
-    item.total_volume,
-    "none"
-  );
-
+  const total_volume = 
+    item.total_volume ;
+    
   const total_volume_display = HandleFormatingNumbersAndLabels(
     item.total_volume,
     "charts"
   );
 
-  const circulating_supply = HandleFormatingNumbersAndLabels(
-    item.circulating_supply,
-    "none"
-  );
-  const total_supply = HandleFormatingNumbersAndLabels(
-    item.total_supply,
-    "none"
-  );
-
+  const circulating_supply = 
+    item.circulating_supply;
+ 
+  const total_supply = 
+    item.total_supply;
+ 
   const circulating_supply_display = HandleFormatingNumbersAndLabels(
     item.circulating_supply,
     "charts"

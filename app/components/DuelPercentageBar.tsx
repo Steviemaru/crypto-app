@@ -12,19 +12,21 @@ function DuelPercentageBar({
   const total = volume + marketCap;
 
   // Calculate the percentages (ensure total is not zero to avoid division by zero)
-  const valueOnePercentage = total > 0 ? (volume / total) * 100 : 0;
-  const valueTwoPercentage = total > 0 ? (marketCap / total) * 100 : 0;
+  const volumePercentage = total > 0 ? (volume / total) * 100 : 0;
+  const marketCapPercentage = total > 0 ? (marketCap / total) * 100 : 0;
+   
   return (
-    <div className={`flex ${height}  bg-gray-200 rounded-md overflow-hidden `}>
+    <div className={`flex ${height} bg-gray-200 rounded-md overflow-hidden`}>
       <div
-        className={`p-10 ${fill}`}
-        style={{ width: `${valueOnePercentage}%`, height: "100%" }}
-      ></div>
+        className={`flex items-center justify-center ${fill} text-white`}
+        style={{ width: `${volumePercentage}%` }} // Using inline style for dynamic sizing as tailwind doesn't support e.g w-[${percentage}%] won’t work;
+      >
+      </div>
       <div
-        className={`  text-black 
-     ${"dark:bg-slate-400 bg-white"}`}
-        style={{ width: `${valueTwoPercentage}%`, height: "100%" }}
-      ></div>
+        className="flex items-center justify-center text-black dark:bg-slate-400 bg-white"
+        style={{ width: `${marketCapPercentage}%` }}
+      >
+      </div>
     </div>
   );
 }
