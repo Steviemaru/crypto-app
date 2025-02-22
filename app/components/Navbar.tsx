@@ -6,7 +6,7 @@ import NavButtons from "../components/NavButtons";
 import CurrencyList from "../components/CurrencyList";
 import SearchInput from "../components/SearchInput";
 import BottomNavData from "./BottomNavData";
-import NavLogo from "../../public/navlogo.svg";
+import NavLogo from "@/public/navLogo.svg";
 
 function Navbar() {
   return (
