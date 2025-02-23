@@ -140,7 +140,9 @@ function Charts() {
     setDatasetArr((prevDataset) => {
       const newDataset = selectedCoins.map((coin, index) => {
         const existingCoin = prevDataset.find((item) => item.id === coin);
-        if (existingCoin) return existingCoin; // Prevent duplicates
+
+         // If the coin already exists, update its chartDataObj; otherwise, create a new entry
+        if (existingCoin) return { ...existingCoin, chartDataObj: queries[index] }; 
   
         return {
           id: coin,
