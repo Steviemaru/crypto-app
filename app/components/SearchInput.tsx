@@ -7,9 +7,9 @@ export default function SearchInput() {
   const [isExpanded, setIsExpanded] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const [showSearchResults, setShowSearchResults] = useState(false);
-    const dropDownRef: any = useRef<HTMLDivElement>(null);
+  const dropDownRef: any = useRef<HTMLDivElement>(null);
 
-useEffect(() => {
+  useEffect(() => {
     function handler({ target }: MouseEvent) {
       if (!dropDownRef.current?.contains(target as Node)) {
         setShowSearchResults(false);
@@ -47,7 +47,7 @@ useEffect(() => {
         />
         <input
           className={`h-full ${
-            isExpanded ? "w-[85px]" : "w-0"
+            isExpanded ? "w-[100px]" : "w-0"
           }   xl:w-[300px] sm:visible sm:opacity-100 sm:pointer-events-auto
       transition-all duration-300 ease-in-out font-semibold dark:bg-shark bg-purple-100 dark:text-white text-black overflow-hidden 
       ${
@@ -73,7 +73,9 @@ useEffect(() => {
           {coinList?.map((item: any) => {
             return (
               <Link key={item.name} href={`/coin/${item.id}`}>
-                <option className="truncate dark:hover:bg-slate-300 hover:bg-white p-1">{item.name}</option>
+                <option className="truncate dark:hover:bg-slate-300 hover:bg-white p-1">
+                  {item.name}
+                </option>
               </Link>
             );
           })}

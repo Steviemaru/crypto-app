@@ -37,7 +37,7 @@ function Portfolio() {
 
   return (
     // page container
-    <div className="md:p-14 p-10">
+    <div className="md:p-14 px-10 pt-10 pb-32">
       <div className="flex justify-between items-center mb-8">
         <div className="font-medium">Your statistics</div>
         <button

@@ -150,7 +150,7 @@ const CoinTableItem = memo(({ item, idx }: { item: any; idx:number; }) => {
                       </div>
                     </div>
                   </div>
-                  <div className="flex lg:flex-[30%] flex-[20%]  min-w-[20%] lg:max-w-[30%]">
+                  <div className="flex lg:flex-[30%] flex-[20%]  min-w-[20%] xl:max-w-[30%]">
                     <div className="flex items-center flex-[25%] ">
                       <div className="flex-1 md:text-sm  text-xs text-center">
                         {symbol}
@@ -161,8 +161,8 @@ const CoinTableItem = memo(({ item, idx }: { item: any; idx:number; }) => {
                       <MultiPercentageChange Percentages={percentages} />
                     </div>
                   </div>
-                  <div className="lg:flex hidden  flex-[20%]  min-w-[20%] max-w-[20%] justify-center">
-                    <div className=" flex flex-col w-[80%] justify-center  p-2">
+                  <div className="lg:flex hidden  flex-[20%]  min-w-[20%] xl:max-w-[20%] justify-center">
+                    <div className=" flex flex-col xl:w-[90%] w-[80%] justify-center  p-2">
                       <div className="flex justify-between ">
                         <div className="flex items-center gap-2 ">
                           <Circle
@@ -191,8 +191,8 @@ const CoinTableItem = memo(({ item, idx }: { item: any; idx:number; }) => {
                       </div>
                     </div>
                   </div>
-                  <div className=" lg:flex hidden flex-[20%]  min-w-[20%] max-w-[20%] justify-center">
-                    <div className="  flex flex-col w-[80%] p-2 justify-center ">
+                  <div className=" xl:flex hidden flex-[20%]  min-w-[20%] max-w-[20%] justify-center">
+                    <div className="  flex flex-col xl:w-[90%] w-[80%] p-2 justify-center ">
                       <div className="flex justify-between">
                         <div className="flex items-center gap-2">
                           <Circle
@@ -221,7 +221,7 @@ const CoinTableItem = memo(({ item, idx }: { item: any; idx:number; }) => {
                       </div>
                     </div>
                   </div>
-                  <div className=" flex-[10%]  min-w-[10%] lg:max-w-[10%] ">
+                  <div className=" flex-[10%]  min-w-[10%] md:max-w-[10%] ">
                     <div className=" w-[100%]">
                       <LineChart
                         chartLabels={sparkline_in_7d}
@@ -231,7 +231,7 @@ const CoinTableItem = memo(({ item, idx }: { item: any; idx:number; }) => {
                           gradientColor,
                           fadeColor
                         )}
-                        width={"w-[100%] md:w-[80%]"}
+                        width={"w-[100%] "}
                         height={"h-[70px]"}
                         chartOptions={coinTableChartOptions}
                       />

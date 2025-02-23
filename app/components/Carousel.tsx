@@ -78,8 +78,8 @@ export const Carousel = ()=> {
                           isSelected
                             ? "bg-opacity-100 dark:bg-opacity-100"
                             : "bg-opacity-50 dark:bg-opacity-50"
-                        } bg-purple-200  dark:bg-shark flex-none  md:w-[50%]  lg:w-[20%] flex gap-2 rounded-lg  justify-center items-center  dark:border-2  dark:border-opacity-80
-   border-[#373745]`}
+                        } bg-purple-200  dark:bg-shark flex-none  md:w-[50%] lg:w-[25%] xl:w-[20%] flex gap-2 rounded-lg  justify-center items-center  
+   `}
                         onClick={() => {
                           handleCoinClick(item.id);
                         }}

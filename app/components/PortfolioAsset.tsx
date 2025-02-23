@@ -16,7 +16,7 @@ function PortfolioAsset({ asset, setIsEditing, setIdForEditing, removeAsset }) {
 
   useEffect(() => {
     const handleResize = () => {
-      setIsSmallScreen(window.innerWidth <= 768); // Tailwind `md` breakpoint is 640px
+      setIsSmallScreen(window.innerWidth <= 1024); // Tailwind `lg` breakpoint is 1024px
     };
 
     handleResize(); // Check on initial load
@@ -73,9 +73,15 @@ function PortfolioAsset({ asset, setIsEditing, setIdForEditing, removeAsset }) {
     <div className="flex md:flex-row flex-col my-4 ">
       <div className="md:w-1/5 dark:bg-shark bg-slate-100 p-8  flex flex-col justify-center items-center">
         <div className="rounded-lg p-2 bg-slate-200">
-          <Image src={coinImage} width={22} height={22} alt="coin" loading="lazy" />
+          <Image
+            src={coinImage}
+            width={22}
+            height={22}
+            alt="coin"
+            loading="lazy"
+          />
         </div>
-        <div className="mt-4 font-semibold">
+        <div className="mt-4 text-center font-semibold">
           {name}
           {` [${coinSymbol}]`}
         </div>
@@ -111,7 +117,11 @@ function PortfolioAsset({ asset, setIsEditing, setIdForEditing, removeAsset }) {
                   <div className="flex gap-4 items-center">
                     {" "}
                     <div className="text-sm">{value.toFixed(1)}%</div>{" "}
-                    <PercentageBar width={"w-12 md:w-[60px]"} progress={value} fill={"bg-teal-400"} />{" "}
+                    <PercentageBar
+                      width={"w-12 md:w-[60px]"}
+                      progress={value}
+                      fill={"bg-teal-400"}
+                    />{" "}
                   </div>
                 )}
               </div>

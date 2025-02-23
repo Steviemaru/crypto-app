@@ -1,16 +1,15 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import HomeLogo from "@/public/homeLogo.svg";
 import CoinPageSymbol from "../../public/coinPageSymbol.svg";
 import CoinConvertorSymbol from "../../public/CoinConvertorSymbol.svg";
 
 function MobileNavButtons() {
-  const [navItems] = useState(["Home", "portfolio", "convertor"]);
-  const [selectedItem, setSelectedItem] = useState("Home");
-  const handleClick = (item: string) => {
-    setSelectedItem(item);
-  };
+  const [navItems] = useState(["Home", "portfolio"]);
+  const pathname = usePathname();
+  const selectedItem = pathname == "/portfolio" ? "portfolio" : "Home";
 
   return (
     <div className="flex gap-6">
@@ -23,9 +22,7 @@ function MobileNavButtons() {
                   ? "dark:bg-black bg-purple-200"
                   : "bg-transparent"
               }`}
-              onClick={() => {
-                handleClick(item);
-              }}
+           
             >
               <div className="flex justify-center  gap-5">
                 {item == "Home" ? (

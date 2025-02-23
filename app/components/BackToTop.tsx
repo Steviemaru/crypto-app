@@ -31,7 +31,7 @@ export default function BackToTop() {
     <animated.button
       style={fadeIn}
       onClick={scrollToTop}
-      className="fixed md:bottom-6 bottom-32  right-6 dark:bg-slate-500 bg-purple-200 text-white p-3 rounded-full shadow-lg dark:hover:bg-slate-800 transition"
+      className="fixed  bottom-32  right-6 dark:bg-slate-500 bg-purple-200 text-white p-3 rounded-full shadow-lg dark:hover:bg-slate-800 transition"
     >
       <UpArrow size={20} />
     </animated.button>

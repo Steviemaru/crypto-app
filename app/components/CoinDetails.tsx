@@ -279,7 +279,7 @@ function CoinDetails({ coin }) {
                           className="justify-center p-4 flex gap-3 bg-white  dark:bg-shark rounded-xl   truncate"
                         >
                           <OpenInNewTabButton url={item} />
-                          <div>{coinLink}</div>
+                          <div className="truncate">{coinLink}</div>
                           <CopyToClipboard text={item} />
                         </div>
                       );

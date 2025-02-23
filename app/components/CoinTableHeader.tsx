@@ -54,7 +54,7 @@ function CoinTableHeader({ handleSort, getSortIndicator }) {
         </div>
       </div>
       <div className="lg:flex hidden flex-[20%] gap-2   justify-center">
-        <div className="w-[90%] flex ">
+        <div className="w-[90%] flex justify-center ">
           <p
             onClick={() => handleSort("total_volume")}
           >
@@ -67,7 +67,7 @@ function CoinTableHeader({ handleSort, getSortIndicator }) {
           </p>
         </div>
       </div>
-      <div className="lg:flex hidden flex-[20%] gap-2 justify-center ">
+      <div className="xl:flex hidden flex-[20%] gap-2 justify-center ">
         <div className="flex w-[90%]">
           <p
             onClick={() => handleSort("circulating_supply")}
@@ -84,7 +84,7 @@ function CoinTableHeader({ handleSort, getSortIndicator }) {
       </div>
       <div
         onClick={() => handleSort("sparkline_in_7d")}
-        className="flex-[10%] flexjustify-center"
+        className="flex-[10%] md:max-w-[10%] flex justify-center"
       >
         Last 7ds {getSortIndicator("sparkline_in_7d")}
       </div>
